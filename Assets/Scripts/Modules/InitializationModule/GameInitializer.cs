@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using Modules.EcsModule;
 using UnityEngine;
 
-public class GameInitializer : MonoBehaviour
+namespace Modules.InitializationModule
 {
-    // Start is called before the first frame update
-    void Start()
+    public class GameInitializer : MonoBehaviour
     {
+        [SerializeField] private GameObject _testObject;
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Start()
+        {
+            var worldBuilder = new WorldBuilder();
+            var battleWorldController = worldBuilder.Build("Battle World");
+        }
     }
 }
