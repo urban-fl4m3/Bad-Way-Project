@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _testObject: {fileID: 111747942}
+  _cellPrefab: {fileID: 5620718451360053747, guid: 02a5acc6818a57849b0730bbf2c17f5a, type: 3}
 --- !u!1 &1205101690
 GameObject:
   m_ObjectHideFlags: 0

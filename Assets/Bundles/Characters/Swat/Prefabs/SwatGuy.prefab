@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 1303293688379744233}
   - component: {fileID: 4969183843922724243}
   m_Layer: 0
-  m_Name: Ch15_nonPBR
+  m_Name: SwatGuy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -505,7 +505,7 @@ Animator:
   m_Controller: {fileID: 0}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

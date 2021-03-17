@@ -1,4 +1,3 @@
-using Modules.EcsModule;
 using UnityEngine;
 
 namespace Modules.InitializationModule
@@ -6,11 +5,11 @@ namespace Modules.InitializationModule
     public class GameInitializer : MonoBehaviour
     {
         [SerializeField] private GameObject _testObject;
+        [SerializeField] private GameObject _cellPrefab;
         
         private void Start()
         {
-            var worldBuilder = new WorldBuilder();
-            var battleWorldController = worldBuilder.Build("Battle World");
+            
         }
     }
 }
