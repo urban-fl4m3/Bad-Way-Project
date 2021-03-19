@@ -5,17 +5,19 @@ namespace Modules.GridModule.Cells
 {
     public class Cell
     {
-        private readonly CellComponent _component;
+        public readonly CellComponent Component;
+        
         private readonly int _row;
         private readonly int _column;
 
         public Cell(CellComponent component, int row, int column)
         {
-            _component = component;
+            Component = component;
             _row = row;
             _column = column;
 
-            _component.MousePressed += HandleMousePressed;
+            Component.ResetMaterial();
+            Component.MousePressed += HandleMousePressed;
         }
 
         private void HandleMousePressed(object sender, EventArgs e)
@@ -25,7 +27,7 @@ namespace Modules.GridModule.Cells
 
         public void Clear()
         {
-            _component.MousePressed -= HandleMousePressed;
+            Component.MousePressed -= HandleMousePressed;
         }
     }
 }

@@ -23,12 +23,12 @@ namespace Modules.GridModule
                 for (var column = 0; column < data.Columns; column++)
                 {
                     var position = new Vector3(
-                        column * data.CellPrefab.Size.z,
-                        data.CellPrefab.Size.y,
-                        row * data.CellPrefab.Size.x);
+                        column * (data.CellPrefab.Size.z),
+                        data.CellPrefab.transform.position.y,
+                        row * (data.CellPrefab.Size.x));
                     
                     var cellInstance = Object.Instantiate(data.CellPrefab, position, 
-                        Quaternion.identity, _gridParent);
+                        Quaternion.Euler(new Vector3(90, 0 ,0)), _gridParent);
                     var cell = new Cell(cellInstance, row, column);
                     cells[row, column] = cell;
                 }

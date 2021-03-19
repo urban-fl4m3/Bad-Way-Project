@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360707d575d74dd5b292a4c9a7b3a83a, type: 3}
   m_Name: TestGridData
   m_EditorClassIdentifier: 
-  _cellPrefab: {fileID: -3679096871952932897, guid: 02a5acc6818a57849b0730bbf2c17f5a, type: 3}
-  _columns: 5
-  _rows: 5
+  _cellPrefab: {fileID: 2612810059483845002, guid: 02a5acc6818a57849b0730bbf2c17f5a, type: 3}
+  _columns: 22
+  _rows: 22
+  _xOffset: 0.05
+  zOffset: 0.05

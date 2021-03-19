@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MeshOulinterMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: cdf809549b0cc4344a0fdc20461948d0, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_d4276cc257324a809a7f272e89ea001a: 0.47
+    m_Colors:
+    - Color_642b7cfbc1b4446fb7cf25f043096ffb: {r: 0.30849794, g: 0.2588235, b: 0.77254903, a: 0.7254902}
+    - Color_d5c958e1781e46289e2ef62bdd10cc41: {r: 0.6227208, g: 1, b: 0.09019607, a: 0.47058824}
+    - Vector4_7721acff1df94a9b889bda43fce20b34: {r: 0, g: 0, b: 0, a: 0}
+    - _WorldSpaceLightPos0: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
