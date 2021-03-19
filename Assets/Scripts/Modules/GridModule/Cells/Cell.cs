@@ -7,14 +7,14 @@ namespace Modules.GridModule.Cells
     {
         public readonly CellComponent Component;
         
-        private readonly int _row;
-        private readonly int _column;
+        public readonly int Row;
+        public readonly int Column;
 
         public Cell(CellComponent component, int row, int column)
         {
             Component = component;
-            _row = row;
-            _column = column;
+            Row = row;
+            Column = column;
 
             Component.ResetMaterial();
             Component.MousePressed += HandleMousePressed;
@@ -22,12 +22,22 @@ namespace Modules.GridModule.Cells
 
         private void HandleMousePressed(object sender, EventArgs e)
         {
-            Debug.Log($"{_row}:{_column}");
+            Debug.Log($"{Row}:{Column}");
         }
 
         public void Clear()
         {
             Component.MousePressed -= HandleMousePressed;
+        }
+
+        public void Highlight()
+        {
+            var tintKey = Component.Tint;
+            var tint = Component.MeshRenderer.sharedMaterial.GetColor(tintKey);
+            var alpha = tint.a;
+            tint = Color.red;
+            tint.a = alpha;
+            Component.MeshRenderer.sharedMaterial.SetColor(tintKey, tint);
         }
     }
 }

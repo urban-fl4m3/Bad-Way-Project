@@ -2066,7 +2066,7 @@
     },
     "m_Name": "Tint",
     "m_DefaultReferenceName": "Color_d5c958e1781e46289e2ef62bdd10cc41",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_Tint",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
