@@ -14,7 +14,6 @@ namespace Modules.InitializationModule
         {
             var gridBuilder = new GridBuilder("Default Grid");
             _gridController = gridBuilder.Build(_gridData);
-            
             _gridController.HighlightRelativeCells(_gridController[0, 0], 5);
         }
     }
