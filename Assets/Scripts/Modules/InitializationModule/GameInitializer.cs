@@ -1,3 +1,4 @@
+using Modules.BattleModule.Stats;
 using Modules.GridModule;
 using Modules.GridModule.Data;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Modules.InitializationModule
     public class GameInitializer : MonoBehaviour
     {
         [SerializeField] private GridData _gridData;
+        [SerializeField] private AvailableBattleStatsProvider _statsProvider;
 
         private GridController _gridController;
         

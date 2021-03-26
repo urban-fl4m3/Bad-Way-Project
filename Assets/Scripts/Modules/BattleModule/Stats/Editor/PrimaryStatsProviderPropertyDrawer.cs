@@ -1,4 +1,6 @@
 ﻿using System;
+using Modules.BattleModule.Stats.Helpers;
+using Modules.BattleModule.Stats.Providers;
 using UnityEditor;
 
 namespace Modules.BattleModule.Stats.Editor
@@ -7,7 +9,7 @@ namespace Modules.BattleModule.Stats.Editor
     public class PrimaryStatsProviderPropertyDrawer : StatsProviderPropertyDrawer
     {
         protected override string StatLabelName => "Main Stats";
-        protected override string StatsPropertyName => "_mainStats";
-        protected override string[] StatNames => Enum.GetNames(typeof(MainStat));
+        protected override string StatsPropertyName => "PrimaryStats";
+        protected override string[] StatNames => Enum.GetNames(typeof(PrimaryStat));
     }
 }

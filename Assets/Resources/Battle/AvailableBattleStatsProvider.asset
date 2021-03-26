@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d892cfb76b4379b7a7403e6def3caf, type: 3}
+  m_Name: AvailableBattleStatsProvider
+  m_EditorClassIdentifier: 
+  _actorsPrimaryStats:
+  - {fileID: 11400000, guid: 9b821be7c3d627840a88fcbc8c811c06, type: 2}
+  _secondaryStatsDataProvider: {fileID: 11400000, guid: 8665f940ef1db73429f61f4c4d60e08f, type: 2}

@@ -1,4 +1,5 @@
 ﻿using System;
+using Modules.BattleModule.Stats.Models;
 using UnityEngine;
 
 namespace Modules.BattleModule.Stats.Providers
@@ -6,6 +7,6 @@ namespace Modules.BattleModule.Stats.Providers
     [Serializable]
     public class SecondaryStatsProvider
     {
-        [SerializeField] private StatAndUpgrades[] _secondaryStats;
+        [SerializeField] public StatAndUpgrades[] SecondaryStats;
     }
 }

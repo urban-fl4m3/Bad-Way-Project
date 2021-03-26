@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Modules.BattleModule.Stats.Models;
 using UnityEngine;
 
-namespace Modules.BattleModule.Stats.Providers
+namespace Modules.BattleModule.Stats.Models
 {
     [Serializable]
     public struct StatAndUpgrades

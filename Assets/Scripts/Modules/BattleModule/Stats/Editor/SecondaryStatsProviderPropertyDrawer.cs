@@ -1,4 +1,5 @@
 ﻿using System;
+using Modules.BattleModule.Stats.Helpers;
 using Modules.BattleModule.Stats.Providers;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Modules.BattleModule.Stats.Editor
     public class SecondaryStatsProviderPropertyDrawer : StatsProviderPropertyDrawer
     {
         protected override string StatLabelName => "Secondary Stats";
-        protected override string StatsPropertyName => "_secondaryStats";
+        protected override string StatsPropertyName => "SecondaryStats";
         protected override string[] StatNames => Enum.GetNames(typeof(SecondaryStat));
 
         protected override void DrawStat(ref Rect position, SerializedProperty property, SerializedProperty arrayStatsProperty, int index,

@@ -1,4 +1,4 @@
-﻿namespace Modules.BattleModule.Stats
+﻿namespace Modules.BattleModule.Stats.Helpers
 {
     public enum SecondaryStat
     {

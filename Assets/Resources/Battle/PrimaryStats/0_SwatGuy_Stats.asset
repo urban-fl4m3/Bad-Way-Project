@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 0_SwatGuy_Stats
   m_EditorClassIdentifier: 
   _id: 0
-  primaryStatsProvider:
-    _mainStats: 0200000002000000020000000200000002000000
+  _primaryStatsProvider:
+    PrimaryStats: 0200000002000000020000000200000002000000

@@ -12,5 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b15bc5a495b42cabdfc6d41ff243559, type: 3}
   m_Name: DefaultSecondaryStats
   m_EditorClassIdentifier: 
-  secondaryStatsProvider:
-    _secondaryStats: 28000000040000000400000002000000fbfffffffbffffff
+  _secondaryStatsProvider:
+    _secondaryStats:
+    - Value: 40
+      UpgradeList:
+      - Stat: 1
+        UpgradeValue: 10
+    - Value: 4
+      UpgradeList:
+      - Stat: 2
+        UpgradeValue: 1
+    - Value: 4
+      UpgradeList:
+      - Stat: 0
+        UpgradeValue: 0.5
+    - Value: 0
+      UpgradeList:
+      - Stat: 3
+        UpgradeValue: 0.5
+    - Value: 0
+      UpgradeList:
+      - Stat: 3
+        UpgradeValue: 5
+    - Value: 0
+      UpgradeList:
+      - Stat: 4
+        UpgradeValue: 5
+    - Value: 80
+      UpgradeList:
+      - Stat: 0
+        UpgradeValue: 10
+    - Value: 80
+      UpgradeList:
+      - Stat: 0
+        UpgradeValue: 10
+    - Value: 80
+      UpgradeList:
+      - Stat: 1
+        UpgradeValue: 10
+    - Value: 80
+      UpgradeList:
+      - Stat: 2
+        UpgradeValue: 10
+    - Value: 80
+      UpgradeList:
+      - Stat: 3
+        UpgradeValue: 10
+    - Value: 80
+      UpgradeList:
+      - Stat: 4
+        UpgradeValue: 10

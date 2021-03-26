@@ -1,6 +1,6 @@
-﻿namespace Modules.BattleModule.Stats
+﻿namespace Modules.BattleModule.Stats.Helpers
 {
-    public enum MainStat
+    public enum PrimaryStat
     {
         Assertiveness = 0,
         Toughness = 1,
