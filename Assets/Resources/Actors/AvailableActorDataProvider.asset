@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 360707d575d74dd5b292a4c9a7b3a83a, type: 3}
-  m_Name: TestGridData
+  m_Script: {fileID: 11500000, guid: 6b972827ffbe45db89979ee1b71f14cb, type: 3}
+  m_Name: AvailableActorDataProvider
   m_EditorClassIdentifier: 
-  _cellPrefab: {fileID: 2612810059483845002, guid: 02a5acc6818a57849b0730bbf2c17f5a, type: 3}
-  _columns: 22
-  _rows: 22
-  _xOffset: 0.05
-  zOffset: 0.05
+  _availableActors:
+  - {fileID: 11400000, guid: cb110a448ca6de14daba1cc58c714dfe, type: 2}

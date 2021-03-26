@@ -1,5 +1,6 @@
 ﻿using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
+using UnityEngine;
 
 namespace Modules.GridModule
 {
@@ -11,6 +12,7 @@ namespace Modules.GridModule
         private readonly Cell[,] _cells;
 
         public Cell this[int row, int column] => _cells[row, column];
+        public Cell this[Vector2Int cellIndices] => _cells[cellIndices.x, cellIndices.y];
 
         public GridController(int columns, int rows, Cell[,] cells)
         {

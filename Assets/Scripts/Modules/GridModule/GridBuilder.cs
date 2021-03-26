@@ -1,5 +1,5 @@
 ﻿using Modules.GridModule.Cells;
-using Modules.GridModule.Data;
+using Modules.GridModule.Models;
 using UnityEngine;
 
 namespace Modules.GridModule
@@ -14,7 +14,7 @@ namespace Modules.GridModule
             _gridParent = parentGameObject.transform;
         }
         
-        public GridController Build(GridData data)
+        public GridController Build(GridDataModel data)
         {
             var cells = new Cell[data.Rows, data.Columns];
             

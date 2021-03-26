@@ -7,5 +7,8 @@ namespace Modules.ActorModule
     {
         [SerializeField] private int _id;
         [SerializeField] private Actor _actor;
+
+        public int Id => _id;
+        public Actor Actor => _actor;
     }
 }
