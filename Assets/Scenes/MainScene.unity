@@ -218,6 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridData: {fileID: 11400000, guid: 3c2c4f56b60bbfd488f375480679fc6a, type: 2}
+  _statsProvider: {fileID: 11400000, guid: 6abf650c78b511f46aea2c67ee9336a6, type: 2}
 --- !u!1 &1205101690
 GameObject:
   m_ObjectHideFlags: 0
