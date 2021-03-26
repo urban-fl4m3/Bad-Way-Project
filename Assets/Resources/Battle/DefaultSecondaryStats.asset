@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultSecondaryStats
   m_EditorClassIdentifier: 
   _secondaryStatsProvider:
-    _secondaryStats:
+    SecondaryStats:
     - Value: 40
       UpgradeList:
       - Stat: 1
@@ -26,15 +26,15 @@ MonoBehaviour:
       UpgradeList:
       - Stat: 0
         UpgradeValue: 0.5
-    - Value: 0
+    - Value: 2
       UpgradeList:
       - Stat: 3
         UpgradeValue: 0.5
-    - Value: 0
+    - Value: -5
       UpgradeList:
       - Stat: 3
         UpgradeValue: 5
-    - Value: 0
+    - Value: -5
       UpgradeList:
       - Stat: 4
         UpgradeValue: 5
