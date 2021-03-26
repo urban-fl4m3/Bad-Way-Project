@@ -6,6 +6,6 @@ namespace Modules.BattleModule.Stats.Providers
     [Serializable]
     public class SecondaryStatsProvider
     {
-        [SerializeField] private int[] _secondaryStats;
+        [SerializeField] private StatAndUpgrades[] _secondaryStats;
     }
 }

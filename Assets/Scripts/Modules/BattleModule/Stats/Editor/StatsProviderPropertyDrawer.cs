@@ -6,8 +6,9 @@ namespace Modules.BattleModule.Stats.Editor
     public abstract class StatsProviderPropertyDrawer : PropertyDrawer
     {
         private const int _labelHeight = 30;
-        private const int _statFieldHeight = 20;
-        private const int _heightOffset = 2;
+        
+        protected const int _statFieldHeight = 20;
+        protected const int _heightOffset = 5;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -21,7 +22,7 @@ namespace Modules.BattleModule.Stats.Editor
         protected abstract string StatsPropertyName { get; }
         protected abstract string[] StatNames { get; }
 
-        private static void DrawArray(string[] namesArray, string propertyName, SerializedProperty property,
+        private void DrawArray(string[] namesArray, string propertyName, SerializedProperty property,
             ref Rect position)
         {
             var mainStats = namesArray;
@@ -34,16 +35,28 @@ namespace Modules.BattleModule.Stats.Editor
 
             mainStatsProperty.arraySize = mainStats.Length;
 
-            for (var i = 0; i < mainStatsProperty.arraySize; i++)
-            {
-                var stat = mainStatsProperty.GetArrayElementAtIndex(i);
-                EditorGUI.PropertyField(statRect, stat, new GUIContent(mainStats[i]));
-                statRect.y += _statFieldHeight + _heightOffset;
-            }
-
+            DrawStatArray(ref statRect, property, mainStatsProperty, mainStats);
+            
             position.y = statRect.y;            
         }
 
+        private void DrawStatArray(ref Rect position, SerializedProperty property,
+            SerializedProperty arrayStatsProperty, string[] statNames)
+        {
+            for (var i = 0; i < arrayStatsProperty.arraySize; i++)
+            {
+                DrawStat(ref position, property, arrayStatsProperty, i, statNames);
+            }            
+        }
+
+        protected virtual void DrawStat(ref Rect position, SerializedProperty property,
+            SerializedProperty arrayStatsProperty, int index, string[] statNames)
+        {
+            var stat = arrayStatsProperty.GetArrayElementAtIndex(index);
+            EditorGUI.PropertyField(position, stat, new GUIContent(statNames[index]));
+            position.y += _statFieldHeight + _heightOffset;
+        }
+        
         private static void DrawLabel(ref Rect position, string labelName, float centerMultiplier = .65f,
             int fontSize = 14)
         {
