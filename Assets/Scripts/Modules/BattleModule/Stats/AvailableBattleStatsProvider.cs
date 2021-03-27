@@ -6,24 +6,20 @@ using UnityEngine;
 namespace Modules.BattleModule.Stats
 {
     [CreateAssetMenu(fileName = "New Available Battle Stats Provider", menuName = "Stats/Available Battle Stats Provider")]
-    public class AvailableBattleStatsProvider : ScriptableObject, ISerializationCallbackReceiver
+    public class AvailableBattleStatsProvider : ScriptableObject
     {
         [SerializeField] private ActorPrimaryStatsDataProvider[] _actorsPrimaryStats;
         [SerializeField] private SecondaryStatsDataProvider _secondaryStatsDataProvider;
 
-        public Dictionary<int, IReadOnlyDictionary<PrimaryStat, int>> IdentifiedActorsStats { get; private set; }
+        public Dictionary<int, IReadOnlyDictionary<PrimaryStat, int>> IdentifiedActorsStats
+        {
+            get
+            {
+                return _actorsPrimaryStats
+                    .ToDictionary(x => x.ID, x => x.PrimaryStats);
+            }
+        }
 
         public SecondaryStatsDataProvider SecondaryStatsDataProvider => _secondaryStatsDataProvider;
-
-        public void OnBeforeSerialize()
-        {
-            
-        }
-
-        public void OnAfterDeserialize()
-        {   
-            IdentifiedActorsStats = _actorsPrimaryStats
-                .ToDictionary(x => x.ID, x => x.PrimaryStats);
-        }
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Modules.ActorModule;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Levels.Providers;
@@ -23,6 +22,7 @@ namespace Modules.InitializationModule
                 player.ActorsCollection, _actorsProvider);
             
             var battleScene = battleSceneFactory.CreateBattleScene();
+            battleScene.StartBattle();
         }
 
         private static Player GetPlayer()

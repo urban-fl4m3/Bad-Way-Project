@@ -12,5 +12,10 @@ namespace Modules.BattleModule
             _playerActorManager = playerActorManager;
             _enemyActorManager = enemyActorManager;
         }
+
+        public void StartBattle()
+        {
+            
+        }
     }
 }
