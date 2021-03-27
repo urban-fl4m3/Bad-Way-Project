@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Common;
 using UnityEngine;
 
 namespace Modules.PlayerModule.Actors
 {
-    public class PlayerActorsCollection
+    public class PlayerActorsCollection : List<PlayerActorData>
     {
-        private readonly List<PlayerActorData> _playerActors = new List<PlayerActorData>();
-        
-        public PlayerActorsCollection(List<PlayerActorData> actorsData)
+        public PlayerActorsCollection(IEnumerable<PlayerActorData> actorsData)
         {
             foreach (var actorData in actorsData)
             {
@@ -19,7 +16,7 @@ namespace Modules.PlayerModule.Actors
 
         public PlayerActorsCollection()
         {
-            _playerActors = new List<PlayerActorData>();
+            
         }
 
         public void AddActorData(PlayerActorData actorData)
@@ -38,7 +35,7 @@ namespace Modules.PlayerModule.Actors
                 return;
             }
                 
-            _playerActors.Add(actorData);
+            Add(actorData);
         }
     }
 }

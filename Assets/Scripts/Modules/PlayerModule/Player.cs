@@ -4,11 +4,11 @@ namespace Modules.PlayerModule
 {
     public class Player
     {
-        private readonly PlayerActorsCollection _actorsCollection;
+        public readonly PlayerActorsCollection ActorsCollection;
 
         public Player(PlayerActorsCollection actorsCollection)
         {
-            _actorsCollection = actorsCollection;
+            ActorsCollection = actorsCollection;
         }
     }
 }

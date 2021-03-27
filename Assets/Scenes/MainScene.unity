@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelData: {fileID: 11400000, guid: 0067b5612c42438418ac6737babceeab, type: 2}
   _statsProvider: {fileID: 11400000, guid: 6abf650c78b511f46aea2c67ee9336a6, type: 2}
+  _actorsProvider: {fileID: 11400000, guid: 494ed53fc6fb36349b19f12acd2e8e4e, type: 2}
 --- !u!1 &1205101690
 GameObject:
   m_ObjectHideFlags: 0
