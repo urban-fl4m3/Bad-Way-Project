@@ -1,12 +1,14 @@
 ﻿using System;
+using Modules.ActorModule;
 using UnityEngine;
 
 namespace Modules.BattleModule.Levels.Models
 {
     [Serializable]
-    public struct LevelActor
+    public struct EnemyLevelActor
     {
-        public int Id;
+        public int Level;
+        public ActorDataProvider ActorData;
         public Vector2Int Cell;
     }
 }

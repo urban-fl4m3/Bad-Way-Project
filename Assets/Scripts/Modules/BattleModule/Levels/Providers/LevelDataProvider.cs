@@ -9,9 +9,12 @@ namespace Modules.BattleModule.Levels.Providers
     public class LevelDataProvider : ScriptableObject
     {
         [SerializeField] private GridDataModel _levelGridData;
-        [SerializeField] private List<LevelActor> _actors;
+
+        [SerializeField] private List<Vector2Int> _placementCells;
+        [SerializeField] private List<EnemyLevelActor> _enemyActorsData;
         
         public GridDataModel GridData => _levelGridData;
-        public IEnumerable<LevelActor> Actors => _actors;
+        public IEnumerable<EnemyLevelActor> EnemyActorsData => _enemyActorsData;
+        public List<Vector2Int> PlacementCells => _placementCells;
     }
 }

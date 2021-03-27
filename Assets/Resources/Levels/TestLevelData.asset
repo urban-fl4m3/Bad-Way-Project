@@ -16,10 +16,17 @@ MonoBehaviour:
     CellPrefab: {fileID: 2612810059483845002, guid: 02a5acc6818a57849b0730bbf2c17f5a, type: 3}
     Columns: 22
     Rows: 22
-  _actors:
-  - Id: 0
-    Cell: {x: 0, y: 0}
-  - Id: 0
-    Cell: {x: 0, y: 1}
-  - Id: 0
-    Cell: {x: 11, y: 16}
+  _placementCells:
+  - {x: 0, y: 0}
+  - {x: 0, y: 1}
+  - {x: 0, y: 2}
+  _enemyActorsData:
+  - Level: 0
+    ActorData: {fileID: 11400000, guid: cb110a448ca6de14daba1cc58c714dfe, type: 2}
+    Cell: {x: 21, y: 0}
+  - Level: 0
+    ActorData: {fileID: 11400000, guid: cb110a448ca6de14daba1cc58c714dfe, type: 2}
+    Cell: {x: 21, y: 5}
+  - Level: 0
+    ActorData: {fileID: 11400000, guid: cb110a448ca6de14daba1cc58c714dfe, type: 2}
+    Cell: {x: 21, y: 8}
