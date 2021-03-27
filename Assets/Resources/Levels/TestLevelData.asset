@@ -22,11 +22,11 @@ MonoBehaviour:
   - {x: 0, y: 2}
   _enemyActorsData:
   - Level: 0
-    ActorData: {fileID: 11400000, guid: cb110a448ca6de14daba1cc58c714dfe, type: 2}
+    ActorData: {fileID: 11400000, guid: ecd5483d209d22b4da38be02a127afdd, type: 2}
     Cell: {x: 21, y: 0}
   - Level: 0
-    ActorData: {fileID: 11400000, guid: cb110a448ca6de14daba1cc58c714dfe, type: 2}
+    ActorData: {fileID: 11400000, guid: ecd5483d209d22b4da38be02a127afdd, type: 2}
     Cell: {x: 21, y: 5}
   - Level: 0
-    ActorData: {fileID: 11400000, guid: cb110a448ca6de14daba1cc58c714dfe, type: 2}
+    ActorData: {fileID: 11400000, guid: ecd5483d209d22b4da38be02a127afdd, type: 2}
     Cell: {x: 21, y: 8}

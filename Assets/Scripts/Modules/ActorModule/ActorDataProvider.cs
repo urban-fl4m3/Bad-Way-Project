@@ -2,7 +2,7 @@
 
 namespace Modules.ActorModule
 {
-    [CreateAssetMenu(fileName = "New Actor Data Provider", menuName = "Actor/Data Provider")]
+    [CreateAssetMenu(fileName = "New Actor Data Provider", menuName = "Actor/Actor Data")]
     public class ActorDataProvider : ScriptableObject
     {
         [SerializeField] private int _id;

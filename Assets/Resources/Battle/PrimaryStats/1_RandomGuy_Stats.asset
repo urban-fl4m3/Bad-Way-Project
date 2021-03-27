@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488b21c3093c442fa2204bddd26b70c3, type: 3}
-  m_Name: 0_SwatGuy_Stats
+  m_Name: 1_RandomGuy_Stats
   m_EditorClassIdentifier: 
-  _id: 0
+  _id: 1
   _primaryStatsProvider:
-    PrimaryStats: 0400000004000000040000000400000004000000
+    PrimaryStats: 0300000002000000020000000200000003000000

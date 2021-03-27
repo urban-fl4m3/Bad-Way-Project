@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Modules.BattleModule.Stats
 {
-    [CreateAssetMenu(fileName = "New Battle Actor Data Provider", menuName = "Actor/Battle Data Provider")]
+    [CreateAssetMenu(fileName = "New Battle Actor Data Provider", menuName = "Stats/Actor Battle Primary Stats")]
     public class ActorPrimaryStatsDataProvider : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] private int _id;
