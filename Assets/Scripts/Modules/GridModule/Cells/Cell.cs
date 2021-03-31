@@ -1,10 +1,13 @@
 ﻿using System;
+using Modules.GridModule.Args;
 using UnityEngine;
 
 namespace Modules.GridModule.Cells
 {
     public class Cell
     {
+        public event EventHandler<CellSelectionEventArgs> CellSelected;
+        
         public readonly CellComponent Component;
         
         public readonly int Row;
@@ -24,7 +27,7 @@ namespace Modules.GridModule.Cells
 
         private void HandleMousePressed(object sender, EventArgs e)
         {
-            Debug.Log($"{Row}:{Column}");
+            CellSelected?.Invoke(this, new CellSelectionEventArgs(Row, Column));
         }
 
         public void Clear()

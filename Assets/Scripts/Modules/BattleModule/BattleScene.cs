@@ -19,7 +19,7 @@ namespace Modules.BattleModule
 
         public void StartBattle()
         {
-            
+            _playerActManager.Act();
         }
     }
 }

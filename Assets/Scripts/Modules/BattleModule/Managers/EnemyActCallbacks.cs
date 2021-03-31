@@ -11,7 +11,12 @@ namespace Modules.BattleModule.Managers
             _grid = grid;
         }
         
-        public void Act()
+        public void ActStart()
+        {
+            
+        }
+
+        public void ActEnd()
         {
             
         }

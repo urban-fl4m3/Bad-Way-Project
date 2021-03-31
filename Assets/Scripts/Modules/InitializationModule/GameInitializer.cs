@@ -1,7 +1,9 @@
+using System;
 using Modules.ActorModule;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
+using Modules.GridModule;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
@@ -15,6 +17,8 @@ namespace Modules.InitializationModule
         [SerializeField] private AvailableBattleStatsProvider _statsProvider;
         [SerializeField] private AvailableActorsProvider _actorsProvider;
 
+        private GridController _grid;
+        
         private void Start()
         {
             var player = GetPlayer();
@@ -36,7 +40,7 @@ namespace Modules.InitializationModule
             return player;
         }
 
-        private ITickManager GetTickManager()
+        private static ITickManager GetTickManager()
         {
             var processor = new GameObject("_Tick_Processor").AddComponent<TickProcessor>();
 

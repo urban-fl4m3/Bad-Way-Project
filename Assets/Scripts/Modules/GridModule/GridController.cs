@@ -1,4 +1,6 @@
-﻿using Modules.GridModule.Cells;
+﻿using System;
+using Modules.GridModule.Args;
+using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
 using UnityEngine;
 
@@ -6,6 +8,8 @@ namespace Modules.GridModule
 {
     public class GridController
     {
+        public event EventHandler CellSelected;
+        
         public readonly int Rows;
         public readonly int Columns;
         
@@ -19,6 +23,11 @@ namespace Modules.GridModule
             Columns = columns;
             Rows = rows;
             _cells = cells;
+
+            foreach (var cell in _cells)
+            {
+                cell.CellSelected += HandleCellSelected;
+            }
         }
 
         public void HighlightRelativeCells(Cell cell, int steps)
@@ -30,6 +39,20 @@ namespace Modules.GridModule
             {
                 cellToHighlight.Highlight();
             }
+        }
+
+        public void ClearGrid()
+        {
+            foreach (var cell in _cells)
+            {
+                cell.CellSelected -= HandleCellSelected;
+            }
+        }
+
+        private void HandleCellSelected(object sender, CellSelectionEventArgs e)
+        {
+            Debug.Log($"{e.Row}:{e.Column}");
+            CellSelected?.Invoke(this, e);
         }
     }
 }

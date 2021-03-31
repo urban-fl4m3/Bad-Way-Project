@@ -2,6 +2,7 @@
 {
     public interface IActCallbacks
     {
-        void Act();
+        void ActStart();
+        void ActEnd();
     }
 }

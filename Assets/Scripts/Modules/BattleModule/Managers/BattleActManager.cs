@@ -15,7 +15,7 @@ namespace Modules.BattleModule.Managers
 
         public void Act()
         {
-            _actCallbacks.Act();
+            _actCallbacks.ActStart();
         }
     }
 }

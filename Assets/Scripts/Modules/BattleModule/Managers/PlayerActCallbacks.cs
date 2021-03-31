@@ -1,5 +1,7 @@
-﻿using Modules.GridModule;
+﻿using System;
+using Modules.GridModule;
 using Modules.TickModule;
+using UnityEngine;
 
 namespace Modules.BattleModule.Managers
 {
@@ -14,9 +16,19 @@ namespace Modules.BattleModule.Managers
             _tickManager = tickManager;
         }
 
-        public void Act()
+        public void ActStart()
+        {
+            _grid.CellSelected += HandleUnitSelection;
+        }
+
+        public void ActEnd()
         {
             
+        }
+
+        private void HandleUnitSelection(object sender, EventArgs e)
+        {
+            Debug.Log("Wow");
         }
     }
 }
