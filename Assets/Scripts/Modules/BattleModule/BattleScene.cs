@@ -1,16 +1,20 @@
 ﻿using Modules.BattleModule.Managers;
+using Modules.GridModule;
 
 namespace Modules.BattleModule
 {
     public class BattleScene
     {
-        private readonly BattleActorManager _playerActorManager;
-        private readonly BattleActorManager _enemyActorManager;
+        private readonly GridController _grid;
+        private readonly BattleActManager _playerActManager;
+        private readonly BattleActManager _enemyActManager;
 
-        public BattleScene(BattleActorManager playerActorManager, BattleActorManager enemyActorManager)
+        public BattleScene(GridController grid, 
+            BattleActManager playerActManager, BattleActManager enemyActManager)
         {
-            _playerActorManager = playerActorManager;
-            _enemyActorManager = enemyActorManager;
+            _grid = grid;
+            _playerActManager = playerActManager;
+            _enemyActManager = enemyActManager;
         }
 
         public void StartBattle()

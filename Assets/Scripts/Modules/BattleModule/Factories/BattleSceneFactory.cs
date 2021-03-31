@@ -6,6 +6,7 @@ using Modules.BattleModule.Managers;
 using Modules.BattleModule.Stats;
 using Modules.GridModule;
 using Modules.PlayerModule.Actors;
+using Modules.TickModule;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 
@@ -13,6 +14,7 @@ namespace Modules.BattleModule.Factories
 {
     public class BattleSceneFactory
     {
+        private readonly ITickManager _tickManager;
         private readonly LevelDataProvider _levelDataProvider;
         private readonly AvailableBattleStatsProvider _battleStatsProvider;
         private readonly IReadOnlyList<PlayerActorData> _playerActorsCollection;
@@ -20,9 +22,11 @@ namespace Modules.BattleModule.Factories
 
         //Add not single level provider, but for all levels and add implement method "CreateBattleSceneByIndex" 
         //or why else this class should exists?
-        public BattleSceneFactory(LevelDataProvider levelDataProvider, AvailableBattleStatsProvider battleStatsProvider,
-            PlayerActorsCollection playerActorsCollection, AvailableActorsProvider availableActorsProvider)
-        {   
+        public BattleSceneFactory(ITickManager tickManager, LevelDataProvider levelDataProvider,
+            AvailableBattleStatsProvider battleStatsProvider, PlayerActorsCollection playerActorsCollection, 
+            AvailableActorsProvider availableActorsProvider)
+        {
+            _tickManager = tickManager;
             _levelDataProvider = levelDataProvider;
             _battleStatsProvider = battleStatsProvider;
             _playerActorsCollection = playerActorsCollection;
@@ -34,17 +38,17 @@ namespace Modules.BattleModule.Factories
             var gridBuilder = new GridBuilder("Battle_Grid");
             var gridController = gridBuilder.Build(_levelDataProvider.GridData);
 
-            var playerActorsManager = CreatePlayerManager(gridController);
+            var playerActorsManager = CreatePlayerManager(gridController, _tickManager);
             var enemyActorsManager = CreateEnemyManager(gridController);
 
-            var battleScene = new BattleScene(playerActorsManager, enemyActorsManager);
+            var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager);
 
             return battleScene;
         }
 
         //Add factory for battle actors. Why? Incapsulate instantiate object for simplest actor creation while 
         //battle runs. For example: enemy reinforcement.
-        private BattleActorManager CreateEnemyManager(GridController grid)
+        private BattleActManager CreateEnemyManager(GridController grid)
         {
             var enemyActors = (
                 from levelActor in _levelDataProvider.EnemyActorsData 
@@ -54,11 +58,11 @@ namespace Modules.BattleModule.Factories
                 into actorPrefab 
                 select new BattleActor(actorPrefab)).ToList();
 
-            var enemyManager = new EnemyBattleActorsManager(enemyActors);
+            var enemyManager = new BattleActManager(enemyActors, new EnemyActCallbacks(grid));
             return enemyManager;
         }
 
-        private BattleActorManager CreatePlayerManager(GridController grid)
+        private BattleActManager CreatePlayerManager(GridController grid, ITickManager tickManager)
         {
             var playerBattleActors = new List<BattleActor>();
             for (var i = 0; i < _playerActorsCollection.Count; i++)
@@ -73,7 +77,7 @@ namespace Modules.BattleModule.Factories
                 playerBattleActors.Add(battleActor);
             }
 
-            var playerManager = new PlayerBattleActorsManager(playerBattleActors);
+            var playerManager = new BattleActManager(playerBattleActors, new PlayerActCallbacks(grid, tickManager));
             return playerManager;
         }
     }

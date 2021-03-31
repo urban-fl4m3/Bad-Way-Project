@@ -4,6 +4,7 @@ using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
+using Modules.TickModule;
 using UnityEngine;
 
 namespace Modules.InitializationModule
@@ -17,8 +18,9 @@ namespace Modules.InitializationModule
         private void Start()
         {
             var player = GetPlayer();
+            var tick = GetTickManager();
             
-            var battleSceneFactory = new BattleSceneFactory(_levelData, _statsProvider,
+            var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider);
             
             var battleScene = battleSceneFactory.CreateBattleScene();
@@ -32,6 +34,13 @@ namespace Modules.InitializationModule
             playerActorsCollection.AddActorData(playerSwatGuyData);
             var player = new Player(playerActorsCollection);
             return player;
+        }
+
+        private ITickManager GetTickManager()
+        {
+            var processor = new GameObject("_Tick_Processor").AddComponent<TickProcessor>();
+
+            return new TickManager(processor);
         }
     }
 }
