@@ -10,6 +10,8 @@ namespace Modules.GridModule.Cells
         public readonly int Row;
         public readonly int Column;
 
+        public bool IsEmpty { get; set; }
+        
         public Cell(CellComponent component, int row, int column)
         {
             Component = component;
