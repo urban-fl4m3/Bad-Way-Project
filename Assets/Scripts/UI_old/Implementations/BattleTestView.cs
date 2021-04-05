@@ -1,4 +1,6 @@
-﻿using UI.Views.Interfaces;
+﻿using Modules.BattleModule;
+using Modules.InitializationModule;
+using UI.Views.Interfaces;
 using UnityEngine;
 
 namespace UI.Implementations
@@ -9,10 +11,12 @@ namespace UI.Implementations
         public GameObject ViewObject { get; private set; }
         public string ViewToken { get; private set; }
 
+
         public void OnInitialize()
         {
             ViewObject = gameObject;
             ViewToken = "BattleTestView";
         }
+        
     }
 }

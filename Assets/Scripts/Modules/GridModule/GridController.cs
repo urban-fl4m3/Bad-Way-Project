@@ -2,6 +2,7 @@
 using Modules.GridModule.Args;
 using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace Modules.GridModule
@@ -33,11 +34,20 @@ namespace Modules.GridModule
         public void HighlightRelativeCells(Cell cell, int steps)
         {
             var bfs = new GridBFS(this);
+            Debug.Log(cell.Column+" "+ cell.Row);
             var result = bfs.Search(cell, steps);
-
+            
             foreach (var cellToHighlight in result)
             {
-                cellToHighlight.Highlight();
+                cellToHighlight.Highlight(Color.red);
+            }
+        }
+
+        public void UnHighlightGrid()
+        {
+            foreach (var cell in _cells)
+            {
+                cell.Highlight(Color.white);
             }
         }
 
@@ -51,7 +61,6 @@ namespace Modules.GridModule
 
         private void HandleCellSelected(object sender, CellSelectionEventArgs e)
         {
-            Debug.Log($"{e.Row}:{e.Column}");
             CellSelected?.Invoke(this, e);
         }
     }

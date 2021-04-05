@@ -18,7 +18,7 @@ namespace Modules.GridModule.Cells
         {
             _meshRenderer.sharedMaterial = new Material(_meshRenderer.material);
         }
-        
+
         private void OnMouseDown()
         {
             MousePressed?.Invoke(this, EventArgs.Empty);    

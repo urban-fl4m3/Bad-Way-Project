@@ -30,3 +30,6 @@ MonoBehaviour:
   - Level: 0
     ActorData: {fileID: 11400000, guid: ecd5483d209d22b4da38be02a127afdd, type: 2}
     Cell: {x: 21, y: 8}
+  - Level: 0
+    ActorData: {fileID: 11400000, guid: ecd5483d209d22b4da38be02a127afdd, type: 2}
+    Cell: {x: 5, y: 5}

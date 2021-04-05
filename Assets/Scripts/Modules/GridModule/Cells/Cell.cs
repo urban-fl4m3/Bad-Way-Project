@@ -35,12 +35,17 @@ namespace Modules.GridModule.Cells
             Component.MousePressed -= HandleMousePressed;
         }
 
-        public void Highlight()
+        public void DeHighLight()
+        {
+            Component.ResetMaterial();
+        }
+
+        public void Highlight(Color color)
         {
             var tintKey = Component.Tint;
             var tint = Component.MeshRenderer.sharedMaterial.GetColor(tintKey);
             var alpha = tint.a;
-            tint = Color.red;
+            tint = color;
             tint.a = alpha;
             Component.MeshRenderer.sharedMaterial.SetColor(tintKey, tint);
         }

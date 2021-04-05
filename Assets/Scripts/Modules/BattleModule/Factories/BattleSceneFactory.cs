@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Modules.ActorModule;
+using Modules.BattleModule.Levels.Models;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Managers;
 using Modules.BattleModule.Stats;
@@ -50,13 +51,16 @@ namespace Modules.BattleModule.Factories
         //battle runs. For example: enemy reinforcement.
         private BattleActManager CreateEnemyManager(GridController grid)
         {
-            var enemyActors = (
-                from levelActor in _levelDataProvider.EnemyActorsData 
-                let actorPrefab = levelActor.ActorData.Actor 
-                let position = grid[levelActor.Cell].Component.transform.position 
-                select Object.Instantiate(actorPrefab, position, Quaternion.identity)
-                into actorPrefab 
-                select new BattleActor(actorPrefab)).ToList();
+            var enemyActors = new List<BattleActor>();
+            foreach (var levelActor in _levelDataProvider.EnemyActorsData)
+            {
+                Actor actorPrefab = levelActor.ActorData.Actor;
+                Vector3 position = grid[levelActor.Cell].Component.transform.position;
+                var actorPrefab1 = Object.Instantiate(actorPrefab, position, Quaternion.identity);
+                var battleActor = new BattleActor(actorPrefab1);
+                battleActor.Placement = grid[levelActor.Cell];
+                enemyActors.Add(battleActor);
+            }
 
             var enemyManager = new BattleActManager(enemyActors, new EnemyActCallbacks(grid));
             return enemyManager;
@@ -74,6 +78,7 @@ namespace Modules.BattleModule.Factories
 
                 actorPrefab = Object.Instantiate(actorPrefab, position, Quaternion.identity);
                 var battleActor = new BattleActor(actorPrefab);
+                battleActor.Placement = grid[actorPlacement];
                 playerBattleActors.Add(battleActor);
             }
 

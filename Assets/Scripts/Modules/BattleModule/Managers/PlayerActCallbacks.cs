@@ -19,6 +19,9 @@ namespace Modules.BattleModule.Managers
         public void ActStart()
         {
             _grid.CellSelected += HandleUnitSelection;
+
+            var mouseUpdate = new MouseUpdate(0);
+            _tickManager.AddTick(this, mouseUpdate);
         }
 
         public void ActEnd()
@@ -29,6 +32,7 @@ namespace Modules.BattleModule.Managers
         private void HandleUnitSelection(object sender, EventArgs e)
         {
             Debug.Log("Wow");
+            
         }
     }
 }

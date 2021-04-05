@@ -1,5 +1,6 @@
 using System;
 using Modules.ActorModule;
+using Modules.BattleModule;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
@@ -24,11 +25,12 @@ namespace Modules.InitializationModule
             var player = GetPlayer();
             var tick = GetTickManager();
             
+            
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider);
             
-            var battleScene = battleSceneFactory.CreateBattleScene();
-            battleScene.StartBattle();
+            var _battleScene = battleSceneFactory.CreateBattleScene();
+            _battleScene.StartBattle();
         }
 
         private static Player GetPlayer()
