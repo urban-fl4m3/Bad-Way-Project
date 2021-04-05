@@ -1,39 +1,31 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Modules.TickModule
 {
-    //Todo create generic update controller for each tick type
     public class TickProcessor : MonoBehaviour
     {
         public GameObject Processor => gameObject;
 
-        public readonly List<ITickUpdate> TickUpdates = new List<ITickUpdate>();
-        public readonly List<ITickLateUpdate> TickLateUpdates = new List<ITickLateUpdate>();
-        public readonly List<ITickFixedUpdate> TickFixedUpdates = new List<ITickFixedUpdate>();
+        public readonly VirtualTickController<ITickUpdate> TickUpdates 
+            = new VirtualTickController<ITickUpdate>();
+        public readonly VirtualTickController<ITickLateUpdate> TickLateUpdates
+            = new VirtualTickController<ITickLateUpdate>();
+        public readonly VirtualTickController<ITickFixedUpdate> TickFixedUpdates 
+            = new VirtualTickController<ITickFixedUpdate>();
 
         private void Update()
         {
-            foreach (var tick in TickUpdates)
-            {
-                tick.Tick();
-            }
+            TickUpdates.Tick();
         }
 
         private void LateUpdate()
         {
-            foreach (var tick in TickLateUpdates)
-            {
-                tick.Tick();
-            }
+            TickLateUpdates.Tick();
         }
         
         private void FixedUpdate()
         {
-            foreach (var tick in TickFixedUpdates)
-            {
-                tick.Tick();
-            }
+            TickFixedUpdates.Tick();
         }
         
         public void Dispose()

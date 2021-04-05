@@ -2,7 +2,6 @@
 using Modules.GridModule.Args;
 using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace Modules.GridModule
@@ -39,7 +38,7 @@ namespace Modules.GridModule
             
             foreach (var cellToHighlight in result)
             {
-                cellToHighlight.Highlight(Color.red);
+                cellToHighlight.ChangeColor(Color.red);
             }
         }
 
@@ -47,7 +46,7 @@ namespace Modules.GridModule
         {
             foreach (var cell in _cells)
             {
-                cell.Highlight(Color.white);
+                cell.ChangeColor(Color.green);
             }
         }
 

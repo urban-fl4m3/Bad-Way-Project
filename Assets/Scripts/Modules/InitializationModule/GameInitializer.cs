@@ -1,10 +1,7 @@
-using System;
 using Modules.ActorModule;
-using Modules.BattleModule;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
-using Modules.GridModule;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
@@ -18,13 +15,10 @@ namespace Modules.InitializationModule
         [SerializeField] private AvailableBattleStatsProvider _statsProvider;
         [SerializeField] private AvailableActorsProvider _actorsProvider;
 
-        private GridController _grid;
-        
         private void Start()
         {
             var player = GetPlayer();
             var tick = GetTickManager();
-            
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider);
