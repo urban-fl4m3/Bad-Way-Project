@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Modules.ActorModule;
-using Modules.BattleModule.Levels.Models;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Managers;
 using Modules.BattleModule.Stats;

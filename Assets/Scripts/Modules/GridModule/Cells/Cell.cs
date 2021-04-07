@@ -41,6 +41,7 @@ namespace Modules.GridModule.Cells
             Component.MousePressed -= HandleMousePressed;
         }
 
+<<<<<<< HEAD
         public void DeHighLight()
         {
             var tintKey = Component.Tint;
@@ -53,6 +54,9 @@ namespace Modules.GridModule.Cells
         }
 
         public void Highlight(Color color)
+=======
+        public void ChangeColor(Color color)
+>>>>>>> 97e7dd82909ba9e2d9350dcac718e166e7041c7d
         {
             var tintKey = Component.Tint;
             var tint = Component.MeshRenderer.sharedMaterial.GetColor(tintKey);

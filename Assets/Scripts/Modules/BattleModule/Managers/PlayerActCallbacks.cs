@@ -1,7 +1,6 @@
 ﻿using System;
 using Modules.GridModule;
 using Modules.TickModule;
-using UnityEngine;
 
 namespace Modules.BattleModule.Managers
 {
@@ -31,7 +30,11 @@ namespace Modules.BattleModule.Managers
 
         private void HandleUnitSelection(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             Debug.Log("Wow");
+=======
+            
+>>>>>>> 97e7dd82909ba9e2d9350dcac718e166e7041c7d
         }
     }
 }

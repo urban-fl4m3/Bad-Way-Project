@@ -2,7 +2,6 @@
 using Modules.GridModule.Args;
 using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace Modules.GridModule
@@ -40,8 +39,12 @@ namespace Modules.GridModule
             
             foreach (var cellToHighlight in result)
             {
+<<<<<<< HEAD
                 cellToHighlight.CellComponent.MeshCollider.enabled = true;
                 cellToHighlight.Highlight(Color.red);
+=======
+                cellToHighlight.ChangeColor(Color.red);
+>>>>>>> 97e7dd82909ba9e2d9350dcac718e166e7041c7d
             }
         }
 
@@ -49,8 +52,12 @@ namespace Modules.GridModule
         {
             foreach (var cell in _cells)
             {
+<<<<<<< HEAD
                 cell.CellComponent.MeshCollider.enabled = false;
                 cell.DeHighLight();
+=======
+                cell.ChangeColor(Color.green);
+>>>>>>> 97e7dd82909ba9e2d9350dcac718e166e7041c7d
             }
         }
 

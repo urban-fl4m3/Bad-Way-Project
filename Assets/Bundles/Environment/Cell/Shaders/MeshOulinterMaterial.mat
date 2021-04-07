@@ -34,7 +34,9 @@ Material:
     m_Floats:
     - Vector1_d4276cc257324a809a7f272e89ea001a: 0.47
     m_Colors:
+    - Color_5e36fffcbaaf48deb76691e6b5a3bc8c: {r: 1, g: 0, b: 0, a: 0.56078434}
     - Color_642b7cfbc1b4446fb7cf25f043096ffb: {r: 0.30849794, g: 0.2588235, b: 0.77254903, a: 0.7254902}
+    - Color_78545ebed15a44ea9816746b33f3aba3: {r: 0.21176466, g: 1, b: 0, a: 0.54509807}
     - Color_d5c958e1781e46289e2ef62bdd10cc41: {r: 0.6227208, g: 1, b: 0.09019607, a: 0.47058824}
     - Vector4_7721acff1df94a9b889bda43fce20b34: {r: 0, g: 0, b: 0, a: 0}
     - _Tint: {r: 0.21053478, g: 1, b: 0, a: 0.54509807}
