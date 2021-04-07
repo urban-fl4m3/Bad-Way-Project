@@ -1,18 +1,22 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Modules.ActorModule;
+using Modules.BattleModule.Stats;
+using Modules.BattleModule.Stats.Helpers;
+using Modules.BattleModule.Stats.Models;
 using Modules.GridModule.Cells;
 
 namespace Modules.BattleModule
 {
     public class BattleActor
     {
-        private readonly Actor _actor;
-
-        public Actor Actor => _actor;
-
-        public BattleActor(Actor actor)
+        public readonly Actor Actor;
+        public StatsContainer Stats { get; }
+        
+        public BattleActor(Actor actor, IReadOnlyDictionary<PrimaryStat, int> primaryStats,
+            IReadOnlyCollection<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats)
         {
-            _actor = actor;
+            Actor = actor;
+            Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
         }
 
         public Cell Placement

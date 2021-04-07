@@ -20,5 +20,10 @@ namespace Modules.BattleModule.Managers
         {
             
         }
+
+        public void SetScene(BattleScene scene)
+        {
+            
+        }
     }
 }

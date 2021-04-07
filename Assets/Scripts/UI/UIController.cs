@@ -1,17 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
-using Modules.BattleModule;
-using Modules.BattleModule.Managers;
-using Modules.GridModule;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
-{ 
-    public GridController _GridController;
-   public BattleActManager _BattleActManager;
+namespace UI
+{
+    public class UIController : MonoBehaviour
+    {
+        public event EventHandler MovementClicked;
 
-   public void ShowMovementPosition(int a)
-   {
-       _GridController.HighlightRelativeCells(_BattleActManager.Actors[0].Placement, a);
-   }
+        [SerializeField] private Button _moveButton;
+        [SerializeField] private Button _attackButton;
+        [SerializeField] private Button _hideButton;
+        
+        private void Awake()
+        {
+            _moveButton.onClick.AddListener(OnMovementButtonClick);    
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+    
+        private void OnMovementButtonClick()
+        {
+            MovementClicked?.Invoke(this, EventArgs.Empty);
+        }
+    }
 }

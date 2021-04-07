@@ -15,11 +15,19 @@ namespace Modules.BattleModule.Managers
             _actCallbacks = actCallbacks;
         }
 
-        public void Act()
+        public void ActStart()
         {
             _actCallbacks.ActStart();
         }
 
-      
+        public void ActEnd()
+        {
+            _actCallbacks.ActEnd();
+        }
+
+        public void SetScene(BattleScene scene)
+        {
+            _actCallbacks.SetScene(scene);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Modules.GridModule;
 using Modules.TickModule;
+using UI;
 
 namespace Modules.BattleModule.Managers
 {
@@ -8,33 +9,39 @@ namespace Modules.BattleModule.Managers
     { 
         private readonly GridController _grid;
         private readonly ITickManager _tickManager;
+        private readonly UIController _uiController;
 
-        public PlayerActCallbacks(GridController grid, ITickManager tickManager)
+        private BattleScene _scene;
+        
+        public PlayerActCallbacks(GridController grid, ITickManager tickManager, UIController uiController)
         {
             _grid = grid;
             _tickManager = tickManager;
+            _uiController = uiController;
         }
 
         public void ActStart()
         {
-            _grid.CellSelected += HandleUnitSelection;
-
-            var mouseUpdate = new MouseUpdate(0);
-            _tickManager.AddTick(this, mouseUpdate);
+            _uiController.MovementClicked += HandleMovementClicked;
+            _uiController.Show();
         }
 
         public void ActEnd()
         {
-            
+            _uiController.MovementClicked -= HandleMovementClicked;
+            _uiController.Hide();
         }
 
-        private void HandleUnitSelection(object sender, EventArgs e)
+        public void SetScene(BattleScene scene)
         {
-<<<<<<< HEAD
-            Debug.Log("Wow");
-=======
-            
->>>>>>> 97e7dd82909ba9e2d9350dcac718e166e7041c7d
+            _scene = scene;
+        }
+
+        private void HandleMovementClicked(object sender, EventArgs e)
+        {
+            var battleActor = _scene.PlayerActManager.Actors[0];
+            _grid.HighlightRelativeCells(battleActor.Placement, 5);
+
         }
     }
 }

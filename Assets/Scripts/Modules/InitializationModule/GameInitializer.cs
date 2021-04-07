@@ -5,6 +5,7 @@ using Modules.BattleModule.Stats;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
+using UI;
 using UnityEngine;
 
 namespace Modules.InitializationModule
@@ -24,15 +25,22 @@ namespace Modules.InitializationModule
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider);
             
-            var _battleScene = battleSceneFactory.CreateBattleScene(_uiController);
-            _battleScene.StartBattle();
+            var battleScene = battleSceneFactory.CreateBattleScene(_uiController);
+            
+            battleScene.StartBattle();
         }
 
         private static Player GetPlayer()
         {
-            var playerSwatGuyData = new PlayerActorData(0, 1, new [] {0, 0, 0, 0, 0});
+            var playerSwatGuyData = new PlayerActorData(0, 1, new [] {1, 1, 1, 1, 2});
+            var playerSwatGuyData1 = new PlayerActorData(0, 3, new [] {7, 3, 4, 5, 5});
+            var playerSwatGuyData2 = new PlayerActorData(0, 5, new [] {3, 1, 1, 0, 8});
+            
             var playerActorsCollection = new PlayerActorsCollection();
             playerActorsCollection.AddActorData(playerSwatGuyData);
+            playerActorsCollection.AddActorData(playerSwatGuyData1);
+            playerActorsCollection.AddActorData(playerSwatGuyData2);
+            
             var player = new Player(playerActorsCollection);
             return player;
         }

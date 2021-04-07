@@ -1,12 +1,10 @@
-﻿using System.Diagnostics;
-using UnityEngine;
-
-namespace Modules.BattleModule.Managers
+﻿namespace Modules.BattleModule.Managers
 {
     public interface IActCallbacks
     {
         void ActStart();
         void ActEnd();
-    }
 
+        void SetScene(BattleScene scene);
+    }
 }

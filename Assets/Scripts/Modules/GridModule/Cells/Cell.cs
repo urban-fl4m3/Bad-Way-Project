@@ -14,10 +14,10 @@ namespace Modules.GridModule.Cells
         public readonly int Row;
         public readonly int Column;
 
-        private Color _valueColor;
-
         public bool IsEmpty { get; set; }
         public bool IsAction { get; set; }
+
+        private Color _valueColor;
         
         public Cell(CellComponent component, int row, int column)
         {
@@ -28,7 +28,7 @@ namespace Modules.GridModule.Cells
             Component.ResetMaterial();
             Component.MousePressed += HandleMousePressed;
 
-            _valueColor = getColor();
+            _valueColor = GetColor();
         }
 
         private void HandleMousePressed(object sender, EventArgs e)
@@ -41,22 +41,12 @@ namespace Modules.GridModule.Cells
             Component.MousePressed -= HandleMousePressed;
         }
 
-<<<<<<< HEAD
-        public void DeHighLight()
+        public void Highlight()
         {
-            var tintKey = Component.Tint;
-            var tint = Component.MeshRenderer.sharedMaterial.GetColor(tintKey);
-            var alpha = tint.a;
-            tint = _valueColor;
-            tint.a = alpha;
-            Component.MeshRenderer.sharedMaterial.SetColor(tintKey, tint);
-           // Component.ResetMaterial();
+            Highlight(_valueColor);
         }
 
         public void Highlight(Color color)
-=======
-        public void ChangeColor(Color color)
->>>>>>> 97e7dd82909ba9e2d9350dcac718e166e7041c7d
         {
             var tintKey = Component.Tint;
             var tint = Component.MeshRenderer.sharedMaterial.GetColor(tintKey);
@@ -66,7 +56,7 @@ namespace Modules.GridModule.Cells
             Component.MeshRenderer.sharedMaterial.SetColor(tintKey, tint);
         }
 
-        private Color getColor()
+        private Color GetColor()
         {
             return Component.MeshRenderer.sharedMaterial.GetColor(Component.Tint);
         }

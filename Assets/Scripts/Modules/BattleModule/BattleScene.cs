@@ -1,25 +1,74 @@
-﻿using Modules.BattleModule.Managers;
+﻿using System;
+using Modules.BattleModule.Managers;
 using Modules.GridModule;
 
 namespace Modules.BattleModule
 {
     public class BattleScene
     {
-        private readonly GridController _grid;
-        private readonly BattleActManager _playerActManager;
-        private readonly BattleActManager _enemyActManager;
+        public readonly GridController Grid;
+        public readonly BattleActManager PlayerActManager;
+        public readonly BattleActManager EnemyActManager;
 
         public BattleScene(GridController grid, 
             BattleActManager playerActManager, BattleActManager enemyActManager)
         {
-            _grid = grid;
-            _playerActManager = playerActManager;
-            _enemyActManager = enemyActManager;
+            Grid = grid;
+            PlayerActManager = playerActManager;
+            PlayerActManager.SetScene(this);
+            EnemyActManager = enemyActManager;
+            EnemyActManager.SetScene(this);
+
+            var rules = new DeathMatchRules(this);
+            rules.RulesCompleted += RulesOnRulesCompleted;
+        }
+
+        private void RulesOnRulesCompleted(object sender, EventArgs e)
+        {
+            
         }
 
         public void StartBattle()
         {
-            _playerActManager.Act();
+            //Начало хода, ходят все юниты игрока последовательно
+            PlayerActManager.ActStart();
+            
+            //Как только игрок подвигал всеми юнитами делаем это
+            PlayerActManager.ActEnd();
+            EnemyActManager.ActStart();
+            
+            //Как только враг походил всеми юнитами делаем это и репит с 24 строчки
+            EnemyActManager.ActEnd();
         }
+    }
+
+    public interface IRules
+    {
+        event EventHandler RulesCompleted;
+    }
+
+    public class DeathMatchRules : IRules
+    {
+        private readonly BattleScene _scene;
+
+        public DeathMatchRules(BattleScene scene)
+        {
+            _scene = scene;
+        //    scene.OnUnitKill += CheckForAliveUnits();
+        }
+
+        private void CheckForAliveUnits()
+        {
+            // if (_scene.PlayerUnits.Count < 1)
+            // {
+            //     RulesCompleted?.Invoke(this, Rules.PlayerLose);
+            // }
+            // else if (_scene.EnemyUnits.Count < 1)
+            // {
+            //     RulesCompleted?.Invoke(this, Rules.PlayerWin);
+            // }
+        }
+
+        public event EventHandler RulesCompleted;
     }
 }
