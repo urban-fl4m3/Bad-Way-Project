@@ -1,6 +1,7 @@
 ﻿using System;
 using Modules.BattleModule.Managers;
 using Modules.GridModule;
+using UnityEngine;
 
 namespace Modules.BattleModule
 {
@@ -9,14 +10,16 @@ namespace Modules.BattleModule
         public readonly GridController Grid;
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
-
+        public CameraController CameraController;
+        
         public BattleScene(GridController grid, 
-            BattleActManager playerActManager, BattleActManager enemyActManager)
+            BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController)
         {
             Grid = grid;
             PlayerActManager = playerActManager;
             PlayerActManager.SetScene(this);
             EnemyActManager = enemyActManager;
+            CameraController = cameraController;
             EnemyActManager.SetScene(this);
 
             var rules = new DeathMatchRules(this);
@@ -34,11 +37,11 @@ namespace Modules.BattleModule
             PlayerActManager.ActStart();
             
             //Как только игрок подвигал всеми юнитами делаем это
-            PlayerActManager.ActEnd();
-            EnemyActManager.ActStart();
+           // PlayerActManager.ActEnd();
+          //  EnemyActManager.ActStart();
             
             //Как только враг походил всеми юнитами делаем это и репит с 24 строчки
-            EnemyActManager.ActEnd();
+         //   EnemyActManager.ActEnd();
         }
     }
 

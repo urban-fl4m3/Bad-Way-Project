@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using Modules.BattleModule;
+using Modules.BattleModule.Factories;
 using Modules.GridModule.Args;
 using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
@@ -9,7 +12,7 @@ namespace Modules.GridModule
     public class GridController
     {
         public event EventHandler CellSelected;
-        
+
         public readonly int Rows;
         public readonly int Columns;
         
@@ -39,10 +42,20 @@ namespace Modules.GridModule
             foreach (var cellToHighlight in result)
             {
                 cellToHighlight.CellComponent.MeshCollider.enabled = true;
-                cellToHighlight.Highlight(Color.red);
+                cellToHighlight.Highlight(Color.white);
             }
         }
 
+        public void HighlightEnemyCells(IReadOnlyList<BattleActor> readOnlyList)
+        {
+            UnHighlightGrid();
+            foreach (var Enemy in readOnlyList)
+            {
+                Enemy.Placement.CellComponent.MeshCollider.enabled = true;
+                Enemy.Placement.Highlight(Color.red);
+            }
+            
+        }
         public void UnHighlightGrid()
         {
             foreach (var cell in _cells)
@@ -63,6 +76,9 @@ namespace Modules.GridModule
         private void HandleCellSelected(object sender, CellSelectionEventArgs e)
         {
             CellSelected?.Invoke(this, e);
+            Debug.Log("tap");
         }
+
+       
     }
 }

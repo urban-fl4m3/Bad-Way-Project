@@ -16,6 +16,7 @@ namespace Modules.InitializationModule
         [SerializeField] private AvailableBattleStatsProvider _statsProvider;
         [SerializeField] private AvailableActorsProvider _actorsProvider;
         [SerializeField] private UIController _uiController;
+        [SerializeField] private CameraController _cameraController;
 
         private void Start()
         {
@@ -25,7 +26,7 @@ namespace Modules.InitializationModule
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider);
             
-            var battleScene = battleSceneFactory.CreateBattleScene(_uiController);
+            var battleScene = battleSceneFactory.CreateBattleScene(_uiController,_cameraController);
             
             battleScene.StartBattle();
         }

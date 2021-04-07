@@ -33,16 +33,16 @@ namespace Modules.BattleModule.Factories
             _availableActorsProvider = availableActorsProvider;
         }
 
-        public BattleScene CreateBattleScene(UIController uiController)
+        public BattleScene CreateBattleScene(UIController uiController,CameraController cameraController)
         {
             var gridBuilder = new GridBuilder("Battle_Grid");
             var gridController = gridBuilder.Build(_levelDataProvider.GridData);
 
 
-            var playerActorsManager = CreatePlayerManager(gridController, _tickManager, uiController);
+            var playerActorsManager = CreatePlayerManager(gridController, _tickManager, uiController,cameraController);
             var enemyActorsManager = CreateEnemyManager(gridController);
 
-            var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager);
+            var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager,cameraController);
             return battleScene;
         }
 
@@ -73,7 +73,8 @@ namespace Modules.BattleModule.Factories
             return enemyManager;
         }
 
-        private BattleActManager CreatePlayerManager(GridController grid, ITickManager tickManager, UIController uiController)
+        private BattleActManager CreatePlayerManager(GridController grid, ITickManager tickManager,
+            UIController uiController, CameraController cameraController)
         {
             var playerBattleActors = new List<BattleActor>();
             for (var i = 0; i < _playerActorsCollection.Count; i++)
@@ -96,9 +97,12 @@ namespace Modules.BattleModule.Factories
 
                 playerBattleActors.Add(battleActor);
             }
-
+            
             var playerCallbacks = new PlayerActCallbacks(grid, tickManager, uiController);
             var playerManager = new BattleActManager(playerBattleActors, playerCallbacks);
+            
+            cameraController.SelectNextActor(playerManager.Actors[0].Actor.transform);
+            
             return playerManager;
         }
     }
