@@ -499,6 +499,7 @@ MonoBehaviour:
   _levelData: {fileID: 11400000, guid: 0067b5612c42438418ac6737babceeab, type: 2}
   _statsProvider: {fileID: 11400000, guid: 6abf650c78b511f46aea2c67ee9336a6, type: 2}
   _actorsProvider: {fileID: 11400000, guid: 494ed53fc6fb36349b19f12acd2e8e4e, type: 2}
+  _uiController: {fileID: 1764225994}
 --- !u!1 &914905307
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +582,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 914905310}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1764225994}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: UnShowMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &914905310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -799,7 +812,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1242329221}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1764225994}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: ShowMovementPosition
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1242329221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,7 +998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1764225990
 MonoBehaviour:
   m_ObjectHideFlags: 0

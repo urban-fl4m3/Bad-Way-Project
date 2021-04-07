@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using Modules.BattleModule;
-using Modules.GridModule.Cells;
+using Modules.BattleModule.Managers;
+using Modules.GridModule;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
-{
-   public BattleActor _Actor;
+{ 
+    public GridController _GridController;
+   public BattleActManager _BattleActManager;
 
-
-   public void ShowMovementPosition()
+   public void ShowMovementPosition(int a)
    {
-      
+       _GridController.HighlightRelativeCells(_BattleActManager.Actors[0].Placement, a);
    }
 }

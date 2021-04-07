@@ -34,12 +34,14 @@ namespace Modules.BattleModule.Factories
             _availableActorsProvider = availableActorsProvider;
         }
 
-        public BattleScene CreateBattleScene()
+        public BattleScene CreateBattleScene(UIController uiController)
         {
             var gridBuilder = new GridBuilder("Battle_Grid");
             var gridController = gridBuilder.Build(_levelDataProvider.GridData);
 
-            var playerActorsManager = CreatePlayerManager(gridController, _tickManager);
+            uiController._GridController = gridController;
+
+            var playerActorsManager = CreatePlayerManager(gridController, _tickManager, uiController);
             var enemyActorsManager = CreateEnemyManager(gridController);
 
             var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager);
@@ -66,7 +68,7 @@ namespace Modules.BattleModule.Factories
             return enemyManager;
         }
 
-        private BattleActManager CreatePlayerManager(GridController grid, ITickManager tickManager)
+        private BattleActManager CreatePlayerManager(GridController grid, ITickManager tickManager, UIController uiController)
         {
             var playerBattleActors = new List<BattleActor>();
             for (var i = 0; i < _playerActorsCollection.Count; i++)
@@ -83,6 +85,7 @@ namespace Modules.BattleModule.Factories
             }
 
             var playerManager = new BattleActManager(playerBattleActors, new PlayerActCallbacks(grid, tickManager));
+            uiController._BattleActManager = playerManager;
             return playerManager;
         }
     }

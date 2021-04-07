@@ -17,6 +17,7 @@ namespace Modules.InitializationModule
         [SerializeField] private LevelDataProvider _levelData;
         [SerializeField] private AvailableBattleStatsProvider _statsProvider;
         [SerializeField] private AvailableActorsProvider _actorsProvider;
+        [SerializeField] private UIController _uiController;
 
         private GridController _grid;
         
@@ -29,7 +30,7 @@ namespace Modules.InitializationModule
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider);
             
-            var _battleScene = battleSceneFactory.CreateBattleScene();
+            var _battleScene = battleSceneFactory.CreateBattleScene(_uiController);
             _battleScene.StartBattle();
         }
 

@@ -32,7 +32,6 @@ namespace Modules.BattleModule.Managers
         private void HandleUnitSelection(object sender, EventArgs e)
         {
             Debug.Log("Wow");
-            
         }
     }
 }

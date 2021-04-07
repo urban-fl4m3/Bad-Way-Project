@@ -14,6 +14,9 @@ namespace Modules.GridModule.Cells
         
         public Vector3 Size => _meshRenderer.bounds.size;
 
+        public MeshCollider MeshCollider=>_meshCollider;
+        [SerializeField] private MeshCollider _meshCollider;
+        
         public void ResetMaterial()
         {
             _meshRenderer.sharedMaterial = new Material(_meshRenderer.material);

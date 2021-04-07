@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Modules.GridModule.Cells;
 using UnityEditor.VersionControl;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Modules.GridModule.Math
@@ -34,6 +35,11 @@ namespace Modules.GridModule.Math
                     ProcessCell(c.Column, c.Row - 1, alreadyVisited, visited);
                     ProcessCell(c.Column, c.Row + 1, alreadyVisited, visited);
                 }
+
+                foreach (var activeCell in toVisit)
+                {
+                    activeCell.IsAction = true;
+                }
                 
                 toVisit.Clear();
                 toVisit.AddRange(visited);
@@ -55,6 +61,7 @@ namespace Modules.GridModule.Math
             
             visited.Add(_grid[column, row]);
             alreadyVisited[column, row] = true;
+            
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Modules.BattleModule
     {
         private readonly Actor _actor;
 
+        public Actor Actor => _actor;
+
         public BattleActor(Actor actor)
         {
             _actor = actor;
@@ -26,7 +28,7 @@ namespace Modules.BattleModule
                 _placement.IsEmpty = false;
             }
         }
-
+        
         private Cell _placement;
     } 
 }

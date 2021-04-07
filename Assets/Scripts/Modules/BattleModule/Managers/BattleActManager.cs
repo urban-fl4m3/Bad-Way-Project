@@ -7,6 +7,8 @@ namespace Modules.BattleModule.Managers
         private readonly List<BattleActor> _actors;
         private readonly IActCallbacks _actCallbacks;
 
+        public  IReadOnlyList<BattleActor> Actors => _actors;
+
         public BattleActManager(List<BattleActor> actors, IActCallbacks actCallbacks)
         {
             _actors = actors;
@@ -18,5 +20,6 @@ namespace Modules.BattleModule.Managers
             _actCallbacks.ActStart();
         }
 
+      
     }
 }

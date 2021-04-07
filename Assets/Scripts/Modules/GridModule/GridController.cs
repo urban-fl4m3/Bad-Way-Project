@@ -33,12 +33,14 @@ namespace Modules.GridModule
 
         public void HighlightRelativeCells(Cell cell, int steps)
         {
+            UnHighlightGrid();
             var bfs = new GridBFS(this);
             Debug.Log(cell.Column+" "+ cell.Row);
             var result = bfs.Search(cell, steps);
             
             foreach (var cellToHighlight in result)
             {
+                cellToHighlight.CellComponent.MeshCollider.enabled = true;
                 cellToHighlight.Highlight(Color.red);
             }
         }
@@ -47,7 +49,8 @@ namespace Modules.GridModule
         {
             foreach (var cell in _cells)
             {
-                cell.Highlight(Color.white);
+                cell.CellComponent.MeshCollider.enabled = false;
+                cell.DeHighLight();
             }
         }
 

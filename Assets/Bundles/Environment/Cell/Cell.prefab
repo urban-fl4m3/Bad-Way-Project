@@ -92,7 +92,7 @@ MeshCollider:
   m_GameObject: {fileID: 2395769147202597753}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -110,3 +110,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 2395769147202597759}
+  _meshCollider: {fileID: 2395769147202597758}
