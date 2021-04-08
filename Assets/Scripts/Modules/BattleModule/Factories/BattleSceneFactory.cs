@@ -33,13 +33,13 @@ namespace Modules.BattleModule.Factories
             _availableActorsProvider = availableActorsProvider;
         }
 
-        public BattleScene CreateBattleScene(UIController uiController,CameraController cameraController)
+        public BattleScene CreateBattleScene(BattlePlayerControlsView battlePlayerControlsView,CameraController cameraController)
         {
             var gridBuilder = new GridBuilder("Battle_Grid");
             var gridController = gridBuilder.Build(_levelDataProvider.GridData);
 
 
-            var playerActorsManager = CreatePlayerManager(gridController, _tickManager, uiController,cameraController);
+            var playerActorsManager = CreatePlayerManager(gridController, _tickManager, battlePlayerControlsView,cameraController);
             var enemyActorsManager = CreateEnemyManager(gridController);
 
             var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager,cameraController);
@@ -74,7 +74,7 @@ namespace Modules.BattleModule.Factories
         }
 
         private BattleActManager CreatePlayerManager(GridController grid, ITickManager tickManager,
-            UIController uiController, CameraController cameraController)
+            BattlePlayerControlsView battlePlayerControlsView, CameraController cameraController)
         {
             var playerBattleActors = new List<BattleActor>();
             for (var i = 0; i < _playerActorsCollection.Count; i++)
@@ -98,7 +98,7 @@ namespace Modules.BattleModule.Factories
                 playerBattleActors.Add(battleActor);
             }
             
-            var playerCallbacks = new PlayerActCallbacks(grid, tickManager, uiController);
+            var playerCallbacks = new PlayerActCallbacks(grid, tickManager, battlePlayerControlsView);
             var playerManager = new BattleActManager(playerBattleActors, playerCallbacks);
             
             cameraController.SelectNextActor(playerManager.Actors[0].Actor.transform);

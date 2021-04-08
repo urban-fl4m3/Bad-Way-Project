@@ -10,31 +10,33 @@ namespace Modules.BattleModule.Managers
     { 
         private readonly GridController _grid;
         private readonly ITickManager _tickManager;
-        private readonly UIController _uiController;
+        private readonly BattlePlayerControlsView _battlePlayerControlsView;
 
         private BattleScene _scene;
         
-        public PlayerActCallbacks(GridController grid, ITickManager tickManager, UIController uiController)
+        public PlayerActCallbacks(GridController grid, ITickManager tickManager,
+            BattlePlayerControlsView battlePlayerControlsView)
         {
             _grid = grid;
             _tickManager = tickManager;
-            _uiController = uiController;
+            _battlePlayerControlsView = battlePlayerControlsView;
+            _battlePlayerControlsView.Initialize(2);
         }
 
         public void ActStart()
         {
-            _uiController.MovementClicked += HandleMovementClicked;
-            _uiController.AtackClicked += HandleAtackClicked;
+            _battlePlayerControlsView.MovementClicked += HandleMovementClicked;
+            _battlePlayerControlsView.AtackClicked += HandleAtackClicked;
           //  _uiController.SelectedClick += HandleSelectActor;
-            _uiController.Show();
+            _battlePlayerControlsView.Show();
         }
 
         public void ActEnd()
         {
-            _uiController.MovementClicked -= HandleMovementClicked;
-            _uiController.AtackClicked -= HandleAtackClicked; 
+            _battlePlayerControlsView.MovementClicked -= HandleMovementClicked;
+            _battlePlayerControlsView.AtackClicked -= HandleAtackClicked; 
            // _uiController.SelectedClick -= HandleSelectActor;
-            _uiController.Hide();
+            _battlePlayerControlsView.Hide();
             Debug.Log("Hide");
         }
 
