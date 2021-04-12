@@ -1,12 +1,14 @@
 ﻿using System;
 using Modules.BattleModule.Managers;
 using Modules.GridModule;
+using Modules.GridModule.Args;
 using UnityEngine;
 
 namespace Modules.BattleModule
 {
     public class BattleScene
     {
+
         public readonly GridController Grid;
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
@@ -24,13 +26,27 @@ namespace Modules.BattleModule
 
             var rules = new DeathMatchRules(this);
             rules.RulesCompleted += RulesOnRulesCompleted;
+            Grid.MoveCell += PlayerMove;
+            Grid.AtackCell += PlayerAtack;
         }
+        
 
         private void RulesOnRulesCompleted(object sender, EventArgs e)
         {
             
         }
 
+        private void PlayerMove(object sender, CellSelectionEventArgs e)
+        {
+            PlayerActManager.Actors[0].Actor.transform.position = new Vector3(e.Column, 0, e.Row)*2;
+            PlayerActManager.Actors[0].Placement = Grid[e.Row, e.Column];
+            Grid.UnHighlightGrid();
+        }
+
+        private void PlayerAtack(object sender, EventArgs e)
+        {
+            
+        }
         public void StartBattle()
         {
             //Начало хода, ходят все юниты игрока последовательно

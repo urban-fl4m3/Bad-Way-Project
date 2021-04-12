@@ -7,7 +7,7 @@ namespace Modules.GridModule.Cells
     public class Cell
     {
         public event EventHandler<CellSelectionEventArgs> CellSelected;
-        
+
         public readonly CellComponent Component;
         public CellComponent CellComponent => Component;
         

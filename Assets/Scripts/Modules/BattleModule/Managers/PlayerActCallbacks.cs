@@ -54,7 +54,6 @@ namespace Modules.BattleModule.Managers
         {
             var battleActor = _scene.PlayerActManager.Actors[0];
             _grid.HighlightRelativeCells(battleActor.Placement, 5);
-
         }
 
         private void HandleAtackClicked(object sender, EventArgs e)
@@ -62,5 +61,7 @@ namespace Modules.BattleModule.Managers
             var enemyActor = _scene.EnemyActManager.Actors;
             _grid.HighlightEnemyCells(enemyActor);
         }
+        
+        //private void HandleMoveCell(object sender, even)
     }
 }

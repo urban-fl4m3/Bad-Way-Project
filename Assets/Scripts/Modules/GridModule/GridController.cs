@@ -11,7 +11,8 @@ namespace Modules.GridModule
 {
     public class GridController
     {
-        public event EventHandler CellSelected;
+        public event EventHandler<CellSelectionEventArgs> MoveCell;
+        public event EventHandler AtackCell;
 
         public readonly int Rows;
         public readonly int Columns;
@@ -29,7 +30,7 @@ namespace Modules.GridModule
 
             foreach (var cell in _cells)
             {
-                cell.CellSelected += HandleCellSelected;
+               // cell.CellSelected += HandleCellSelected;
             }
         }
 
@@ -42,6 +43,7 @@ namespace Modules.GridModule
             foreach (var cellToHighlight in result)
             {
                 cellToHighlight.CellComponent.MeshCollider.enabled = true;
+                cellToHighlight.CellSelected += HandleCellMoveSelected;
                 cellToHighlight.Highlight(Color.white);
             }
         }
@@ -52,31 +54,40 @@ namespace Modules.GridModule
             foreach (var Enemy in readOnlyList)
             {
                 Enemy.Placement.CellComponent.MeshCollider.enabled = true;
+                Enemy.Placement.CellSelected += HandleCellAtackSelected;
                 Enemy.Placement.Highlight(Color.red);
             }
             
         }
+       
         public void UnHighlightGrid()
         {
             foreach (var cell in _cells)
             {
                 cell.CellComponent.MeshCollider.enabled = false;
+                cell.CellSelected -= HandleCellSelected;
+                cell.CellSelected -= HandleCellMoveSelected;
+                cell.CellSelected -= HandleCellAtackSelected;
                 cell.Highlight();
             }
         }
-
-        public void ClearGrid()
-        {
-            foreach (var cell in _cells)
-            {
-                cell.CellSelected -= HandleCellSelected;
-            }
-        }
-
+       
         private void HandleCellSelected(object sender, CellSelectionEventArgs e)
         {
-            CellSelected?.Invoke(this, e);
+            MoveCell?.Invoke(this, e);
             Debug.Log("tap");
+        }
+      
+        private void HandleCellMoveSelected(object sender, CellSelectionEventArgs e)
+        {
+            MoveCell?.Invoke(this,e);
+            Debug.Log("move here");
+        }
+      
+        private void HandleCellAtackSelected(object sender, CellSelectionEventArgs e)
+        {
+            AtackCell?.Invoke(this,e);
+            Debug.Log("atack this");
         }
 
        

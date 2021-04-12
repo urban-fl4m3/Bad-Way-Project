@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/projectSettingsUpdater.xml
+/.idea.Bad Way.iml
+/modules.xml
+# Datasource local storage ignored files
+/../../../../../../../../../:\Users\Blank\OneDrive\Документы\Bad Way\.idea\.idea.Bad Way\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
