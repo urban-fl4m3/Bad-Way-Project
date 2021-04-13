@@ -30,15 +30,10 @@ namespace Modules.GridModule.Math
 
                 foreach (var c in toVisit)
                 {
-                    ProcessCell(c.Column - 1, c.Row, alreadyVisited, visited);
-                    ProcessCell(c.Column + 1, c.Row, alreadyVisited, visited);
-                    ProcessCell(c.Column, c.Row - 1, alreadyVisited, visited);
-                    ProcessCell(c.Column, c.Row + 1, alreadyVisited, visited);
-                }
-
-                foreach (var activeCell in toVisit)
-                {
-                    activeCell.IsAction = true;
+                    ProcessCell(c.Row, c.Column - 1,  alreadyVisited, visited);
+                    ProcessCell(c.Row, c.Column + 1, alreadyVisited, visited);
+                    ProcessCell(c.Row - 1, c.Column,  alreadyVisited, visited);
+                    ProcessCell(c.Row + 1, c.Column,  alreadyVisited, visited);
                 }
                 
                 toVisit.Clear();
@@ -47,28 +42,21 @@ namespace Modules.GridModule.Math
                 
                 currentStep++;
             }
-
-            Debug.Log("&");
-            foreach (Cell cell1 in result)
-            {
-                
-                Debug.Log(cell1.Row+" "+cell1.Column);
-            }
-
+            
             return result;
         }
         
-        private void ProcessCell(int column, int row, bool[,] alreadyVisited, ICollection<Cell> visited)
+        private void ProcessCell(int row, int column, bool[,] alreadyVisited, ICollection<Cell> visited)
         {
-            if (column < 0 || column >= _grid.Columns ||  row < 0 || row >= _grid.Rows||
-                alreadyVisited[column, row])
+            
+            if (column < 0 || column >= _grid.Columns ||  row < 0 || row >= _grid.Rows ||
+                alreadyVisited[row, column])
             {
                 return;
             }
             
-            visited.Add(_grid[column, row]);
-            alreadyVisited[column, row] = true;
-            
+            alreadyVisited[row, column] = true;
+            visited.Add(_grid[row, column]);
         }
     }
 }
