@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _availableActors:
   - {fileID: 11400000, guid: cb110a448ca6de14daba1cc58c714dfe, type: 2}
+  - {fileID: 11400000, guid: 6810fb8c8112dd848af7844f4dcdb2f8, type: 2}

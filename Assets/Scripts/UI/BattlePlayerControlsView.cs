@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Common;
+using Modules.ActorModule;
+using Modules.BattleModule.Stats;
 using UI.Components;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +13,7 @@ namespace UI
     {
         public event EventHandler MovementClicked;
         public event EventHandler AtackClicked;
-        public event EventHandler SelectedClick;
+        public event EventHandler<int> SelectedClick;
 
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _attackButton;
@@ -18,16 +21,18 @@ namespace UI
         //Префаб кнопки. Будем создавать столько, сколько нам нужно
         [SerializeField] private Transform _iconsParent;
         [SerializeField] private NamedIconComponent _actorSelectorButton;
-
+        
         //У нас должны быть кнопки в списке, т.к. ты никогда не знаешь сколько у нас персонажей в бою
         //их инициализация должна проходить в отдельном методе        
         private UnityPool<NamedIconComponent> _buttonPool;
-
+        private AvailableBattleStatsProvider _availableBattleStatsProvider;
         //Меняем awake на свой метод, для большего контроля юнити объектом
         //Нужно передать не просто константу, а вытащить количество текущих активных юнитов у игрока
         //А скорее всего даже массив с данными, чтобы мы могли настраивать еще и иконки
-        public void Initialize(int actorsCount)
+        public void Initialize(List<ActorDataProvider> actorDataProviders, AvailableBattleStatsProvider actorsProvider)
         {
+            var actorsCount = actorDataProviders.Count;
+            _availableBattleStatsProvider = actorsProvider;
             _moveButton.onClick.AddListener(OnMovementButtonClick);    
             _attackButton.onClick.AddListener(OnAtackButtonClick);
             _hideButton.onClick.AddListener(OnHideButtonClick);
@@ -41,11 +46,15 @@ namespace UI
             {
                 var buttonInstance = _buttonPool.Instantiate();
                 
+                //buttonInstance.State.text = _availableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats
+                
                 //Важно создать новый int перед вызовом метода в делегате, иначе по правилм C#
                 //у тебя всегда будет i == Count самого списка. Отвязывать индекс нужно делегироания!!
                 //Проверь что будет, если перенести index = i или вообще использовать само i внутри делегата,
                 //чтобы понять, как работает C# в таком случае
                 var index = i;
+                buttonInstance.Icon.sprite = actorDataProviders[index].Icon;
+                buttonInstance.Name.text = actorDataProviders[index].Name;
                 
                 buttonInstance.Button.onClick.AddListener(() =>
                 {
@@ -82,6 +91,8 @@ namespace UI
         private void OnActorSelectClick(int i)
         {
             Debug.Log($"Player has selected {i} character");
+
+            SelectedClick?.Invoke(this, i);
         }
         
         private void OnMovementButtonClick()
@@ -98,6 +109,7 @@ namespace UI
         {
             
         }
+        
 
     }
 }

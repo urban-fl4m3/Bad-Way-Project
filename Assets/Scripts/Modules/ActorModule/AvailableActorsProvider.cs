@@ -11,8 +11,8 @@ namespace Modules.ActorModule
         [SerializeField] private List<ActorDataProvider> _availableActors= new List<ActorDataProvider>();
 
         private Dictionary<int, Actor> _availableActorsDict;
+        public List<ActorDataProvider> AvailableActors => _availableActors;
         
-      
         public Actor GetActorById(int id)
         {
             if (_availableActorsDict == null)

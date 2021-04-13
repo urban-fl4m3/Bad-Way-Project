@@ -12,16 +12,19 @@ namespace Modules.BattleModule
         public readonly GridController Grid;
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
+        public readonly PlayerActCallbacks PlayerActCallbacks;
         public CameraController CameraController;
         
         public BattleScene(GridController grid, 
-            BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController)
+            BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController,
+            PlayerActCallbacks playerActCallbacks)
         {
             Grid = grid;
             PlayerActManager = playerActManager;
             PlayerActManager.SetScene(this);
             EnemyActManager = enemyActManager;
             CameraController = cameraController;
+            PlayerActCallbacks = playerActCallbacks;
             EnemyActManager.SetScene(this);
 
             var rules = new DeathMatchRules(this);
@@ -38,8 +41,10 @@ namespace Modules.BattleModule
 
         private void PlayerMove(object sender, CellSelectionEventArgs e)
         {
-            PlayerActManager.Actors[0].Actor.transform.position = new Vector3(e.Column, 0, e.Row)*2;
-            PlayerActManager.Actors[0].Placement = Grid[e.Row, e.Column];
+            var nowPlayerSelect = PlayerActCallbacks.NowSelectedActor;
+            
+            PlayerActManager.Actors[nowPlayerSelect].Actor.transform.position = new Vector3(e.Column, 0, e.Row)*2;
+            PlayerActManager.Actors[nowPlayerSelect].Placement = Grid[e.Row, e.Column];
             Grid.UnHighlightGrid();
         }
 
@@ -65,7 +70,6 @@ namespace Modules.BattleModule
     {
         event EventHandler RulesCompleted;
     }
-
     public class DeathMatchRules : IRules
     {
         private readonly BattleScene _scene;

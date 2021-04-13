@@ -7,8 +7,12 @@ namespace Modules.ActorModule
     {
         [SerializeField] private int _id;
         [SerializeField] private Actor _actor;
-
+        [SerializeField] private string name;
+        [SerializeField] private Sprite icon;
+        
         public int Id => _id;
         public Actor Actor => _actor;
+        public string Name => name;
+        public Sprite Icon => icon;
     }
 }

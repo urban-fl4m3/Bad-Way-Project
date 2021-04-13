@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using Modules.BattleModule.Factories;
 using Modules.GridModule;
 using Modules.TickModule;
 using UI;
@@ -11,23 +13,27 @@ namespace Modules.BattleModule.Managers
         private readonly GridController _grid;
         private readonly ITickManager _tickManager;
         private readonly BattlePlayerControlsView _battlePlayerControlsView;
-
+        private readonly BattleSceneFactory _battleSceneFactory;
         private BattleScene _scene;
         
+        public int NowSelectedActor;
+
         public PlayerActCallbacks(GridController grid, ITickManager tickManager,
-            BattlePlayerControlsView battlePlayerControlsView)
+            BattlePlayerControlsView battlePlayerControlsView, BattleSceneFactory battleSceneFactory)
         {
             _grid = grid;
             _tickManager = tickManager;
             _battlePlayerControlsView = battlePlayerControlsView;
-            _battlePlayerControlsView.Initialize(2);
+            _battleSceneFactory = battleSceneFactory;
+            _battlePlayerControlsView.Initialize(battleSceneFactory.AvailableActorsProvider.AvailableActors,
+                battleSceneFactory.AvailableBattleStatsProvider);
         }
 
         public void ActStart()
         {
             _battlePlayerControlsView.MovementClicked += HandleMovementClicked;
             _battlePlayerControlsView.AtackClicked += HandleAtackClicked;
-          //  _uiController.SelectedClick += HandleSelectActor;
+           _battlePlayerControlsView.SelectedClick += HandleSelectActor;
             _battlePlayerControlsView.Show();
         }
 
@@ -35,7 +41,7 @@ namespace Modules.BattleModule.Managers
         {
             _battlePlayerControlsView.MovementClicked -= HandleMovementClicked;
             _battlePlayerControlsView.AtackClicked -= HandleAtackClicked; 
-           // _uiController.SelectedClick -= HandleSelectActor;
+           _battlePlayerControlsView.SelectedClick -= HandleSelectActor;
             _battlePlayerControlsView.Hide();
             Debug.Log("Hide");
         }
@@ -45,14 +51,15 @@ namespace Modules.BattleModule.Managers
             _scene = scene;
         }
 
-        public void HandleSelectActor(object sender, EventArgs e)
+        public void HandleSelectActor(object sender,int i)
         {
-           // var nextPlayer = _scene.EnemyActManager.Actors[e];
-           // _scene.CameraController.SelectNextActor(nextPlayer);
+            NowSelectedActor = i;
+           var nextPlayer = _scene.PlayerActManager.Actors[i];
+           _scene.CameraController.SelectNextActor(nextPlayer.Actor.transform);
         }
         private void HandleMovementClicked(object sender, EventArgs e)
         {
-            var battleActor = _scene.PlayerActManager.Actors[0];
+            var battleActor = _scene.PlayerActManager.Actors[NowSelectedActor];
             _grid.HighlightRelativeCells(battleActor.Placement, 5);
         }
 
