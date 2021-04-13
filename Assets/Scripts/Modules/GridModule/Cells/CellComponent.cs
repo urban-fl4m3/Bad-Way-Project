@@ -6,7 +6,7 @@ namespace Modules.GridModule.Cells
     public class CellComponent : MonoBehaviour
     {
         public readonly int Tint = Shader.PropertyToID("_Tint");
-        
+
         public MeshRenderer MeshRenderer => _meshRenderer;
         [SerializeField] private MeshRenderer _meshRenderer;
 

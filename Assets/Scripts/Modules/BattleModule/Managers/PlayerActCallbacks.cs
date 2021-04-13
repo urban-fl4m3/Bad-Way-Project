@@ -61,7 +61,5 @@ namespace Modules.BattleModule.Managers
             var enemyActor = _scene.EnemyActManager.Actors;
             _grid.HighlightEnemyCells(enemyActor);
         }
-        
-        //private void HandleMoveCell(object sender, even)
     }
 }

@@ -48,6 +48,13 @@ namespace Modules.GridModule.Math
                 currentStep++;
             }
 
+            Debug.Log("&");
+            foreach (Cell cell1 in result)
+            {
+                
+                Debug.Log(cell1.Row+" "+cell1.Column);
+            }
+
             return result;
         }
         

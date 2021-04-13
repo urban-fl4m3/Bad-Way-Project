@@ -37,6 +37,7 @@ namespace Modules.GridModule
         public void HighlightRelativeCells(Cell cell, int steps)
         {
             UnHighlightGrid();
+            Debug.Log(cell.Row+" "+cell.Column);
             var bfs = new GridBFS(this);
             var result = bfs.Search(cell, steps);
             
