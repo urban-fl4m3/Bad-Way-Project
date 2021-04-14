@@ -6,6 +6,8 @@ namespace Modules.ActorModule
 {
     public class Actor : MonoBehaviour
     {
+        public Transform Transform => transform;
+        
         private readonly TypeContainer _container = new TypeContainer();
         
         private void Awake()

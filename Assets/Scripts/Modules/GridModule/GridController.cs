@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Modules.BattleModule;
-using Modules.BattleModule.Factories;
 using Modules.GridModule.Args;
 using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
@@ -11,86 +9,64 @@ namespace Modules.GridModule
 {
     public class GridController
     {
-        public event EventHandler<CellSelectionEventArgs> MoveCell;
-        public event EventHandler AtackCell;
-
-        public readonly int Rows;
-        public readonly int Columns;
+        public event EventHandler<CellSelectionEventArgs> CellSelected;
         
-        private readonly Cell[,] _cells;
-
         public Cell this[int row, int column] => _cells[row, column];
         public Cell this[Vector2Int cellIndices] => _cells[cellIndices.x, cellIndices.y];
+        
+        private readonly Cell[,] _cells;
+        private readonly GridBFS _bfs;
 
-        public GridController(int columns, int rows, Cell[,] cells)
+        private int _stateToken;
+        
+        public GridController(int rows, int columns, Cell[,] cells)
         {
-            Columns = columns;
-            Rows = rows;
             _cells = cells;
 
             foreach (var cell in _cells)
             {
-               // cell.CellSelected += HandleCellSelected;
+               cell.CellSelected += HandleCellSelected;
             }
+
+            _bfs = new GridBFS(_cells, rows, columns);
         }
 
-        public void HighlightRelativeCells(Cell cell, int steps)
+        public void SetStateToken(int stateToken)
         {
-            UnHighlightGrid();
-            Debug.Log(cell.Row+" "+cell.Column);
-            var bfs = new GridBFS(this);
-            var result = bfs.Search(cell, steps);
-            
-            foreach (var cellToHighlight in result)
-            {
-                cellToHighlight.CellComponent.MeshCollider.enabled = true;
-                cellToHighlight.CellSelected += HandleCellMoveSelected;
-                cellToHighlight.Highlight(Color.white);
-            }
+            _stateToken = stateToken;
         }
 
-        public void HighlightEnemyCells(IReadOnlyList<BattleActor> readOnlyList)
+        public void HighlightRelativeCells(Cell cell, int steps, Color color)
         {
-            UnHighlightGrid();
-            foreach (var Enemy in readOnlyList)
-            {
-                Enemy.Placement.CellComponent.MeshCollider.enabled = true;
-                Enemy.Placement.CellSelected += HandleCellAtackSelected;
-                Enemy.Placement.Highlight(Color.red);
-            }
+            var result = _bfs.Search(cell, steps);
+            HighlightCells(result, color);
+        }
+
+        public void HighlightCells(IEnumerable<Cell> cells, Color color)
+        {
+            RemoveCellHighlights();
             
+            foreach (var cell in cells)
+            {
+                cell.CellComponent.MeshCollider.enabled = true;
+                cell.CellSelected += HandleCellSelected;
+                cell.Highlight(color);
+            }
         }
        
-        public void UnHighlightGrid()
+        public void RemoveCellHighlights()
         {
             foreach (var cell in _cells)
             {
                 cell.CellComponent.MeshCollider.enabled = false;
                 cell.CellSelected -= HandleCellSelected;
-                cell.CellSelected -= HandleCellMoveSelected;
-                cell.CellSelected -= HandleCellAtackSelected;
                 cell.Highlight();
             }
         }
        
-        private void HandleCellSelected(object sender, CellSelectionEventArgs e)
+        private void HandleCellSelected(object sender, CellEventArgs e)
         {
-            MoveCell?.Invoke(this, e);
-            Debug.Log("tap");
+            CellSelected?.Invoke(this, new CellSelectionEventArgs(e, _stateToken));
         }
-      
-        private void HandleCellMoveSelected(object sender, CellSelectionEventArgs e)
-        {
-            MoveCell?.Invoke(this,e);
-            Debug.Log("move here");
-        }
-      
-        private void HandleCellAtackSelected(object sender, CellSelectionEventArgs e)
-        {
-            AtackCell?.Invoke(this,e);
-            Debug.Log("atack this");
-        }
-
-       
     }
 }

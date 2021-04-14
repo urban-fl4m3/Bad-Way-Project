@@ -6,16 +6,17 @@ namespace Modules.GridModule.Cells
     public class CellComponent : MonoBehaviour
     {
         public readonly int Tint = Shader.PropertyToID("_Tint");
+        
+        public event EventHandler MousePressed;
 
         public MeshRenderer MeshRenderer => _meshRenderer;
         [SerializeField] private MeshRenderer _meshRenderer;
 
-        public event EventHandler MousePressed;
-        
+        public MeshCollider MeshCollider => _meshCollider;
+        [SerializeField] private MeshCollider _meshCollider;
+
         public Vector3 Size => _meshRenderer.bounds.size;
 
-        public MeshCollider MeshCollider=>_meshCollider;
-        [SerializeField] private MeshCollider _meshCollider;
         
         public void ResetMaterial()
         {

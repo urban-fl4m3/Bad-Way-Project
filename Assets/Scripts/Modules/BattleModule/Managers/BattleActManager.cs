@@ -1,33 +1,36 @@
 ﻿using System.Collections.Generic;
+using Modules.GridModule;
+using Modules.TickModule;
 
 namespace Modules.BattleModule.Managers
 {
-    public class BattleActManager
+    public abstract class BattleActManager
     {
+        public IReadOnlyList<BattleActor> Actors => _actors;
+
+        protected readonly ITickManager _tickManager;
+        protected readonly GridController _grid;
+
         private readonly List<BattleActor> _actors;
-        private readonly IActCallbacks _actCallbacks;
 
-        public  IReadOnlyList<BattleActor> Actors => _actors;
-
-        public BattleActManager(List<BattleActor> actors, IActCallbacks actCallbacks)
+        public BattleActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager)
         {
+            _grid = grid;
             _actors = actors;
-            _actCallbacks = actCallbacks;
+            _tickManager = tickManager;
         }
 
         public void ActStart()
         {
-            _actCallbacks.ActStart();
+            OnActStart();
         }
 
         public void ActEnd()
         {
-            _actCallbacks.ActEnd();
+            OnActEnd();
         }
 
-        public void SetScene(BattleScene scene)
-        {
-            _actCallbacks.SetScene(scene);
-        }
+        protected abstract void OnActStart();
+        protected abstract void OnActEnd();
     }
 }

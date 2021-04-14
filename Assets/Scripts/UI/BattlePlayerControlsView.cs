@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Common;
 using Modules.ActorModule;
+using Modules.BattleModule;
 using Modules.BattleModule.Stats;
 using UI.Components;
 using UnityEngine;
@@ -25,14 +26,14 @@ namespace UI
         //У нас должны быть кнопки в списке, т.к. ты никогда не знаешь сколько у нас персонажей в бою
         //их инициализация должна проходить в отдельном методе        
         private UnityPool<NamedIconComponent> _buttonPool;
-        private AvailableBattleStatsProvider _availableBattleStatsProvider;
+        private List<BattleActor> _playerActors;
         //Меняем awake на свой метод, для большего контроля юнити объектом
         //Нужно передать не просто константу, а вытащить количество текущих активных юнитов у игрока
         //А скорее всего даже массив с данными, чтобы мы могли настраивать еще и иконки
-        public void Initialize(List<ActorDataProvider> actorDataProviders, AvailableBattleStatsProvider actorsProvider)
+        public void Initialize(List<ActorDataProvider> actorDataProviders, List<BattleActor> playerActors)
         {
             var actorsCount = actorDataProviders.Count;
-            _availableBattleStatsProvider = actorsProvider;
+            _playerActors = playerActors;
             _moveButton.onClick.AddListener(OnMovementButtonClick);    
             _attackButton.onClick.AddListener(OnAtackButtonClick);
             _hideButton.onClick.AddListener(OnHideButtonClick);
@@ -53,12 +54,14 @@ namespace UI
                 //Проверь что будет, если перенести index = i или вообще использовать само i внутри делегата,
                 //чтобы понять, как работает C# в таком случае
                 var index = i;
-                buttonInstance.Icon.sprite = actorDataProviders[index].Icon;
-                buttonInstance.Name.text = actorDataProviders[index].Name;
+
+                var actorName = actorDataProviders[index].name;
+                var actorIcon = actorDataProviders[index].Icon;
                 
-                buttonInstance.Button.onClick.AddListener(() =>
+                buttonInstance.SetContext(actorName, "", actorIcon);
+                buttonInstance.AddButtonListener((sender, args) =>
                 {
-                    OnActorSelectClick(index);
+                    OnActorSelectClick(index);   
                 });
                 
                 //Здесь мы должны сетить иконку актера исходя из данных, переданных методу Initialize

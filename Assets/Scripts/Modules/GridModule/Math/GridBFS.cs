@@ -8,10 +8,14 @@ namespace Modules.GridModule.Math
 {
     public class GridBFS
     {
-        private readonly GridController _grid;
+        private readonly Cell[,] _grid;
+        private readonly int _rows;
+        private readonly int _columns;
         
-        public GridBFS(GridController grid)
+        public GridBFS(Cell[,] grid, int rows, int columns)
         {
+            _rows = rows;
+            _columns = columns;
             _grid = grid;
         }
         
@@ -21,7 +25,7 @@ namespace Modules.GridModule.Math
             var toVisit = new List<Cell> {cell};
             var result = new List<Cell>();
 
-            var alreadyVisited = new bool[_grid.Rows, _grid.Columns];
+            var alreadyVisited = new bool[_rows, _columns];
             alreadyVisited[cell.Row, cell.Column] = true;
             
             while (currentStep < steps)
@@ -49,8 +53,7 @@ namespace Modules.GridModule.Math
         private void ProcessCell(int row, int column, bool[,] alreadyVisited, ICollection<Cell> visited)
         {
             
-            if (column < 0 || column >= _grid.Columns ||  row < 0 || row >= _grid.Rows ||
-                alreadyVisited[row, column])
+            if (column < 0 || column >= _columns ||  row < 0 || row >= _rows || alreadyVisited[row, column])
             {
                 return;
             }

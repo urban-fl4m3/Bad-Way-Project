@@ -2,12 +2,12 @@ using Modules.ActorModule;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
+using Modules.CameraModule;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
 using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Modules.InitializationModule
 {
@@ -30,7 +30,7 @@ namespace Modules.InitializationModule
             var battleScene = battleSceneFactory.CreateBattleScene(battlePlayerControlsView,_cameraController);
             
             
-            battleScene.StartBattle();
+            battleScene.StartBattle(); 
         }
 
         private static Player GetPlayer()
