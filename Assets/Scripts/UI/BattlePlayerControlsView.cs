@@ -14,11 +14,14 @@ namespace UI
     {
         public event EventHandler MovementClicked;
         public event EventHandler AtackClicked;
+        public event EventHandler<Actor> ActorClick;
         public event EventHandler<int> SelectedClick;
 
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _attackButton;
         [SerializeField] private Button _hideButton;
+
+        [SerializeField] private GameObject _enemyWindow;
         //Префаб кнопки. Будем создавать столько, сколько нам нужно
         [SerializeField] private Transform _iconsParent;
         [SerializeField] private NamedIconComponent _actorSelectorButton;
@@ -30,6 +33,14 @@ namespace UI
         //Меняем awake на свой метод, для большего контроля юнити объектом
         //Нужно передать не просто константу, а вытащить количество текущих активных юнитов у игрока
         //А скорее всего даже массив с данными, чтобы мы могли настраивать еще и иконки
+
+        public void SubscribeEnemy(IEnumerable<BattleActor> enemyActor)
+        {
+            foreach (var actor in enemyActor)
+            {
+                actor.Actor.ActorSelect += OnEnemyActorClick;
+            }
+        }
         public void Initialize(List<ActorDataProvider> actorDataProviders, List<BattleActor> playerActors)
         {
             var actorsCount = actorDataProviders.Count;
@@ -81,6 +92,11 @@ namespace UI
             //_buttonPool.Warm(2);
         }
 
+        private void OnEnemyActorClick(object sender, Actor e)
+        {
+            _enemyWindow.SetActive(true);
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -112,7 +128,5 @@ namespace UI
         {
             
         }
-        
-
     }
 }

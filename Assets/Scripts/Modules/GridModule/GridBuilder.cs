@@ -31,6 +31,7 @@ namespace Modules.GridModule
                         Quaternion.Euler(new Vector3(90, 0 ,0)), _gridParent);
                     var cell = new Cell(cellInstance, row, column);
                     cells[row, column] = cell;
+                    cell.IsEmpty = true;
                 }
             }
 

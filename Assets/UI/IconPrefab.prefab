@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 3561450230242465145}
   - component: {fileID: 3561450230242465144}
   - component: {fileID: 3561450230242465151}
+  - component: {fileID: 5617728387628293858}
   m_Layer: 5
   m_Name: IconPrefab
   m_TagString: Untagged
@@ -217,10 +218,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _name: {fileID: 3561450230272388495}
+  _state: {fileID: 7745650794826933671}
   _icon: {fileID: 3561450230242465145}
   _button: {fileID: 3561450230242465144}
   statWindow: {fileID: 6144233189104404356}
-  _state: {fileID: 7745650794826933671}
+--- !u!65 &5617728387628293858
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3561450230242465146}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 120, y: 120, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3561450230272388489
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +327,7 @@ GameObject:
   - component: {fileID: 5284908809072865432}
   - component: {fileID: 6608696553047766421}
   - component: {fileID: 6901343933062766318}
+  - component: {fileID: 990088346838946048}
   m_Layer: 5
   m_Name: StatWindow
   m_TagString: Untagged
@@ -378,3 +393,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!65 &990088346838946048
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6144233189104404356}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 120, y: 180, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

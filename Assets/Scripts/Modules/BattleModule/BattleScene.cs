@@ -1,8 +1,10 @@
-﻿using Modules.BattleModule.Helpers;
+﻿using System;
+using Modules.BattleModule.Helpers;
 using Modules.BattleModule.Managers;
 using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.GridModule.Args;
+using UnityEngine;
 
 namespace Modules.BattleModule
 {
@@ -22,12 +24,14 @@ namespace Modules.BattleModule
             CameraController = cameraController;
 
             Grid.CellSelected += HandleCellSelected;
+            playerActManager.OppositeActors += () => enemyActManager.Actors;
+            enemyActManager.OppositeActors += () => playerActManager.Actors;
         }
 
         private void HandleCellSelected(object sender, CellSelectionEventArgs e)
         {
             var state = e.StateToken;
-            
+
             switch (state)
             {
                 case (int) BattlePlayerGridStates.WaitingForMove:
@@ -46,7 +50,7 @@ namespace Modules.BattleModule
 
         private void PlayerMove(int row, int column)
         {
-            var nowPlayerSelect = 0;
+            var nowPlayerSelect = PlayerActManager.ActiveUnit;
 
             var cell = Grid[row, column];
             PlayerActManager.Actors[nowPlayerSelect].Actor.Transform.position = cell.Component.transform.position;

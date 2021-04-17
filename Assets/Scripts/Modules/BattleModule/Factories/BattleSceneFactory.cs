@@ -46,7 +46,7 @@ namespace Modules.BattleModule.Factories
 
             var playerActorsManager =
                 CreatePlayerManager(gridController, _tickManager, battlePlayerControlsView, cameraController);
-            var enemyActorsManager = CreateEnemyManager(gridController);
+            var enemyActorsManager = CreateEnemyManager(gridController,battlePlayerControlsView);
 
             var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager,
                 cameraController);
@@ -56,7 +56,7 @@ namespace Modules.BattleModule.Factories
 
         //Add factory for battle actors. Why? Incapsulate instantiate object for simplest actor creation while 
         //battle runs. For example: enemy reinforcement.
-        private BattleActManager CreateEnemyManager(GridController grid)
+        private BattleActManager CreateEnemyManager(GridController grid, BattlePlayerControlsView battlePlayerControlsView)
         {
             var enemyActors = new List<BattleActor>();
             foreach (var levelActor in _levelDataProvider.EnemyActorsData)
@@ -73,10 +73,10 @@ namespace Modules.BattleModule.Factories
                 {
                     Placement = grid[levelActor.Cell]
                 };
-
+               
                 enemyActors.Add(battleActor);
             }
-
+            battlePlayerControlsView.SubscribeEnemy(enemyActors);
             var enemyManager = new EnemyActManager(grid, enemyActors, _tickManager);
             return enemyManager;
         }

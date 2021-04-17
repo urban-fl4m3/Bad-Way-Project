@@ -14,8 +14,6 @@ namespace Modules.BattleModule.Managers
     {
         private readonly BattlePlayerControlsView _battlePlayerControlsView;
         private readonly CameraController _cameraController;
-
-        private int _currentlySelectedActorIndex;
         
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
             BattlePlayerControlsView battlePlayerControlsView, CameraController cameraController) 
@@ -42,21 +40,22 @@ namespace Modules.BattleModule.Managers
         }
         private void HandleSelectActor(object sender, int actorIndex)
         {
-            _currentlySelectedActorIndex = actorIndex;
+            ActiveUnit = actorIndex;
             var nextPlayer = Actors[actorIndex];
             _cameraController.PointAtActor(nextPlayer.Actor.transform);
         }
 
         private void HandleMovementClicked(object sender, EventArgs e)
         {
-            var battleActor = Actors[_currentlySelectedActorIndex];
+            var battleActor = Actors[ActiveUnit];
             _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForMove);
             _grid.HighlightRelativeCells(battleActor.Placement, 5, Color.white);
         }
 
         private void HandleAtackClicked(object sender, EventArgs e)
         {
-            var enemyActor = Actors;
+            var enemyActor = OnOppositeActors();
+            
             _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForAttack);
             _grid.HighlightCells(enemyActor.Select(x => x.Placement), Color.red);
         }

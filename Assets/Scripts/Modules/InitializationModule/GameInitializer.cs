@@ -36,9 +36,8 @@ namespace Modules.InitializationModule
         private static Player GetPlayer()
         {
             var playerSwatGuyData = new PlayerActorData(0, 1, new [] {1, 1, 1, 1, 2});
-            var playerSwatGuyData1 = new PlayerActorData(0, 3, new [] {7, 3, 4, 5, 5});
+            var playerSwatGuyData1 = new PlayerActorData(0, 3, new[] {7, 3, 4, 5, 5});
 
-            
             var playerActorsCollection = new PlayerActorsCollection();
             playerActorsCollection.AddActorData(playerSwatGuyData);
             playerActorsCollection.AddActorData(playerSwatGuyData1);

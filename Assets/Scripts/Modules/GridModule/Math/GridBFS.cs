@@ -53,7 +53,8 @@ namespace Modules.GridModule.Math
         private void ProcessCell(int row, int column, bool[,] alreadyVisited, ICollection<Cell> visited)
         {
             
-            if (column < 0 || column >= _columns ||  row < 0 || row >= _rows || alreadyVisited[row, column])
+            if (column < 0 || column >= _columns ||  row < 0 || row >= _rows || alreadyVisited[row, column]
+                || !_grid[row,column].IsEmpty)
             {
                 return;
             }
