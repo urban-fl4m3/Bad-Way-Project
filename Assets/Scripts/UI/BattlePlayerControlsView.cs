@@ -41,6 +41,7 @@ namespace UI
                 actor.Actor.ActorSelect += OnEnemyActorClick;
             }
         }
+        
         public void Initialize(List<ActorDataProvider> actorDataProviders, List<BattleActor> playerActors)
         {
             var actorsCount = actorDataProviders.Count;

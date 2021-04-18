@@ -1,10 +1,8 @@
-﻿using System;
-using Modules.BattleModule.Helpers;
+﻿using Modules.BattleModule.Helpers;
 using Modules.BattleModule.Managers;
 using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.GridModule.Args;
-using UnityEngine;
 
 namespace Modules.BattleModule
 {
@@ -24,6 +22,7 @@ namespace Modules.BattleModule
             CameraController = cameraController;
 
             Grid.CellSelected += HandleCellSelected;
+            
             playerActManager.OppositeActors += () => enemyActManager.Actors;
             enemyActManager.OppositeActors += () => playerActManager.Actors;
         }

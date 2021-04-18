@@ -8,6 +8,7 @@ namespace Modules.ActorModule
     public class Actor : MonoBehaviour
     {
         public event EventHandler<Actor> ActorSelect;
+        
         public Transform Transform => transform;
         
         private readonly TypeContainer _container = new TypeContainer();
@@ -19,13 +20,15 @@ namespace Modules.ActorModule
             {
                 actorComponent.Initialize(_container);
             }
-            _container.Resolve<ActorCollisionActorComponent>().ActorSelect += OnActiorClick;
+            
+            _container.Resolve<ActorCollisionComponent>().ActorSelected += OnActorClick;
         }
 
-        private void OnActiorClick(object sender, Actor e)
+        private void OnActorClick(object sender, Actor e)
         {
             ActorSelect?.Invoke(this,this);
         }
+        
         public T GetActorComponent<T>()
             where T : class, IActorComponent
         {

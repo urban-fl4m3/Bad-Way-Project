@@ -8,7 +8,7 @@ namespace Modules.ActorModule.Components
     {
         public void Initialize(TypeContainer container)
         {
-            container.Add<ActorCollisionActorComponent>(this); 
+            container.Add<ActorCollisionComponent>(this); 
         }
     }
 }

@@ -4,19 +4,20 @@ using UnityEngine;
 
 namespace Modules.ActorModule.Components
 {
-    public class ActorCollisionActorComponent : MonoBehaviour, IActorComponent
+    public class ActorCollisionComponent : MonoBehaviour, IActorComponent
     {
-        public event EventHandler<Actor> ActorSelect;
+        public event EventHandler<Actor> ActorSelected;
+        
         [SerializeField] private Collider _collider;
         
         public void Initialize(TypeContainer container)
         {
-            container.Add<ActorCollisionActorComponent>(this);    
+            container.Add<ActorCollisionComponent>(this);    
         }
 
         private void OnMouseDown()
         {
-            ActorSelect?.Invoke(this,null);
+            ActorSelected?.Invoke(this,null);
         }
     }
 }
