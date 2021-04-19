@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EditorMod;
 using Modules.ActorModule;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Managers;

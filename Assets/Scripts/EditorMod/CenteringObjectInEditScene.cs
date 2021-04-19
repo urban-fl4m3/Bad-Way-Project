@@ -1,26 +1,21 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-[ExecuteInEditMode]
-public class CenteringObjectInEditScene : MonoBehaviour
+namespace EditorMod
 {
-    private Vector3 _positon => transform.position;
-    public int magnitudeValue = 1;
-
-    private void OnEnable()
+    public class CenteringObjectInEditScene : MonoBehaviour
     {
-        if (Application.isEditor)
+        private Vector3 _position => transform.position;
+        
+        [SerializeField] private int _magnitudeValue = 1;
+        
+        public void OnValidate()
         {
-            Destroy(this);
+            var position = new Vector3(
+                (int) (_position.x/_magnitudeValue),
+                (int) (_position.y/_magnitudeValue),
+                (int) (_position.z/_magnitudeValue));
+            
+            transform.position = position*_magnitudeValue;
         }
     }
-
-    public void Update()
-   {
-     var position = new Vector3((int) (_positon.x/magnitudeValue), (int) (_positon.y/magnitudeValue), (int) (_positon.z/magnitudeValue));
-     transform.position = position*magnitudeValue;
-   }
 }
