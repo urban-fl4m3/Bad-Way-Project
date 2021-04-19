@@ -20,19 +20,12 @@ namespace UI
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _attackButton;
         [SerializeField] private Button _hideButton;
-
         [SerializeField] private GameObject _enemyWindow;
-        //Префаб кнопки. Будем создавать столько, сколько нам нужно
         [SerializeField] private Transform _iconsParent;
         [SerializeField] private NamedIconComponent _actorSelectorButton;
         
-        //У нас должны быть кнопки в списке, т.к. ты никогда не знаешь сколько у нас персонажей в бою
-        //их инициализация должна проходить в отдельном методе        
         private UnityPool<NamedIconComponent> _buttonPool;
         private List<BattleActor> _playerActors;
-        //Меняем awake на свой метод, для большего контроля юнити объектом
-        //Нужно передать не просто константу, а вытащить количество текущих активных юнитов у игрока
-        //А скорее всего даже массив с данными, чтобы мы могли настраивать еще и иконки
 
         public void SubscribeEnemy(IEnumerable<BattleActor> enemyActor)
         {
@@ -46,25 +39,17 @@ namespace UI
         {
             var actorsCount = actorDataProviders.Count;
             _playerActors = playerActors;
+            
             _moveButton.onClick.AddListener(OnMovementButtonClick);    
             _attackButton.onClick.AddListener(OnAtackButtonClick);
             _hideButton.onClick.AddListener(OnHideButtonClick);
 
-            //Первая перегрузка конструктора, но если мы захотим создавать иконки, то лучше использовать следующую
-            //_buttonPool = new UnityPool<Button>(_actorSelectorButton, actorsCount);
             _buttonPool = new UnityPool<NamedIconComponent>(_actorSelectorButton);
             _buttonPool.ToParent(_iconsParent);
 
             for (var i = 0; i < actorsCount; i++)
             {
                 var buttonInstance = _buttonPool.Instantiate();
-                
-                //buttonInstance.State.text = _availableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats
-                
-                //Важно создать новый int перед вызовом метода в делегате, иначе по правилм C#
-                //у тебя всегда будет i == Count самого списка. Отвязывать индекс нужно делегироания!!
-                //Проверь что будет, если перенести index = i или вообще использовать само i внутри делегата,
-                //чтобы понять, как работает C# в таком случае
                 var index = i;
 
                 var actorName = actorDataProviders[index].name;
@@ -75,22 +60,7 @@ namespace UI
                 {
                     OnActorSelectClick(index);   
                 });
-                
-                //Здесь мы должны сетить иконку актера исходя из данных, переданных методу Initialize
-                //Хранить иконку можем в классе данных актера
             }
-
-            //Метод для создания объектов в пуле из переданного в него префаба
-            //Трансформ родителя нужно указывать заранее 
-            //_buttonPool.Instantiate();
-            
-            //Метод для ресайза пула. Все созданные элементы, не входящие в новый размер будут скрыты
-            //buttonPool.Resize(2);
-            
-            //Метод для подогрева пула к определенному размеру. Он заполнит пул, пока его размер не будет достигнут
-            //указанной величины. Если величина меньше размера пула, то будет создано 0 объектов. Метод возвращает кол-во
-            //созданных объектов в пуле
-            //_buttonPool.Warm(2);
         }
 
         private void OnEnemyActorClick(object sender, Actor e)

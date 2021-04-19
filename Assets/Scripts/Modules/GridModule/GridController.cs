@@ -36,6 +36,16 @@ namespace Modules.GridModule
             _stateToken = stateToken;
         }
 
+        public void FillBuildingCell(List<Transform> building)
+        {
+            foreach (var build in building)
+            {
+                var position = build.transform.position;
+                var pos = new Vector2Int((int)position.x, (int)position.z)/2;
+                _cells[pos.y, pos.x].IsEmpty = false;
+            }
+        }
+
         public void HighlightRelativeCells(Cell cell, int steps, Color color)
         {
             var result = _bfs.Search(cell, steps);
@@ -63,7 +73,7 @@ namespace Modules.GridModule
                 cell.Highlight();
             }
         }
-       
+
         private void HandleCellSelected(object sender, CellEventArgs e)
         {
             CellSelected?.Invoke(this, new CellSelectionEventArgs(e, _stateToken));

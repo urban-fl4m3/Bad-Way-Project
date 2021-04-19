@@ -18,14 +18,18 @@ namespace Modules.InitializationModule
         [SerializeField] private AvailableActorsProvider _actorsProvider;
         [SerializeField] private BattlePlayerControlsView battlePlayerControlsView;
         [SerializeField] private CameraController _cameraController;
+        [SerializeField] private GameConstructions _gameConstructions;
 
+        
         private void Start()
         {
+            _gameConstructions.BuildingInGrid(_levelData);
+            
             var player = GetPlayer();
             var tick = GetTickManager();
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
-                player.ActorsCollection, _actorsProvider);
+                player.ActorsCollection, _actorsProvider, _gameConstructions);
             
             var battleScene = battleSceneFactory.CreateBattleScene(battlePlayerControlsView,_cameraController);
             
