@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 6957184481332178488}
   - component: {fileID: 7951885688618595420}
   - component: {fileID: 7824978297944394997}
+  - component: {fileID: -528422034367101691}
   m_Layer: 0
   m_Name: SwatGuy
   m_TagString: Untagged
@@ -506,7 +507,7 @@ Animator:
   m_GameObject: {fileID: 1827874416060679507}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: fc26bc5fb07694948afc833c2afc1fb4, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 94616c81b00b2fc4ea1fd086189299b0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -567,6 +568,18 @@ CapsuleCollider:
   m_Height: 1.8200945
   m_Direction: 1
   m_Center: {x: 0.000000029802322, y: 0.8722823, z: 0}
+--- !u!114 &-528422034367101691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827874416060679507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 267e6a072ad34c3babf8f5390a5dab0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1916707519987951112
 GameObject:
   m_ObjectHideFlags: 0

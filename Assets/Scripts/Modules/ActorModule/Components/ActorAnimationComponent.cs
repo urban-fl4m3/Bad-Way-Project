@@ -3,13 +3,15 @@ using UnityEngine;
 
 namespace Modules.ActorModule.Components
 {
-    public class ActorAnimationActorComponent : MonoBehaviour, IActorComponent
+    public class ActorAnimationComponent : MonoBehaviour, IActorComponent
     {
         [SerializeField] private Animator _animator;
+
+        public Animator Animator => _animator;
         
         public void Initialize(TypeContainer container)
         {
-            container.Add<ActorAnimationActorComponent>(this);    
+            container.Add<ActorAnimationComponent>(this);    
         }
     }
 }
