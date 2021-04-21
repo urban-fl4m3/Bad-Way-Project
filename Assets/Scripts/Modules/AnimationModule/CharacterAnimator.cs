@@ -1,5 +1,4 @@
 ﻿using Modules.ActorModule.Components;
-using UnityEngine;
 
 namespace Modules.AnimationModule
 {

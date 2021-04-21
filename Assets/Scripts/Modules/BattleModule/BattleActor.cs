@@ -6,16 +6,14 @@ using Modules.BattleModule.Stats;
 using Modules.BattleModule.Stats.Helpers;
 using Modules.BattleModule.Stats.Models;
 using Modules.GridModule.Cells;
-using UnityEngine;
 
 namespace Modules.BattleModule
 {
     public class BattleActor
     {
         public readonly Actor Actor;
-        public StatsContainer Stats { get; }
-
-        public CharacterAnimator CharacterAnimator;
+        public readonly StatsContainer Stats;
+        public readonly CharacterAnimator Animator;
         
         public BattleActor(Actor actor, IReadOnlyDictionary<PrimaryStat, int> primaryStats,
             IReadOnlyCollection<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats)
@@ -23,7 +21,7 @@ namespace Modules.BattleModule
             Actor = actor;
             Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
 
-            CharacterAnimator = new CharacterAnimator(actor.GetActorComponent<ActorAnimationComponent>());
+            Animator = new CharacterAnimator(actor.GetActorComponent<ActorAnimationComponent>());
         }
 
         public Cell Placement

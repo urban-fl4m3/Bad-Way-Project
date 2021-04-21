@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Modules.BattleModule.Helpers;
 using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.TickModule;
 using UI;
-using UnityEngine;
 
 namespace Modules.BattleModule.Managers
 {
-    public class PlayerActManager : BattleActManager
+    public partial class PlayerActManager : BattleActManager
     {
         private readonly BattlePlayerControlsView _battlePlayerControlsView;
         private readonly CameraController _cameraController;
@@ -25,41 +22,59 @@ namespace Modules.BattleModule.Managers
 
         protected override void OnActStart()
         {
+            _grid.CellSelected += HandleCellSelected;
+            
             _battlePlayerControlsView.MovementClicked += HandleMovementClicked;
-            _battlePlayerControlsView.AtackClicked += HandleAtackClicked;
+            _battlePlayerControlsView.AtackClicked += HandleAttackClicked;
             _battlePlayerControlsView.SelectedClick += HandleSelectActor;
             _battlePlayerControlsView.Show();
         }
 
         protected override void OnActEnd()
         {
+            _grid.CellSelected -= HandleCellSelected;
+            
             _battlePlayerControlsView.MovementClicked -= HandleMovementClicked;
-            _battlePlayerControlsView.AtackClicked -= HandleAtackClicked; 
+            _battlePlayerControlsView.AtackClicked -= HandleAttackClicked; 
             _battlePlayerControlsView.SelectedClick -= HandleSelectActor;
             _battlePlayerControlsView.Hide();
         }
-        private void HandleSelectActor(object sender, int actorIndex)
-        {
-            ActiveUnit = actorIndex;
-            _grid.RemoveCellHighlights();
-            var nextPlayer = Actors[actorIndex];
-            _battlePlayerControlsView.SetActiveAllButton(IsActorActive(Actors[actorIndex]));
-            _cameraController.PointAtActor(nextPlayer.Actor.transform);
-        }
 
-        private void HandleMovementClicked(object sender, EventArgs e)
+        private void PlayerMove(int row, int column)
         {
-            var battleActor = Actors[ActiveUnit];
-            _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForMove);
-            _grid.HighlightRelativeCells(battleActor.Placement, 5, Color.white);
-        }
-
-        private void HandleAtackClicked(object sender, EventArgs e)
-        {
-            var enemyActor = OnOppositeActors();
+            var cell = _grid[row, column];
+            var selectedActor = Actors[ActiveUnit];
+            var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigation>();
             
-            _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForAttack);
-            _grid.HighlightCells(enemyActor.Select(x => x.Placement), Color.red);
+            actorNavMesh.DestinationReach += OnDestinationReach;
+            selectedActor.Animator.ChangeMovingState(true);
+
+            actorNavMesh.SetNextCell(cell);
+            
+            RemoveActiveActor(selectedActor);
+            selectedActor.Placement = cell;
+            
+            UpdateControlView(selectedActor);
+            
+            _grid.RemoveCellHighlights();
+            
+            void OnDestinationReach(object sender, EventArgs e)
+            {
+                selectedActor.Animator.ChangeMovingState(false);
+                actorNavMesh.DestinationReach -= OnDestinationReach;
+            }
+        }
+
+        private void PlayerAttack(int row, int column)
+        {
+            
+        }
+        
+
+        private void UpdateControlView(BattleActor actor)
+        {
+            var isActive = IsActorActive(actor);
+            _battlePlayerControlsView.SetActiveAllButton(isActive);
         }
     }
 }

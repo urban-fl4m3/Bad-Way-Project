@@ -29,62 +29,9 @@ namespace Modules.BattleModule
             CameraController = cameraController;
             BattlePlayerControlsView = battlePlayerControlsView;
 
-            Grid.CellSelected += HandleCellSelected;
             
             playerActManager.OppositeActors += () => enemyActManager.Actors;
             enemyActManager.OppositeActors += () => playerActManager.Actors;
-        }
-
-        private void HandleCellSelected(object sender, CellSelectionEventArgs e)
-        {
-            var state = e.StateToken;
-
-            switch (state)
-            {
-                case (int) BattlePlayerGridStates.WaitingForMove:
-                {
-                    PlayerMove(e.Row, e.Column);
-                    break;  
-                }
-
-                case (int) BattlePlayerGridStates.WaitingForAttack:
-                {
-                    PlayerAtack(e.Row, e.Column);
-                    break;
-                }
-            }
-        }
-
-        private void PlayerMove(int row, int column)
-        {
-            var nowPlayerSelect = PlayerActManager.ActiveUnit;
-            var cell = Grid[row, column];
-            var actor = PlayerActManager.Actors[nowPlayerSelect].Actor;
-            var actorNavMesh = actor.GetActorComponent<ActorNavigation>();
-            var battleActor = PlayerActManager.Actors[nowPlayerSelect];
-            
-            actorNavMesh.DestinationReach += OnDestinationReach;
-            battleActor.CharacterAnimator.ChangeMovingState(true);
-
-            actorNavMesh.SetNextCell(cell);
-            
-            PlayerActManager.RemoveActiveActor(battleActor);
-            PlayerActManager.Actors[nowPlayerSelect].Placement = cell;
-            BattlePlayerControlsView.SetActiveAllButton(false);
-            
-            Grid.RemoveCellHighlights();
-            
-             void OnDestinationReach(object sender, EventArgs e)
-             {
-                 battleActor.CharacterAnimator.ChangeMovingState(false);
-                 actorNavMesh.DestinationReach -= OnDestinationReach;
-             }
-        }
-
-       
-        private void PlayerAtack(int row, int column)
-        {
-            
         }
 
         public void StartBattle()
