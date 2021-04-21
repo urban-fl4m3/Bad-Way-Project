@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using EditorMod;
 using Modules.ActorModule;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Managers;
@@ -20,7 +19,6 @@ namespace Modules.BattleModule.Factories
         private readonly AvailableBattleStatsProvider _battleStatsProvider;
         private readonly IReadOnlyList<PlayerActorData> _playerActorsCollection;
         private readonly AvailableActorsProvider _availableActorsProvider;
-        private readonly GameConstructions _gameConstructions;
 
         public AvailableActorsProvider AvailableActorsProvider => _availableActorsProvider;
 
@@ -30,14 +28,13 @@ namespace Modules.BattleModule.Factories
         //or why else this class should exists?
         public BattleSceneFactory(ITickManager tickManager, LevelDataProvider levelDataProvider,
             AvailableBattleStatsProvider battleStatsProvider, PlayerActorsCollection playerActorsCollection,
-            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions)
+            AvailableActorsProvider availableActorsProvider)
         {
             _tickManager = tickManager;
             _levelDataProvider = levelDataProvider;
             _battleStatsProvider = battleStatsProvider;
             _playerActorsCollection = playerActorsCollection;
             _availableActorsProvider = availableActorsProvider;
-            _gameConstructions = gameConstructions;
         }
 
         public BattleScene CreateBattleScene(BattlePlayerControlsView battlePlayerControlsView,
@@ -45,8 +42,6 @@ namespace Modules.BattleModule.Factories
         {
             var gridBuilder = new GridBuilder("Battle_Grid");
             var gridController = gridBuilder.Build(_levelDataProvider.GridData);
-
-            gridController.FillBuildingCell(_gameConstructions.ActualBuilding);
 
             var playerActorsManager =
                 CreatePlayerManager(gridController, _tickManager, battlePlayerControlsView, cameraController);
