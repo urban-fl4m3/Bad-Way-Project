@@ -13,5 +13,6 @@ namespace Modules.ActorModule.Components
         {
             container.Add<ActorAnimationComponent>(this);    
         }
+
     }
 }

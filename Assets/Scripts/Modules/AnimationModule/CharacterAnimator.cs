@@ -1,4 +1,5 @@
 ﻿using Modules.ActorModule.Components;
+using UnityEngine;
 
 namespace Modules.AnimationModule
 {
@@ -11,9 +12,9 @@ namespace Modules.AnimationModule
             _animationComponent = animationComponent;
         }
 
-        public void AnimateMoving()
+        public void ChangeMovingState(bool state)
         {
-            _animationComponent.Animator.SetBool("IsRunning", true);
+            _animationComponent.Animator.SetBool("IsRunning", state);
         }
 
         public void AnimateShooting()

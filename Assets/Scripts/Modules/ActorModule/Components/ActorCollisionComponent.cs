@@ -9,6 +9,7 @@ namespace Modules.ActorModule.Components
         public event EventHandler<Actor> ActorSelected;
         
         [SerializeField] private Collider _collider;
+        public Collider Collider => _collider;
         
         public void Initialize(TypeContainer container)
         {

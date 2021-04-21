@@ -15,7 +15,7 @@ namespace Modules.BattleModule
         public readonly Actor Actor;
         public StatsContainer Stats { get; }
 
-        private CharacterAnimator _characterAnimator;
+        public CharacterAnimator CharacterAnimator;
         
         public BattleActor(Actor actor, IReadOnlyDictionary<PrimaryStat, int> primaryStats,
             IReadOnlyCollection<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats)
@@ -23,7 +23,7 @@ namespace Modules.BattleModule
             Actor = actor;
             Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
 
-            _characterAnimator = new CharacterAnimator(Actor.GetActorComponent<ActorAnimationComponent>());
+            CharacterAnimator = new CharacterAnimator(actor.GetActorComponent<ActorAnimationComponent>());
         }
 
         public Cell Placement

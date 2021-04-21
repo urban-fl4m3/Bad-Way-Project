@@ -53,7 +53,7 @@ namespace Modules.BattleModule.Factories
             var enemyActorsManager = CreateEnemyManager(gridController,battlePlayerControlsView);
 
             var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager,
-                cameraController);
+                cameraController, battlePlayerControlsView);
             
             return battleScene;
         }

@@ -41,7 +41,9 @@ namespace Modules.BattleModule.Managers
         private void HandleSelectActor(object sender, int actorIndex)
         {
             ActiveUnit = actorIndex;
+            _grid.RemoveCellHighlights();
             var nextPlayer = Actors[actorIndex];
+            _battlePlayerControlsView.SetActiveAllButton(IsActorActive(Actors[actorIndex]));
             _cameraController.PointAtActor(nextPlayer.Actor.transform);
         }
 

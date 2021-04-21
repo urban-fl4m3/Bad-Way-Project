@@ -68,6 +68,13 @@ namespace UI
             _enemyWindow.SetActive(true);
         }
 
+        public void SetActiveAllButton(bool isActive)
+        {
+            _moveButton.interactable = isActive;
+            _attackButton.interactable = isActive;
+            _hideButton.interactable = isActive;
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);

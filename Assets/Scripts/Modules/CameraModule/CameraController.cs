@@ -1,18 +1,26 @@
+using System;
 using UnityEngine;
 
 namespace Modules.CameraModule
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] private float SmoothX;
-        [SerializeField] private float SmoothY;
+        [SerializeField] private float Smooth;
         [SerializeField] private Vector3 offset;
-    
+
         private Transform SelectedActor;
-    
-        private void FixedUpdate()
+        private Vector3 smoothPositon;
+
+        private void Start()
         {
-            transform.position = SelectedActor.position + offset;
+            smoothPositon = transform.position;
+        }
+
+        private void LateUpdate()
+        {
+           smoothPositon = Vector3.Lerp(smoothPositon, SelectedActor.position,
+                Smooth*Time.deltaTime);
+            transform.position = smoothPositon+ offset;
         }
 
         public void PointAtActor(Transform actor)

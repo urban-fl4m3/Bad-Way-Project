@@ -16,6 +16,7 @@ namespace Modules.BattleModule.Managers
         protected readonly GridController _grid;
 
         private readonly List<BattleActor> _actors;
+        private List<BattleActor> _activeActors;
 
         public BattleActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager)
         {
@@ -26,12 +27,30 @@ namespace Modules.BattleModule.Managers
 
         public void ActStart()
         {
+            _activeActors = new List<BattleActor>();
+            foreach (var vActor in _actors)
+            {
+                _activeActors.Add(vActor);
+            }
             OnActStart();
         }
 
         public void ActEnd()
         {
             OnActEnd();
+        }
+
+        public void RemoveActiveActor(BattleActor actor)
+        {
+            Debug.Log("Remove " +actor.Actor.name);
+            _activeActors.Remove(actor);
+        }
+
+        public bool IsActorActive(BattleActor actor)
+        {
+            if(_activeActors.Count==0)
+                return false;
+            return _activeActors.Contains(actor);
         }
 
         protected abstract void OnActStart();

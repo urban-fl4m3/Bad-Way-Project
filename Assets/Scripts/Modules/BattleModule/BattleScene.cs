@@ -1,8 +1,13 @@
-﻿using Modules.BattleModule.Helpers;
+﻿using System;
+using Modules.ActorModule.Components;
+using Modules.BattleModule.Helpers;
 using Modules.BattleModule.Managers;
 using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.GridModule.Args;
+using UI;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace Modules.BattleModule
 {
@@ -12,14 +17,17 @@ namespace Modules.BattleModule
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
         public readonly CameraController CameraController;
+        public readonly BattlePlayerControlsView BattlePlayerControlsView;
 
         public BattleScene(GridController grid,
-            BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController)
+            BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController,
+            BattlePlayerControlsView battlePlayerControlsView)
         {
             Grid = grid;
             PlayerActManager = playerActManager;
             EnemyActManager = enemyActManager;
             CameraController = cameraController;
+            BattlePlayerControlsView = battlePlayerControlsView;
 
             Grid.CellSelected += HandleCellSelected;
             
@@ -50,13 +58,30 @@ namespace Modules.BattleModule
         private void PlayerMove(int row, int column)
         {
             var nowPlayerSelect = PlayerActManager.ActiveUnit;
-
             var cell = Grid[row, column];
-            PlayerActManager.Actors[nowPlayerSelect].Actor.Transform.position = cell.Component.transform.position;
+            var actor = PlayerActManager.Actors[nowPlayerSelect].Actor;
+            var actorNavMesh = actor.GetActorComponent<ActorNavigation>();
+            var battleActor = PlayerActManager.Actors[nowPlayerSelect];
+            
+            actorNavMesh.DestinationReach += OnDestinationReach;
+            battleActor.CharacterAnimator.ChangeMovingState(true);
+
+            actorNavMesh.SetNextCell(cell);
+            
+            PlayerActManager.RemoveActiveActor(battleActor);
             PlayerActManager.Actors[nowPlayerSelect].Placement = cell;
+            BattlePlayerControlsView.SetActiveAllButton(false);
+            
             Grid.RemoveCellHighlights();
+            
+             void OnDestinationReach(object sender, EventArgs e)
+             {
+                 battleActor.CharacterAnimator.ChangeMovingState(false);
+                 actorNavMesh.DestinationReach -= OnDestinationReach;
+             }
         }
 
+       
         private void PlayerAtack(int row, int column)
         {
             
