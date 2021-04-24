@@ -1,22 +1,26 @@
-using System;
 using UnityEngine;
-using  UnityEngine.UI;
+using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+namespace UI.Components
 {
-    [SerializeField] private Text _health;
-    [SerializeField] private Image _fillBar;
-    private int _valueHealh;
-    public void SetHealthInt(int health, int valueHealth)
+    public class HealthBar : MonoBehaviour
     {
-        _valueHealh = valueHealth;
-        _health.text = health+"/"+_valueHealh;
-        _fillBar.fillAmount = health * 1f / _valueHealh;
-    }
+        [SerializeField] private Text _health;
+        [SerializeField] private Image _fillBar;
+    
+        private int _valueHealth;
+    
+        public void SetHealthInt(int health, int valueHealth)
+        {
+            _valueHealth = valueHealth;
+            _health.text = health+"/"+_valueHealth;
+            _fillBar.fillAmount = health * 1f / _valueHealth;
+        }
 
-    public void SetCurrentHealth(int health)
-    {
-        _health.text = health+"/"+_valueHealh;
-        _fillBar.fillAmount = health * 1f / _valueHealh;
+        public void SetCurrentHealth(int health)
+        {
+            _health.text = health+"/"+_valueHealth;
+            _fillBar.fillAmount = health * 1f / _valueHealth;
+        }
     }
 }

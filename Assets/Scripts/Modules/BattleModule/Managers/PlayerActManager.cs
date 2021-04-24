@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
 using Modules.ActorModule.Components;
 using Modules.CameraModule;
 using Modules.GridModule;
@@ -28,7 +29,7 @@ namespace Modules.BattleModule.Managers
             _grid.CellSelected += HandleCellSelected;
             
             _battlePlayerControlsView.MovementClicked += HandleMovementClicked;
-            _battlePlayerControlsView.AtackClicked += HandleAttackClicked;
+            _battlePlayerControlsView.AttackClicked += HandleAttackClicked;
             _battlePlayerControlsView.SelectedClick += HandleSelectActor;
             _battlePlayerControlsView.Show();
         }
@@ -38,7 +39,7 @@ namespace Modules.BattleModule.Managers
             _grid.CellSelected -= HandleCellSelected;
             
             _battlePlayerControlsView.MovementClicked -= HandleMovementClicked;
-            _battlePlayerControlsView.AtackClicked -= HandleAttackClicked; 
+            _battlePlayerControlsView.AttackClicked -= HandleAttackClicked; 
             _battlePlayerControlsView.SelectedClick -= HandleSelectActor;
             _battlePlayerControlsView.Hide();
         }
@@ -53,7 +54,7 @@ namespace Modules.BattleModule.Managers
             actorNavMesh.DestinationReach += OnDestinationReach;
             selectedActor.Animator.ChangeMovingState(true);
 
-            actorNavMesh.SetNextCell(cell);
+            actorNavMesh.SetNextDestination(cell.CellComponent.transform.position);
             
             RemoveActiveActor(selectedActor);
             selectedActor.Placement = cell;
@@ -67,32 +68,15 @@ namespace Modules.BattleModule.Managers
                 selectedActor.Animator.ChangeMovingState(false);
                 if (covers.Count > 0)
                 {
-                    selectedActor.Actor.transform.eulerAngles =  RotateToCover(covers[0], cell);
-                    selectedActor.Actor.GetActorComponent<ActorCollisionComponent>().CheckDistanseToCover();
+                    selectedActor.Actor.transform.eulerAngles = GridMath.RotateToCover(covers[0], cell);
+                    selectedActor.Actor.GetActorComponent<ActorCollisionComponent>().CheckDistanceToCover();
                     selectedActor.Animator.AnimateCovering(true);
                 }
 
                 actorNavMesh.DestinationReach -= OnDestinationReach;
             }
         }
-
-        private Vector3 RotateToCover(Cell coverCell, Cell playreCell)
-        {
-            Vector2 coverCellPos = new Vector2(coverCell.Column, coverCell.Row);
-            Vector2 playerCellPos = new Vector2(playreCell.Column, playreCell.Row);
-
-            Vector2 directon = coverCellPos - playerCellPos;
-
-            if (directon.x == 1)
-                return Vector3.up * 90;
-            if (directon.x == -1)
-                return Vector3.up * 270;
-            if (directon.y == 1)
-                return Vector3.up * 0;
-            
-            return Vector3.up * 180;
-
-        }
+        
         private void PlayerAttack(int row, int column)
         {
             var selectedActor = Actors[ActiveUnit];

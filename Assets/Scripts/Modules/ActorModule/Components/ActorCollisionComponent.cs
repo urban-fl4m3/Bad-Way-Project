@@ -8,8 +8,8 @@ namespace Modules.ActorModule.Components
 {
     public class ActorCollisionComponent : MonoBehaviour, IActorComponent
     {
-        public event EventHandler<Actor> ActorSelected;
-        public event EventHandler ActorUnSelcted;
+        public event EventHandler ActorSelected;
+        public event EventHandler ActorUnSelected;
         
         [SerializeField] private Collider _collider;
         public Collider Collider => _collider;
@@ -26,21 +26,20 @@ namespace Modules.ActorModule.Components
             if (Input.GetMouseButtonDown(1))
             {
                 ActorSelected?.Invoke(this, null);
-                Debug.Log("Mouse Down");
             }
 
             if (Input.GetMouseButtonUp(1))
             {
-                ActorUnSelcted?.Invoke(this,null);
+                ActorUnSelected?.Invoke(this,null);
             }
 }
 
         private void OnMouseExit()
         {
-            ActorUnSelcted?.Invoke(this,null);
+            ActorUnSelected?.Invoke(this,null);
         }
 
-        public void CheckDistanseToCover()
+        public void CheckDistanceToCover()
         {
             var ray = new Ray(transform.position,transform.forward);
             

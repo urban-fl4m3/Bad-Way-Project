@@ -20,9 +20,9 @@ namespace UI.Components
             _stats.text = stats;
         }
 
-        public void SetHealth(int health, int valueHealth,BattleActor enemyActor)
+        public void SetHealth(int health, int valueHealth, BattleActor enemyActor)
         {
-            enemyActor.HealthChange += OnHealthChange;
+            enemyActor.HealthChanged += OnHealthChange;
             _healthBar.SetHealthInt(health, valueHealth);
         }
 

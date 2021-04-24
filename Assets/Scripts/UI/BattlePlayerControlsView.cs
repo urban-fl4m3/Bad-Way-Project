@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common;
 using Modules.ActorModule;
 using Modules.BattleModule;
 using Modules.BattleModule.Stats;
+using Modules.BattleModule.Stats.Helpers;
 using UI.Components;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +15,7 @@ namespace UI
     public class BattlePlayerControlsView : MonoBehaviour
     {
         public event EventHandler MovementClicked;
-        public event EventHandler AtackClicked;
+        public event EventHandler AttackClicked;
         public event EventHandler<Actor> ActorClick;
         public event EventHandler<int> SelectedClick;
 
@@ -46,17 +48,12 @@ namespace UI
             e.ActorDeath -= OnEnemyDeath;
         }
 
-        private void OnEnemyUnSelect(object sender, EventArgs e)
-        {
-            _enemyWindow.EnemyWindow.gameObject.SetActive(false);
-        }
-
         public void Initialize(List<ActorDataProvider> actorDataProviders)
         {
             var actorsCount = actorDataProviders.Count;
 
             _moveButton.onClick.AddListener(OnMovementButtonClick);    
-            _attackButton.onClick.AddListener(OnAtackButtonClick);
+            _attackButton.onClick.AddListener(OnAttackButtonClick);
             _hideButton.onClick.AddListener(OnHideButtonClick);
 
             _buttonPool = new UnityPool<NamedIconComponent>(_actorSelectorButton);
@@ -80,16 +77,20 @@ namespace UI
 
         private void OnEnemyActorClick(object sender, Actor e)
         {
-            foreach (var enemyActor in _enemyActors)
+            foreach (var enemyActor in _enemyActors.Where(enemyActor => enemyActor.Actor == e))
             {
-                if (enemyActor.Actor == e)
-                {
-                    _enemyWindow.EnemyWindow.gameObject.SetActive(true);
-                    _enemyWindow.EnemyWindow.SetHealth(enemyActor.Health, enemyActor.ValueHealth, enemyActor);
-                }
+                _enemyWindow.EnemyWindow.gameObject.SetActive(true);
+                _enemyWindow.EnemyWindow.SetHealth(enemyActor.Stats[SecondaryStat.Health],
+                    enemyActor.Stats.MaxHealth, 
+                    enemyActor);
             }
         }
 
+        private void OnEnemyUnSelect(object sender, EventArgs e)
+        {
+            _enemyWindow.EnemyWindow.gameObject.SetActive(false);
+        }
+        
         public void SetActiveAllButton(bool isActive)
         {
             _moveButton.interactable = isActive;
@@ -109,8 +110,6 @@ namespace UI
 
         private void OnActorSelectClick(int i)
         {
-            Debug.Log($"Player has selected {i} character");
-
             SelectedClick?.Invoke(this, i);
         }
         
@@ -119,9 +118,9 @@ namespace UI
             MovementClicked?.Invoke(this, EventArgs.Empty);
         }
         
-        private void OnAtackButtonClick()
+        private void OnAttackButtonClick()
         {
-            AtackClicked?.Invoke(this, EventArgs.Empty);
+            AttackClicked?.Invoke(this, EventArgs.Empty);
         }
         
         private void OnHideButtonClick()

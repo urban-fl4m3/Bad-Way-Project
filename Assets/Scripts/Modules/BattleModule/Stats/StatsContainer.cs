@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Modules.BattleModule.Stats.Helpers;
 using Modules.BattleModule.Stats.Models;
 using UnityEngine;
@@ -7,21 +8,72 @@ namespace Modules.BattleModule.Stats
 {
     public class StatsContainer
     {
-        private readonly IReadOnlyDictionary<PrimaryStat, int> _primaryStats;
-        private readonly IReadOnlyCollection<int> _primaryUpgrades;
-        private readonly IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> _secondaryStats;
+        public readonly int MaxHealth;
 
-        public StatsContainer(IReadOnlyDictionary<PrimaryStat, int> primaryStats,
-            IReadOnlyCollection<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats)
+        public int this[SecondaryStat stat] => _secondaryStats[stat];
+        public int this[PrimaryStat stat] => _primaryStats[stat];
+
+        
+        private readonly IReadOnlyDictionary<PrimaryStat, int> _defaultPrimaryStats;
+        private readonly IReadOnlyList<int> _defaultPrimaryUpgrades;
+        private readonly IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> _defaultSecondaryStats;
+
+        private readonly Dictionary<PrimaryStat, int> _primaryStats = new Dictionary<PrimaryStat, int>();
+        private readonly Dictionary<SecondaryStat, int> _secondaryStats = new Dictionary<SecondaryStat, int>();
+        
+        public StatsContainer(IReadOnlyDictionary<PrimaryStat, int> defaultPrimaryStats,
+            IEnumerable<int> defaultPrimaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> defaultSecondaryStats)
         {
-            _primaryStats = primaryStats;
-            _primaryUpgrades = primaryUpgrades;
-            _secondaryStats = secondaryStats;
+            _defaultPrimaryStats = defaultPrimaryStats;
+            _defaultPrimaryUpgrades = defaultPrimaryUpgrades.ToList();
+            _defaultSecondaryStats = defaultSecondaryStats;
+
+            ReadDefaultPrimaryStats();
+            ReadDefaultSecondaryStats();
+
+            MaxHealth = _secondaryStats[SecondaryStat.Health];
         }
 
-        private void UpdateStats()
+        public void ChangeSecondaryStat(SecondaryStat stat, int amount)
         {
-           
+            _secondaryStats[stat] += amount;
+        }
+
+        private void ReadDefaultPrimaryStats()
+        {
+            var i = 0;
+            
+            foreach (var defaultPrimaryStat in _defaultPrimaryStats)
+            {
+                var upgrade = _defaultPrimaryUpgrades[i];
+
+                if (!_primaryStats.ContainsKey(defaultPrimaryStat.Key))
+                {
+                    _primaryStats.Add(defaultPrimaryStat.Key, 0);
+                }
+
+                _primaryStats[defaultPrimaryStat.Key] = defaultPrimaryStat.Value + upgrade;
+                i++;
+            }
+        }
+
+        private void ReadDefaultSecondaryStats()
+        {
+            foreach (var defaultSecondaryStat in _defaultSecondaryStats)
+            {
+                var upgrades = defaultSecondaryStat.Value.UpgradeList;
+                
+                if (_secondaryStats.ContainsKey(defaultSecondaryStat.Key))
+                {
+                    _secondaryStats.Add(defaultSecondaryStat.Key, 0);
+                }
+
+                var totalUpgradeSum = upgrades.Sum(
+                    upgrade => Mathf.FloorToInt(
+                        _primaryStats[upgrade.Stat] * upgrade.UpgradeValue));
+
+                _secondaryStats[defaultSecondaryStat.Key] = defaultSecondaryStat.Value.Value + totalUpgradeSum;
+            }
         }
     }
 }

@@ -2,28 +2,24 @@ using System;
 using System.Collections;
 using Common;
 using Modules.ActorModule.Components;
-using Modules.GridModule.Cells;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class ActorNavigation : MonoBehaviour,IActorComponent
 {
     public EventHandler DestinationReach;
-    public EventHandler WentToDistination;
+    public EventHandler WentToDestination;
 
     [SerializeField] private NavMeshAgent _navMeshAgent;
-
-    private Cell _nowCell;
 
     public void Initialize(TypeContainer container)
     {
         container.Add<ActorNavigation>(this);
     }
     
-    public void SetNextCell(Cell cell)
+    public void SetNextDestination(Vector3 destination)
     {
-        _nowCell = cell;
-        _navMeshAgent.destination = cell.CellComponent.transform.position;
+        _navMeshAgent.destination = destination;
         _navMeshAgent.avoidancePriority = 99;
         StartCoroutine(WaitForDestinationReach());
     }
@@ -34,11 +30,9 @@ public class ActorNavigation : MonoBehaviour,IActorComponent
         {
             yield return null;
         }
+        
         _navMeshAgent.ResetPath();
         _navMeshAgent.avoidancePriority = 50;
         DestinationReach?.Invoke(this,EventArgs.Empty);
     }
-    
-
-
 }
