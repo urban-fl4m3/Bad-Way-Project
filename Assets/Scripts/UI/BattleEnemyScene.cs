@@ -6,4 +6,5 @@ using  UnityEngine.UI;
 public class BattleEnemyScene : MonoBehaviour
 {
     [SerializeField] private EnemyWindow _enemyWindow;
+    public EnemyWindow EnemyWindow => _enemyWindow;
 }

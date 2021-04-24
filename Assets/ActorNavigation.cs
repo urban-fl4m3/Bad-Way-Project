@@ -32,11 +32,13 @@ public class ActorNavigation : MonoBehaviour,IActorComponent
     {
         while (_navMeshAgent.remainingDistance >_navMeshAgent.stoppingDistance || _navMeshAgent.pathPending)
         {
-            
             yield return null;
         }
+        _navMeshAgent.ResetPath();
         _navMeshAgent.avoidancePriority = 50;
         DestinationReach?.Invoke(this,EventArgs.Empty);
     }
     
+
+
 }

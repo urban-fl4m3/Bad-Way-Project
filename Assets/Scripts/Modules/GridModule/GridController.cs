@@ -13,6 +13,7 @@ namespace Modules.GridModule
         
         public Cell this[int row, int column] => _cells[row, column];
         public Cell this[Vector2Int cellIndices] => _cells[cellIndices.x, cellIndices.y];
+        private List<Cell> _cellsWithCover;
         
         private readonly Cell[,] _cells;
         private readonly GridBFS _bfs;
@@ -38,11 +39,13 @@ namespace Modules.GridModule
 
         public void FillBuildingCell(List<Transform> building)
         {
+            _cellsWithCover = new List<Cell>();
             foreach (var build in building)
             {
                 var position = build.transform.position;
                 var pos = new Vector2Int((int)position.x, (int)position.z)/2;
                 _cells[pos.y, pos.x].IsEmpty = false;
+                _cellsWithCover.Add(_cells[pos.y, pos.x]);
             }
         }
 
@@ -77,6 +80,24 @@ namespace Modules.GridModule
         private void HandleCellSelected(object sender, CellEventArgs e)
         {
             CellSelected?.Invoke(this, new CellSelectionEventArgs(e, _stateToken));
+        }
+
+        public List<Cell> NearCover(Cell actorCell)
+        {
+            var covers=new List<Cell>();
+            for (var index = 0; index < _cellsWithCover.Count; index++)
+            {
+                var cell = _cellsWithCover[index];
+
+                var cellPos = new Vector2(cell.Row, cell.Column);
+                var actorCellPos = new Vector2(actorCell.Row, actorCell.Column);
+                
+                if (Vector2.Distance(cellPos,actorCellPos)<=1)
+                {
+                    covers.Add(cell);
+                }
+            }
+            return covers;
         }
     }
 }

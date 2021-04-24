@@ -111,7 +111,7 @@ namespace Modules.BattleModule.Factories
             }
 
             
-            battlePlayerControlsView.Initialize(AvailableActorsProvider.AvailableActors, playerBattleActors);
+            battlePlayerControlsView.Initialize(AvailableActorsProvider.AvailableActors);
             
             var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, battlePlayerControlsView, 
                 cameraController);

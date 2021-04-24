@@ -20,26 +20,41 @@ namespace UI
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _attackButton;
         [SerializeField] private Button _hideButton;
-        [SerializeField] private GameObject _enemyWindow;
+        [SerializeField] private BattleEnemyScene _enemyWindow;
         [SerializeField] private Transform _iconsParent;
         [SerializeField] private NamedIconComponent _actorSelectorButton;
         
         private UnityPool<NamedIconComponent> _buttonPool;
-        private List<BattleActor> _playerActors;
+        private List<BattleActor> _enemyActors;
 
         public void SubscribeEnemy(IEnumerable<BattleActor> enemyActor)
         {
+            _enemyActors = new List<BattleActor>();
             foreach (var actor in enemyActor)
             {
+                _enemyActors.Add(actor);
                 actor.Actor.ActorSelect += OnEnemyActorClick;
+                actor.Actor.ActorUnSelect += OnEnemyUnSelect;
+                actor.ActorDeath += OnEnemyDeath;
             }
         }
-        
-        public void Initialize(List<ActorDataProvider> actorDataProviders, List<BattleActor> playerActors)
+
+        private void OnEnemyDeath(object sender, BattleActor e)
+        {
+            e.Actor.ActorSelect -= OnEnemyActorClick;
+            e.Actor.ActorUnSelect -= OnEnemyUnSelect;
+            e.ActorDeath -= OnEnemyDeath;
+        }
+
+        private void OnEnemyUnSelect(object sender, EventArgs e)
+        {
+            _enemyWindow.EnemyWindow.gameObject.SetActive(false);
+        }
+
+        public void Initialize(List<ActorDataProvider> actorDataProviders)
         {
             var actorsCount = actorDataProviders.Count;
-            _playerActors = playerActors;
-            
+
             _moveButton.onClick.AddListener(OnMovementButtonClick);    
             _attackButton.onClick.AddListener(OnAtackButtonClick);
             _hideButton.onClick.AddListener(OnHideButtonClick);
@@ -65,7 +80,14 @@ namespace UI
 
         private void OnEnemyActorClick(object sender, Actor e)
         {
-            _enemyWindow.SetActive(true);
+            foreach (var enemyActor in _enemyActors)
+            {
+                if (enemyActor.Actor == e)
+                {
+                    _enemyWindow.EnemyWindow.gameObject.SetActive(true);
+                    _enemyWindow.EnemyWindow.SetHealth(enemyActor.Health, enemyActor.ValueHealth, enemyActor);
+                }
+            }
         }
 
         public void SetActiveAllButton(bool isActive)

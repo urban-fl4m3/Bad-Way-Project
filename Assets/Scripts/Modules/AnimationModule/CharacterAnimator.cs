@@ -21,9 +21,14 @@ namespace Modules.AnimationModule
             _animationComponent.Animator.SetTrigger("Shoot");
         }
 
-        public void AnimateCovering()
+        public void AnimateCovering(bool isCovering)
         {
-            
+            _animationComponent.Animator.SetBool("IsCovering", isCovering);
+        }
+
+        public void AnimateDeath()
+        {
+            _animationComponent.Animator.SetTrigger("Death");
         }
     }
 }
