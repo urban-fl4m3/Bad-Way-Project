@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Modules.BattleModule.Stats.EventArgs;
 using Modules.BattleModule.Stats.Helpers;
 using Modules.BattleModule.Stats.Models;
 using UnityEngine;
@@ -8,6 +10,9 @@ namespace Modules.BattleModule.Stats
 {
     public class StatsContainer
     {
+        public event EventHandler<StatChangedEventArgs<PrimaryStat>> PrimaryStatChanged;
+        public event EventHandler<StatChangedEventArgs<SecondaryStat>> SecondaryStatChanged;
+        
         public readonly int MaxHealth;
 
         public int this[SecondaryStat stat] => _secondaryStats[stat];
@@ -28,8 +33,8 @@ namespace Modules.BattleModule.Stats
             _defaultPrimaryUpgrades = defaultPrimaryUpgrades.ToList();
             _defaultSecondaryStats = defaultSecondaryStats;
 
-            ReadDefaultPrimaryStats();
-            ReadDefaultSecondaryStats();
+            RecalculatePrimaryStats();
+            RecalculateSecondaryStats();
 
             MaxHealth = _secondaryStats[SecondaryStat.Health];
         }
@@ -37,9 +42,19 @@ namespace Modules.BattleModule.Stats
         public void ChangeSecondaryStat(SecondaryStat stat, int amount)
         {
             _secondaryStats[stat] += amount;
+            SecondaryStatChanged?.Invoke(this, 
+                new StatChangedEventArgs<SecondaryStat>(stat, _secondaryStats[stat]));
         }
 
-        private void ReadDefaultPrimaryStats()
+        public void ChangePrimaryState(PrimaryStat stat, int amount)
+        {
+            _primaryStats[stat] += amount;
+            RecalculateSecondaryStats();
+            PrimaryStatChanged?.Invoke(this, 
+                new StatChangedEventArgs<PrimaryStat>(stat, _primaryStats[stat] += amount));
+        }
+
+        private void RecalculatePrimaryStats()
         {
             var i = 0;
             
@@ -57,7 +72,7 @@ namespace Modules.BattleModule.Stats
             }
         }
 
-        private void ReadDefaultSecondaryStats()
+        private void RecalculateSecondaryStats()
         {
             foreach (var defaultSecondaryStat in _defaultSecondaryStats)
             {
