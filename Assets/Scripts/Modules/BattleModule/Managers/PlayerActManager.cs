@@ -50,6 +50,8 @@ namespace Modules.BattleModule.Managers
             var selectedActor = Actors[ActiveUnit];
             var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigation>();
             var covers = _grid.NearCover(cell);
+            actorNavMesh.NavMeshAgent.enabled = true;
+
 
             actorNavMesh.DestinationReach += OnDestinationReach;
             selectedActor.Animator.ChangeMovingState(true);
@@ -71,6 +73,7 @@ namespace Modules.BattleModule.Managers
                     selectedActor.Actor.transform.eulerAngles = GridMath.RotateToCover(covers[0], cell);
                     selectedActor.Actor.GetActorComponent<ActorCollisionComponent>().CheckDistanceToCover();
                     selectedActor.Animator.AnimateCovering(true);
+                    actorNavMesh.NavMeshAgent.enabled = false;
                 }
 
                 actorNavMesh.DestinationReach -= OnDestinationReach;

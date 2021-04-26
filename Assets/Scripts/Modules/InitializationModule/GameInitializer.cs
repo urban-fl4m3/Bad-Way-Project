@@ -20,7 +20,7 @@ namespace Modules.InitializationModule
         [SerializeField] private BattlePlayerControlsView battlePlayerControlsView;
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private GameConstructions _gameConstructions;
-
+        [SerializeField] private BattleActorParameters _battleActorParameters;
         
         private void Start()
         {
@@ -30,11 +30,11 @@ namespace Modules.InitializationModule
             var tick = GetTickManager();
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
-                player.ActorsCollection, _actorsProvider, _gameConstructions);
+                player.ActorsCollection, _actorsProvider, _gameConstructions, _battleActorParameters);
             
             var battleScene = battleSceneFactory.CreateBattleScene(battlePlayerControlsView,_cameraController);
             
-            
+            _battleActorParameters.AddListToSorting();
             battleScene.StartBattle(); 
         }
 

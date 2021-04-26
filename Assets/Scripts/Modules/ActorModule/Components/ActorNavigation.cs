@@ -11,6 +11,7 @@ public class ActorNavigation : MonoBehaviour,IActorComponent
     public EventHandler WentToDestination;
 
     [SerializeField] private NavMeshAgent _navMeshAgent;
+    public NavMeshAgent NavMeshAgent => _navMeshAgent;
 
     public void Initialize(TypeContainer container)
     {

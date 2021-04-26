@@ -11,6 +11,7 @@ namespace Modules.ActorModule
         public event EventHandler ActorUnSelect;
         
         public Transform Transform => transform;
+        public Transform TargetForUI;
         
         private readonly TypeContainer _container = new TypeContainer();
 

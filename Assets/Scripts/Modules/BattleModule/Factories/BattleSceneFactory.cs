@@ -21,6 +21,7 @@ namespace Modules.BattleModule.Factories
         private readonly IReadOnlyList<PlayerActorData> _playerActorsCollection;
         private readonly AvailableActorsProvider _availableActorsProvider;
         private readonly GameConstructions _gameConstructions;
+        private readonly BattleActorParameters _battleActorParameters;
 
         public AvailableActorsProvider AvailableActorsProvider => _availableActorsProvider;
 
@@ -30,7 +31,8 @@ namespace Modules.BattleModule.Factories
         //or why else this class should exists?
         public BattleSceneFactory(ITickManager tickManager, LevelDataProvider levelDataProvider,
             AvailableBattleStatsProvider battleStatsProvider, PlayerActorsCollection playerActorsCollection,
-            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions)
+            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions,
+            BattleActorParameters battleActorParameters)
         {
             _tickManager = tickManager;
             _levelDataProvider = levelDataProvider;
@@ -38,6 +40,7 @@ namespace Modules.BattleModule.Factories
             _playerActorsCollection = playerActorsCollection;
             _availableActorsProvider = availableActorsProvider;
             _gameConstructions = gameConstructions;
+            _battleActorParameters = battleActorParameters;
         }
 
         public BattleScene CreateBattleScene(BattlePlayerControlsView battlePlayerControlsView,
@@ -79,6 +82,7 @@ namespace Modules.BattleModule.Factories
                 };
                
                 enemyActors.Add(battleActor);
+                _battleActorParameters.CreateActorParametersWindow(battleActor);
             }
             battlePlayerControlsView.SubscribeEnemy(enemyActors);
             var enemyManager = new EnemyActManager(grid, enemyActors, _tickManager);
@@ -108,6 +112,7 @@ namespace Modules.BattleModule.Factories
                 };
 
                 playerBattleActors.Add(battleActor);
+                _battleActorParameters.CreateActorParametersWindow(battleActor);
             }
 
             

@@ -11,9 +11,7 @@ namespace Modules.ActorModule.Components
         public event EventHandler ActorSelected;
         public event EventHandler ActorUnSelected;
         
-        [SerializeField] private Collider _collider;
-        public Collider Collider => _collider;
-
+        [SerializeField] private CapsuleCollider _collider;
         private Vector3 coverOffset;
         
         public void Initialize(TypeContainer container)
@@ -46,6 +44,7 @@ namespace Modules.ActorModule.Components
             if (Physics.Raycast(ray, out var hit, 2f))
             {
                 coverOffset = transform.position - hit.point;
+                coverOffset = coverOffset - coverOffset.normalized*_collider.radius/2;
                 StartCoroutine(GetCover());
             }
         }
@@ -58,6 +57,8 @@ namespace Modules.ActorModule.Components
                 transform.position = Vector3.MoveTowards(transform.position, currentPosition, Time.deltaTime * 2);
                 yield return null;
             }
+
+            transform.eulerAngles += Vector3.up * 180;
         }
     }
 }
