@@ -9,6 +9,7 @@ using Modules.GridModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
 using UI;
+using UI.Models;
 using UnityEngine;
 
 namespace Modules.BattleModule.Factories
@@ -21,7 +22,6 @@ namespace Modules.BattleModule.Factories
         private readonly IReadOnlyList<PlayerActorData> _playerActorsCollection;
         private readonly AvailableActorsProvider _availableActorsProvider;
         private readonly GameConstructions _gameConstructions;
-        private readonly BattleActorParametersView _battleActorParametersView;
 
         public AvailableActorsProvider AvailableActorsProvider => _availableActorsProvider;
 
@@ -31,8 +31,7 @@ namespace Modules.BattleModule.Factories
         //or why else this class should exists?
         public BattleSceneFactory(ITickManager tickManager, LevelDataProvider levelDataProvider,
             AvailableBattleStatsProvider battleStatsProvider, PlayerActorsCollection playerActorsCollection,
-            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions,
-            BattleActorParametersView battleActorParametersView)
+            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions)
         {
             _tickManager = tickManager;
             _levelDataProvider = levelDataProvider;
@@ -40,11 +39,9 @@ namespace Modules.BattleModule.Factories
             _playerActorsCollection = playerActorsCollection;
             _availableActorsProvider = availableActorsProvider;
             _gameConstructions = gameConstructions;
-            _battleActorParametersView = battleActorParametersView;
         }
 
-        public BattleScene CreateBattleScene(BattlePlayerControlView battlePlayerControlView,
-            CameraController cameraController)
+        public BattleScene CreateBattleScene(CameraController cameraController)
         {
             var gridBuilder = new GridBuilder("Battle_Grid");
             var gridController = gridBuilder.Build(_levelDataProvider.GridData);
@@ -123,6 +120,11 @@ namespace Modules.BattleModule.Factories
             cameraController.PointAtActor(playerManager.Actors[0].Actor.transform);
 
             return playerManager;
+        }
+
+        public BattlePlayerControlViewModel GetBattlePlayerModel()
+        {
+            
         }
     }
 }

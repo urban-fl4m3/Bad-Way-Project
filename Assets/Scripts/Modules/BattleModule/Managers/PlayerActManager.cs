@@ -5,8 +5,10 @@ using Modules.ActorModule.Components;
 using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.GridModule.Cells;
+using Modules.InitializationModule;
 using Modules.TickModule;
 using UI;
+using UI.Models;
 using UnityEngine;
 
 namespace Modules.BattleModule.Managers
@@ -15,6 +17,9 @@ namespace Modules.BattleModule.Managers
     {
         private readonly BattlePlayerControlView _battlePlayerControlView;
         private readonly CameraController _cameraController;
+
+        private BattlePlayerControlViewModel _model;
+        private DynamicValue<bool> IsPlayerActing;
         
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
             BattlePlayerControlView battlePlayerControlView, CameraController cameraController) 
@@ -22,26 +27,24 @@ namespace Modules.BattleModule.Managers
         {
             _battlePlayerControlView = battlePlayerControlView;
             _cameraController = cameraController;
+
+            IsPlayerActing = new DynamicValue<bool>(true);
+            _model = new BattlePlayerControlViewModel(IsPlayerActing);
+            GameInitializer.UI.AddWindow("Player_Window", _model);
         }
 
         protected override void OnActStart()
         {
             _grid.CellSelected += HandleCellSelected;
-            
-            _battlePlayerControlView.MovementClicked += HandleMovementClicked;
-            _battlePlayerControlView.AttackClicked += HandleAttackClicked;
-            _battlePlayerControlView.SelectedClick += HandleSelectActor;
-            _battlePlayerControlView.Show();
+
+            IsPlayerActing.Value = true;
         }
 
         protected override void OnActEnd()
         {
             _grid.CellSelected -= HandleCellSelected;
-            
-            _battlePlayerControlView.MovementClicked -= HandleMovementClicked;
-            _battlePlayerControlView.AttackClicked -= HandleAttackClicked; 
-            _battlePlayerControlView.SelectedClick -= HandleSelectActor;
-            _battlePlayerControlView.Hide();
+
+            IsPlayerActing.Value = false;
         }
 
         private void PlayerMove(int row, int column)

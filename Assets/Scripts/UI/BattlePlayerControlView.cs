@@ -1,58 +1,43 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Common;
-using Modules.ActorModule;
 using Modules.BattleModule;
-using Modules.BattleModule.Stats.Helpers;
 using UI.Components;
+using UI.Interface;
+using UI.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class BattlePlayerControlView : MonoBehaviour
+    public class BattlePlayerControlView : MonoBehaviour, IViewModel, IButtonSubscriber, ICanvasView
     {
-        public event EventHandler MovementClicked;
-        public event EventHandler AttackClicked;
-        public event EventHandler<Actor> ActorClick;
-        public event EventHandler<int> SelectedClick;
-
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _attackButton;
         [SerializeField] private Button _hideButton;
         [SerializeField] private Transform _iconsParent;
         [SerializeField] private NamedIconComponent _actorSelectorButton;
+        [SerializeField] private Canvas _canvas;
+        
+        public Canvas Canvas => _canvas;
+        public GameObject GameObject => gameObject;
         
         private UnityPool<NamedIconComponent> _buttonPool;
         private List<BattleActor> _enemyActors;
 
-        public void SubscribeEnemy(IEnumerable<BattleActor> enemyActor)
+        private BattlePlayerControlViewModel _model;
+
+        public void SetActiveAllButton(bool isActive)
         {
-            _enemyActors = new List<BattleActor>();
-            foreach (var actor in enemyActor)
-            {
-                _enemyActors.Add(actor);
-                actor.Actor.ActorSelect += OnEnemyActorClick;
-                actor.Actor.ActorUnSelect += OnEnemyUnSelect;
-                actor.ActorDeath += OnEnemyDeath;
-            }
+            _moveButton.interactable = isActive;
+            _attackButton.interactable = isActive;
+            _hideButton.interactable = isActive;
         }
 
-        private void OnEnemyDeath(object sender, BattleActor e)
+        public void ResolveModel(IModel model)
         {
-            e.Actor.ActorSelect -= OnEnemyActorClick;
-            e.Actor.ActorUnSelect -= OnEnemyUnSelect;
-            e.ActorDeath -= OnEnemyDeath;
-        }
-
-        public void Initialize(List<ActorDataProvider> actorDataProviders)
-        {
+            _model = (BattlePlayerControlViewModel) model;
             var actorsCount = actorDataProviders.Count;
-
-            _moveButton.onClick.AddListener(OnMovementButtonClick);    
-            _attackButton.onClick.AddListener(OnAttackButtonClick);
-            _hideButton.onClick.AddListener(OnHideButtonClick);
 
             _buttonPool = new UnityPool<NamedIconComponent>(_actorSelectorButton);
             _buttonPool.ToParent(_iconsParent);
@@ -71,59 +56,39 @@ namespace UI
                     OnActorSelectClick(index);   
                 });
             }
+            
+            _model = (BattlePlayerControlViewModel) model;
+            _model.Abc.Changed += AbcOnChanged;
         }
 
-        private void OnEnemyActorClick(object sender, Actor e)
+        public void Clear()
         {
-            foreach (var enemyActor in _enemyActors.Where(enemyActor => enemyActor.Actor == e))
+            
+        }
+
+        private void AbcOnChanged(object sender, bool e)
+        {
+            if (e)
             {
-                // _enemyWindow.EnemyWindowView.gameObject.SetActive(true);
-                // _enemyWindow.EnemyWindowView.SetHealth(enemyActor.Stats[SecondaryStat.Health],
-                //     enemyActor.Stats.MaxHealth, 
-                //     enemyActor);
+                
+            }
+            else
+            {
+                
             }
         }
 
-        private void OnEnemyUnSelect(object sender, EventArgs e)
+        public void SubscribeButtons()
         {
-           // _enemyWindow.EnemyWindowView.gameObject.SetActive(false);
+            _attackButton.onClick.AddListener(() =>
+            {
+                _model.AttackClicked?.Invoke(this, EventArgs.Empty);
+            });
         }
         
-        public void SetActiveAllButton(bool isActive)
+        public void UnsubscribeButtons()
         {
-            _moveButton.interactable = isActive;
-            _attackButton.interactable = isActive;
-            _hideButton.interactable = isActive;
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
-        }
-
-        private void OnActorSelectClick(int i)
-        {
-            SelectedClick?.Invoke(this, i);
-        }
-        
-        private void OnMovementButtonClick()
-        {
-            MovementClicked?.Invoke(this, EventArgs.Empty);
-        }
-        
-        private void OnAttackButtonClick()
-        {
-            AttackClicked?.Invoke(this, EventArgs.Empty);
-        }
-        
-        private void OnHideButtonClick()
-        {
-            
+            _attackButton.onClick.RemoveAllListeners();
         }
     }
 }

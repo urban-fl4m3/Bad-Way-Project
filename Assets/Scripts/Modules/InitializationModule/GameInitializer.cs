@@ -8,6 +8,7 @@ using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
 using UI.Configs;
+using UI.Factories;
 using UnityEngine;
 
 namespace Modules.InitializationModule
@@ -21,17 +22,22 @@ namespace Modules.InitializationModule
         [SerializeField] private GameConstructions _gameConstructions;
         [SerializeField] private WindowViewsConfig _viewsConfig;
         
+        public static WindowFactory UI { get; private set; }
+        
         private void Start()
         {
             _gameConstructions.BuildingInGrid(_levelData);
             
             var player = GetPlayer();
             var tick = GetTickManager();
+
+            
+            UI = new WindowFactory(_viewsConfig);
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider, _gameConstructions, battleActorParametersView);
             
-            var battleScene = battleSceneFactory.CreateBattleScene(battlePlayerControlView,_cameraController);
+            var battleScene = battleSceneFactory.CreateBattleScene(_cameraController);
             
             battleActorParametersView.AddListToSorting();
             battleScene.StartBattle(); 

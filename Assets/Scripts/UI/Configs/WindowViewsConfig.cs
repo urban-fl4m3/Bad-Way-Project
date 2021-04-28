@@ -9,7 +9,8 @@ namespace UI.Configs
     public class WindowViewsConfig : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] private List<ViewWithId> _views;
-
+        [SerializeField] private Canvas _canvas;
+        
         private Dictionary<string, GameObject> _viewsDict = new Dictionary<string, GameObject>();
         
         public void OnBeforeSerialize()
@@ -25,6 +26,11 @@ namespace UI.Configs
         public GameObject LoadView(string id)
         {
             return _viewsDict[id];
+        }
+
+        public Canvas LoadCanvas()
+        {
+            return _canvas;
         }
         
         [Serializable]
