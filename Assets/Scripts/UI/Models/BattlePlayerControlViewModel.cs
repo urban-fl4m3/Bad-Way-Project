@@ -1,6 +1,7 @@
 ﻿using System;
-using Common;
+using System.Collections.Generic;
 using Modules.ActorModule;
+using UnityEngine;
 
 namespace UI.Models
 {
@@ -10,12 +11,17 @@ namespace UI.Models
         public EventHandler AttackClicked;
         public EventHandler<Actor> ActorClick;
         public EventHandler<int> SelectedClick;
+        public List<ActorDataProvider> ActorDataProvider;
         
-        public DynamicValue<bool> Abc { get; }
+        // public DynamicValue<bool> Abc { get; }
 
-        public BattlePlayerControlViewModel(DynamicValue<bool> abc)
+        public BattlePlayerControlViewModel(EventHandler movementClicked, EventHandler attackClicked,
+            EventHandler<int> selectedClick, List<ActorDataProvider> actorDataProvider)
         {
-            Abc = abc;
+            MovementClicked = movementClicked;
+            AttackClicked = attackClicked;
+            ActorDataProvider = actorDataProvider;
+            SelectedClick = selectedClick;
         }
     }
 }

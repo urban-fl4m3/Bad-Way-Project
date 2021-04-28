@@ -6,7 +6,13 @@ namespace UI.Components
     public class SortingInCollection : MonoBehaviour
     { 
         private  RectTransform[] _items;
-        
+
+        public void GetCollection()
+        {
+            var items = transform.GetComponentsInChildren<RectTransform>();
+            _items = items;
+
+        }
         public void AddCollection(List<RectTransform> rectTransforms)
         {
             _items = new RectTransform[rectTransforms.Count];

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using EditorMod;
 using Modules.ActorModule;
 using Modules.BattleModule.Levels.Providers;
@@ -9,6 +10,8 @@ using Modules.GridModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
 using UI;
+using UI.Factories;
+using UI.Interface;
 using UI.Models;
 using UnityEngine;
 
@@ -22,16 +25,20 @@ namespace Modules.BattleModule.Factories
         private readonly IReadOnlyList<PlayerActorData> _playerActorsCollection;
         private readonly AvailableActorsProvider _availableActorsProvider;
         private readonly GameConstructions _gameConstructions;
+        private readonly WindowFactory _windowFactory;
+        private readonly Camera _camera;
 
+        private List<BattleActor> _createdActor= new List<BattleActor>();
+        
         public AvailableActorsProvider AvailableActorsProvider => _availableActorsProvider;
-
         public AvailableBattleStatsProvider AvailableBattleStatsProvider => _battleStatsProvider;
 
         //Add not single level provider, but for all levels and add implement method "CreateBattleSceneByIndex" 
         //or why else this class should exists?
         public BattleSceneFactory(ITickManager tickManager, LevelDataProvider levelDataProvider,
             AvailableBattleStatsProvider battleStatsProvider, PlayerActorsCollection playerActorsCollection,
-            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions)
+            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions,
+            WindowFactory windowFactory, Camera camera)
         {
             _tickManager = tickManager;
             _levelDataProvider = levelDataProvider;
@@ -39,6 +46,8 @@ namespace Modules.BattleModule.Factories
             _playerActorsCollection = playerActorsCollection;
             _availableActorsProvider = availableActorsProvider;
             _gameConstructions = gameConstructions;
+            _windowFactory = windowFactory;
+            _camera = camera;
         }
 
         public BattleScene CreateBattleScene(CameraController cameraController)
@@ -49,18 +58,22 @@ namespace Modules.BattleModule.Factories
             gridController.FillBuildingCell(_gameConstructions.ActualBuilding);
 
             var playerActorsManager =
-                CreatePlayerManager(gridController, _tickManager, battlePlayerControlView, cameraController);
-            var enemyActorsManager = CreateEnemyManager(gridController,battlePlayerControlView);
+                CreatePlayerManager(gridController, _tickManager, _windowFactory, cameraController);
+            var enemyActorsManager = CreateEnemyManager(gridController);
 
             var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager,
-                cameraController, battlePlayerControlView);
+                cameraController, _windowFactory);
+
+
+            var model = new BattleActorParameterModel(_createdActor, cameraController);
+            _windowFactory.AddWindow("ActorStatus",model);
             
             return battleScene;
         }
 
         //Add factory for battle actors. Why? Incapsulate instantiate object for simplest actor creation while 
         //battle runs. For example: enemy reinforcement.
-        private BattleActManager CreateEnemyManager(GridController grid, BattlePlayerControlView battlePlayerControlView)
+        private BattleActManager CreateEnemyManager(GridController grid)
         {
             var enemyActors = new List<BattleActor>();
             foreach (var levelActor in _levelDataProvider.EnemyActorsData)
@@ -77,17 +90,21 @@ namespace Modules.BattleModule.Factories
                 {
                     Placement = grid[levelActor.Cell]
                 };
-               
+                
                 enemyActors.Add(battleActor);
-                _battleActorParametersView.CreateActorParametersWindow(battleActor);
+                _createdActor.Add(battleActor);
+              
             }
-            battlePlayerControlView.SubscribeEnemy(enemyActors);
+
+            var model = new BattleEnemyStateModel(enemyActors);
+            _windowFactory.AddWindow("EnemyView",model);
+            
             var enemyManager = new EnemyActManager(grid, enemyActors, _tickManager);
             return enemyManager;
         }
 
         private BattleActManager CreatePlayerManager(GridController grid, ITickManager tickManager,
-            BattlePlayerControlView battlePlayerControlView, CameraController cameraController)
+            WindowFactory windowFactory, CameraController cameraController)
         {
             var playerBattleActors = new List<BattleActor>();
             for (var i = 0; i < _playerActorsCollection.Count; i++)
@@ -109,22 +126,20 @@ namespace Modules.BattleModule.Factories
                 };
 
                 playerBattleActors.Add(battleActor);
-                _battleActorParametersView.CreateActorParametersWindow(battleActor);
+                _createdActor.Add(battleActor);
+               // _battleActorParametersView.CreateActorParametersWindow(battleActor);
             }
 
             
-            battlePlayerControlView.Initialize(AvailableActorsProvider.AvailableActors);
+          //  battlePlayerControlView.Initialize(AvailableActorsProvider.AvailableActors);
             
-            var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, battlePlayerControlView, 
-                cameraController);
+            var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, windowFactory, 
+                cameraController,AvailableActorsProvider.AvailableActors);
+            
             cameraController.PointAtActor(playerManager.Actors[0].Actor.transform);
 
             return playerManager;
         }
 
-        public BattlePlayerControlViewModel GetBattlePlayerModel()
-        {
-            
-        }
     }
 }

@@ -21,7 +21,7 @@ namespace Modules.InitializationModule
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private GameConstructions _gameConstructions;
         [SerializeField] private WindowViewsConfig _viewsConfig;
-        
+        [SerializeField] private Camera _camera;
         public static WindowFactory UI { get; private set; }
         
         private void Start()
@@ -32,14 +32,13 @@ namespace Modules.InitializationModule
             var tick = GetTickManager();
 
             
-            UI = new WindowFactory(_viewsConfig);
+            UI = new WindowFactory(_camera,_viewsConfig);
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
-                player.ActorsCollection, _actorsProvider, _gameConstructions, battleActorParametersView);
+                player.ActorsCollection, _actorsProvider, _gameConstructions, UI, _camera);
             
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController);
             
-            battleActorParametersView.AddListToSorting();
             battleScene.StartBattle(); 
         }
 

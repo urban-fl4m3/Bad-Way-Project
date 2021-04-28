@@ -4,6 +4,6 @@ namespace UI.Interface
 {
     public interface ICanvasView
     {
-        Canvas Canvas { get; }
+        Canvas Canvas { get; set; }
     }
 }

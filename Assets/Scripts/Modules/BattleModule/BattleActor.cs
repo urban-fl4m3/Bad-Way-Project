@@ -40,6 +40,7 @@ namespace Modules.BattleModule
             IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats)
         {
             Actor = actor;
+            actor.BattleActor = this;
             Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
             Animator = new CharacterAnimator(actor.GetActorComponent<ActorAnimationComponent>());
             

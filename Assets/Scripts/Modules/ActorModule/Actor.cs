@@ -1,14 +1,16 @@
 ﻿using System;
 using Common;
 using Modules.ActorModule.Components;
+using Modules.BattleModule;
 using UnityEngine;
 
 namespace Modules.ActorModule
 {
     public class Actor : MonoBehaviour
     {
-        public event EventHandler<Actor> ActorSelect;
-        public event EventHandler ActorUnSelect;
+        public EventHandler<BattleActor> ActorSelect;
+        public EventHandler ActorUnSelect;
+        public BattleActor BattleActor;
         
         public Transform Transform => transform;
         public Transform TargetForUI;
@@ -35,7 +37,7 @@ namespace Modules.ActorModule
 
         private void OnActorClick(object sender, EventArgs e)
         {
-            ActorSelect?.Invoke(this,this);
+            ActorSelect?.Invoke(this,BattleActor);
         }
         
         public T GetActorComponent<T>()

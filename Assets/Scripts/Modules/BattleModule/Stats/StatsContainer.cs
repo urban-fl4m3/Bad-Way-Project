@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using Modules.BattleModule.Stats.EventArgs;
 using Modules.BattleModule.Stats.Helpers;
 using Modules.BattleModule.Stats.Models;
@@ -14,6 +15,7 @@ namespace Modules.BattleModule.Stats
         public event EventHandler<StatChangedEventArgs<SecondaryStat>> SecondaryStatChanged;
         
         public readonly int MaxHealth;
+        public DynamicValue<int> Health = new DynamicValue<int>(0);
 
         public int this[SecondaryStat stat] => _secondaryStats[stat];
         public int this[PrimaryStat stat] => _primaryStats[stat];
@@ -37,10 +39,15 @@ namespace Modules.BattleModule.Stats
             RecalculateSecondaryStats();
 
             MaxHealth = _secondaryStats[SecondaryStat.Health];
+            Health.Value = _secondaryStats[SecondaryStat.Health];
         }
+        
 
         public void ChangeSecondaryStat(SecondaryStat stat, int amount)
         {
+            if (stat == SecondaryStat.Health)
+                Health.Value += amount;
+            
             _secondaryStats[stat] += amount;
             SecondaryStatChanged?.Invoke(this, 
                 new StatChangedEventArgs<SecondaryStat>(stat, _secondaryStats[stat]));

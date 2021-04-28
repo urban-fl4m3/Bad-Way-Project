@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b39f0330814d68b0748ea61df797aa, type: 3}
+  m_Name: ViewConfig
+  m_EditorClassIdentifier: 
+  _views:
+  - View: {fileID: 439711816024525460, guid: 1b2e01b0881ee8847a985c321b1e011e, type: 3}
+    Id: ActorStatus
+  - View: {fileID: 7257690779826921718, guid: 64c39aa8efca8c340995a130f4728cfb, type: 3}
+    Id: EnemyStatus
+  - View: {fileID: 515425755607942034, guid: 4e4b607fa3e24cd44942fd648df6678a, type: 3}
+    Id: PlayerView
+  - View: {fileID: 2296827457588906116, guid: 6c9c14eb0de773748b8c3f4fe46cc0f8, type: 3}
+    Id: EnemyView
+  _canvas: {fileID: 1142679834729192248, guid: e0f5a8acdb3d12844a23ef5559a0f2e7, type: 3}

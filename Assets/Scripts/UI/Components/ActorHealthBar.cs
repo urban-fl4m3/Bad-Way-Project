@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Common;
 using Modules.BattleModule;
 using Modules.BattleModule.Stats.Helpers;
 using UnityEngine;
@@ -13,34 +13,36 @@ namespace UI.Components
         [SerializeField] private Text _healthPointText;
         [SerializeField] private Transform _healthPointBar;
 
+        private int _maxHealth;
+        private DynamicValue<int> _health;
         private List<Image> _healthPoints;
         private BattleActor _battleActor;
 
-        public void Initialize(BattleActor battleActor)
+        public void Initialize(DynamicValue<int> nowHealth, int maxHealth)
         {
-            _battleActor = battleActor;
-            _battleActor.HealthChanged += OnHealthChange;
-            _healthPoints = new List<Image>();
+            _health = nowHealth;
+            _maxHealth = maxHealth;
 
-            int health = battleActor.Stats[SecondaryStat.Health];
-            _healthPointText.text = health.ToString();
+            _healthPointText.text = _health.Value.ToString();
+            _healthPoints = new List<Image>();
             
-            for (int i = 0; i < health; i++)
+            for (int a = 0; a < maxHealth; a++)
             {
                 var helthpoint = Instantiate(_healthPointPrefab, _healthPointBar);
                 _healthPoints.Add(helthpoint);
             }
+
+            _health.Changed += OnHealthChange;
         }
 
         private void OnHealthChange(object sender, int e)
         {
-            int nowHealth = _battleActor.Stats[SecondaryStat.Health];
             
-            _healthPointText.text = nowHealth.ToString();
+            _healthPointText.text = _health.Value.ToString();
 
             for (int i = 0; i < _healthPoints.Count; i++)
             {
-                if (i > nowHealth)
+                if (i > _health.Value)
                 {
                     _healthPoints[i].color = Color.gray;
                 }

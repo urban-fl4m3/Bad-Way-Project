@@ -61,3 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05897c2bb5f64c2fa897b25963bc3e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _parent: {fileID: 439711816024525461}
+  _actorUIParametersPrefab: {fileID: 7414370687949787578, guid: 290328ff1639fca4d81ab034bafe171c, type: 3}
+  _sortingInCollection: {fileID: 439711816024525462}

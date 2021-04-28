@@ -6,6 +6,7 @@ using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.GridModule.Args;
 using UI;
+using UI.Factories;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,17 +18,17 @@ namespace Modules.BattleModule
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
         public readonly CameraController CameraController;
-        public readonly BattlePlayerControlView BattlePlayerControlView;
+        public readonly WindowFactory _windowFactory;
 
         public BattleScene(GridController grid,
             BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController,
-            BattlePlayerControlView battlePlayerControlView)
+            WindowFactory windowFactory)
         {
             Grid = grid;
             PlayerActManager = playerActManager;
             EnemyActManager = enemyActManager;
             CameraController = cameraController;
-            BattlePlayerControlView = battlePlayerControlView;
+            _windowFactory = windowFactory;
 
             
             playerActManager.OppositeActors += () => enemyActManager.Actors;

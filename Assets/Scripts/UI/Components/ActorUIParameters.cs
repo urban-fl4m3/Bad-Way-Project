@@ -1,4 +1,6 @@
-﻿using Modules.BattleModule;
+﻿using Common;
+using Modules.BattleModule;
+using UI.Interface;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,22 +13,18 @@ namespace UI.Components
         [SerializeField] private ActorHealthBar _actorHealthBar;
         [SerializeField] private Text _name;
         [SerializeField] private Text _level;
-
-        public void OnChanged(bool value)
-        {
-            gameObject.SetActive(value);
-        }
         
         public RectTransform RectTransform => _rectTransform;
-        
-        public void Initialize(BattleActor target, BattleActorParametersView battleActorParametersView)
+        public DynamicValue<int> health;
+
+        public void Initialize(Transform target, string name, int level, DynamicValue<int> health, int maxHealth)
         {
-            _target = target.Actor.TargetForUI;
-            _actorHealthBar.Initialize(target);
-            _name.text = target.Actor.name;
-            battleActorParametersView.OnEnableUI += OnChanged;
+            _target = target;
+            _name.text = name;
+            _level.text = level.ToString();
+            _actorHealthBar.Initialize(health, maxHealth);
         }
-        
+
         public void UpdatePosition()
         {
             if (!_target)

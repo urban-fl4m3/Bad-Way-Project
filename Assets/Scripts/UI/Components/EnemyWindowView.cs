@@ -1,4 +1,4 @@
-﻿using Modules.BattleModule;
+﻿using Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +11,8 @@ namespace UI.Components
         [SerializeField] private Text _stats;
         [SerializeField] private HealthBar _healthBar;
 
+        private int _maxHealth;
+        private DynamicValue<int> _health;
         public void SetContext(string actorName, Sprite icon, string stats)
         {
             _name.text = actorName;
@@ -18,15 +20,18 @@ namespace UI.Components
             _stats.text = stats;
         }
 
-        public void SetHealth(int health, int valueHealth, BattleActor enemyActor)
+        public void SetHealth(DynamicValue<int> health, int maxHealth)
         {
-            enemyActor.HealthChanged += OnHealthChange;
-            _healthBar.SetHealthInt(health, valueHealth);
+            _maxHealth = maxHealth;
+            _health = health;
+            _healthBar.SetHealthInt(health.Value, maxHealth);
+
+            health.Changed += OnHealthChange;
         }
 
         private void OnHealthChange(object sender, int e)
         {
-            _healthBar.SetCurrentHealth(e);
+            _healthBar.SetHealthInt(_health.Value,_maxHealth);
         }
     }
 }

@@ -8,8 +8,8 @@ namespace Modules.ActorModule.Components
 {
     public class ActorCollisionComponent : MonoBehaviour, IActorComponent
     {
-        public event EventHandler ActorSelected;
-        public event EventHandler ActorUnSelected;
+        public EventHandler ActorSelected;
+        public EventHandler ActorUnSelected;
         
         [SerializeField] private CapsuleCollider _collider;
         private Vector3 coverOffset;

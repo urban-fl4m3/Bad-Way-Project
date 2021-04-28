@@ -1,46 +1,60 @@
+using System;
+using System.Reflection;
+using Modules.ActorModule;
+using Modules.BattleModule;
 using UI.Components;
+using UI.Interface;
+using UI.Models;
 using UnityEngine;
 
 namespace UI
 {
-    public class BattleEnemyStateView : MonoBehaviour
+    public class BattleEnemyStateView : MonoBehaviour, ICanvasView, IViewModel
+
     {
         [SerializeField] private EnemyWindowView enemyWindowView;
-        public EnemyWindowView EnemyWindowView => enemyWindowView;
-        
-        public void SubscribeEnemy(IEnumerable<BattleActor> enemyActor)
-        {
-            _enemyActors = new List<BattleActor>();
-            foreach (var actor in enemyActor)
-            {
-                _enemyActors.Add(actor);
-                actor.Actor.ActorSelect += OnEnemyActorClick;
-                actor.Actor.ActorUnSelect += OnEnemyUnSelect;
-                actor.ActorDeath += OnEnemyDeath;
-            }
-        }
+        public Canvas Canvas { get; set; }
+        public GameObject GameObject { get; }
 
-        private void OnEnemyDeath(object sender, BattleActor e)
+        private BattleEnemyStateModel _model;
+
+        public void ResolveModel(IModel model)
         {
-            e.Actor.ActorSelect -= OnEnemyActorClick;
-            e.Actor.ActorUnSelect -= OnEnemyUnSelect;
-            e.ActorDeath -= OnEnemyDeath;
+            _model =(BattleEnemyStateModel) model;
+            foreach (var enemy in _model._enemies)
+            {
+                enemy.Actor.ActorSelect += HandlerActorSelected;
+                enemy.Actor.ActorUnSelect +=HandlerActorUnSelected ;
+            }
+
+        }
+        public void Clear()
+        {
+            foreach (var enemy in _model._enemies)
+            {
+                enemy.Actor.ActorSelect -= HandlerActorSelected;
+                enemy.Actor.ActorUnSelect -=HandlerActorUnSelected ;
+            }
+            
+        }
+        private void HandlerActorSelected(object sender, BattleActor actor)
+        {
+            Debug.Log("ss");
+            enemyWindowView.gameObject.SetActive(true);
+            
+            var name = actor.Actor.name;
+            var health = actor.Stats.Health;
+            var maxHealth = actor.Stats.MaxHealth;
+            
+            enemyWindowView.SetContext(name, null, "");
+            enemyWindowView.SetHealth(health,maxHealth);
+        }
+        private void HandlerActorUnSelected(object sender, EventArgs e)
+        {
+            Debug.Log("a");
+            enemyWindowView.gameObject.SetActive(false);
         }
         
-        private void OnEnemyActorClick(object sender, Actor e)
-        {
-            foreach (var enemyActor in _enemyActors.Where(enemyActor => enemyActor.Actor == e))
-            {
-                // _enemyWindow.EnemyWindowView.gameObject.SetActive(true);
-                // _enemyWindow.EnemyWindowView.SetHealth(enemyActor.Stats[SecondaryStat.Health],
-                //     enemyActor.Stats.MaxHealth, 
-                //     enemyActor);
-            }
-        }
-
-        private void OnEnemyUnSelect(object sender, EventArgs e)
-        {
-            // _enemyWindow.EnemyWindowView.gameObject.SetActive(false);
-        }
+        
     }
 }

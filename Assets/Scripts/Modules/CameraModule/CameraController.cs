@@ -20,7 +20,7 @@ namespace Modules.CameraModule
             myPosition = transform.position;
         }
 
-        private void LateUpdate()
+       private void LateUpdate()
         {
            smoothPosition = Vector3.Lerp(smoothPosition, SelectedActor.position,
                 Smooth*Time.deltaTime);

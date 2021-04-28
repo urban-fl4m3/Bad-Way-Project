@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
+using Modules.ActorModule;
 using Modules.ActorModule.Components;
 using Modules.CameraModule;
 using Modules.GridModule;
@@ -8,6 +9,7 @@ using Modules.GridModule.Cells;
 using Modules.InitializationModule;
 using Modules.TickModule;
 using UI;
+using UI.Factories;
 using UI.Models;
 using UnityEngine;
 
@@ -15,22 +17,29 @@ namespace Modules.BattleModule.Managers
 {
     public partial class PlayerActManager : BattleActManager
     {
-        private readonly BattlePlayerControlView _battlePlayerControlView;
+        
         private readonly CameraController _cameraController;
 
         private BattlePlayerControlViewModel _model;
+        private WindowFactory _windowFactory;
         private DynamicValue<bool> IsPlayerActing;
         
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
-            BattlePlayerControlView battlePlayerControlView, CameraController cameraController) 
+            WindowFactory windowFactory, CameraController cameraController, List<ActorDataProvider> actorDataProvider) 
             : base(grid, actors, tickManager)
         {
-            _battlePlayerControlView = battlePlayerControlView;
+            _windowFactory = windowFactory;
             _cameraController = cameraController;
 
             IsPlayerActing = new DynamicValue<bool>(true);
-            _model = new BattlePlayerControlViewModel(IsPlayerActing);
-            GameInitializer.UI.AddWindow("Player_Window", _model);
+            
+            _model = new BattlePlayerControlViewModel(HandleMovementClicked,HandleAttackClicked,HandleSelectActor,actorDataProvider);
+
+            windowFactory.AddWindow("PlayerView", _model);
+
+            IsPlayerActing = new DynamicValue<bool>(true);
+
+            
         }
 
         protected override void OnActStart()
@@ -104,7 +113,10 @@ namespace Modules.BattleModule.Managers
         private void UpdateControlView(BattleActor actor)
         {
             var isActive = IsActorActive(actor);
-            _battlePlayerControlView.SetActiveAllButton(isActive);
+            
+            if(!isActive)
+                Debug.Log("End " +actor.Actor.name+" step");
+            //_windowFactory.HideWindow("PlayerView", isActive);
         }
     }
 }
