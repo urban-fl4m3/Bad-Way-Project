@@ -1,21 +1,19 @@
-﻿using Modules.ActorModule;
-using Modules.BattleModule;
+﻿using Modules.BattleModule;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Components
 {
-    public class EnemyWindow: MonoBehaviour
-
+    public class EnemyWindowView: MonoBehaviour
     {
         [SerializeField] private Text _name;
         [SerializeField] private Image _icon;
         [SerializeField] private Text _stats;
         [SerializeField] private HealthBar _healthBar;
 
-        public void SetContext(string name, Sprite icon, string stats)
+        public void SetContext(string actorName, Sprite icon, string stats)
         {
-            _name.text = name;
+            _name.text = actorName;
             _icon.sprite = icon;
             _stats.text = stats;
         }

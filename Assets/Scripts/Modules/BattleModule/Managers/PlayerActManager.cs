@@ -13,14 +13,14 @@ namespace Modules.BattleModule.Managers
 {
     public partial class PlayerActManager : BattleActManager
     {
-        private readonly BattlePlayerControlsView _battlePlayerControlsView;
+        private readonly BattlePlayerControlView _battlePlayerControlView;
         private readonly CameraController _cameraController;
         
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
-            BattlePlayerControlsView battlePlayerControlsView, CameraController cameraController) 
+            BattlePlayerControlView battlePlayerControlView, CameraController cameraController) 
             : base(grid, actors, tickManager)
         {
-            _battlePlayerControlsView = battlePlayerControlsView;
+            _battlePlayerControlView = battlePlayerControlView;
             _cameraController = cameraController;
         }
 
@@ -28,20 +28,20 @@ namespace Modules.BattleModule.Managers
         {
             _grid.CellSelected += HandleCellSelected;
             
-            _battlePlayerControlsView.MovementClicked += HandleMovementClicked;
-            _battlePlayerControlsView.AttackClicked += HandleAttackClicked;
-            _battlePlayerControlsView.SelectedClick += HandleSelectActor;
-            _battlePlayerControlsView.Show();
+            _battlePlayerControlView.MovementClicked += HandleMovementClicked;
+            _battlePlayerControlView.AttackClicked += HandleAttackClicked;
+            _battlePlayerControlView.SelectedClick += HandleSelectActor;
+            _battlePlayerControlView.Show();
         }
 
         protected override void OnActEnd()
         {
             _grid.CellSelected -= HandleCellSelected;
             
-            _battlePlayerControlsView.MovementClicked -= HandleMovementClicked;
-            _battlePlayerControlsView.AttackClicked -= HandleAttackClicked; 
-            _battlePlayerControlsView.SelectedClick -= HandleSelectActor;
-            _battlePlayerControlsView.Hide();
+            _battlePlayerControlView.MovementClicked -= HandleMovementClicked;
+            _battlePlayerControlView.AttackClicked -= HandleAttackClicked; 
+            _battlePlayerControlView.SelectedClick -= HandleSelectActor;
+            _battlePlayerControlView.Hide();
         }
 
         private void PlayerMove(int row, int column)
@@ -101,7 +101,7 @@ namespace Modules.BattleModule.Managers
         private void UpdateControlView(BattleActor actor)
         {
             var isActive = IsActorActive(actor);
-            _battlePlayerControlsView.SetActiveAllButton(isActive);
+            _battlePlayerControlView.SetActiveAllButton(isActive);
         }
     }
 }

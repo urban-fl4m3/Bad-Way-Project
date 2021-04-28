@@ -7,7 +7,7 @@ using Modules.CameraModule;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
-using UI;
+using UI.Configs;
 using UnityEngine;
 
 namespace Modules.InitializationModule
@@ -17,10 +17,9 @@ namespace Modules.InitializationModule
         [SerializeField] private LevelDataProvider _levelData;
         [SerializeField] private AvailableBattleStatsProvider _statsProvider;
         [SerializeField] private AvailableActorsProvider _actorsProvider;
-        [SerializeField] private BattlePlayerControlsView battlePlayerControlsView;
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private GameConstructions _gameConstructions;
-        [SerializeField] private BattleActorParameters _battleActorParameters;
+        [SerializeField] private WindowViewsConfig _viewsConfig;
         
         private void Start()
         {
@@ -30,11 +29,11 @@ namespace Modules.InitializationModule
             var tick = GetTickManager();
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
-                player.ActorsCollection, _actorsProvider, _gameConstructions, _battleActorParameters);
+                player.ActorsCollection, _actorsProvider, _gameConstructions, battleActorParametersView);
             
-            var battleScene = battleSceneFactory.CreateBattleScene(battlePlayerControlsView,_cameraController);
+            var battleScene = battleSceneFactory.CreateBattleScene(battlePlayerControlView,_cameraController);
             
-            _battleActorParameters.AddListToSorting();
+            battleActorParametersView.AddListToSorting();
             battleScene.StartBattle(); 
         }
 

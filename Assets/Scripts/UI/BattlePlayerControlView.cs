@@ -4,7 +4,6 @@ using System.Linq;
 using Common;
 using Modules.ActorModule;
 using Modules.BattleModule;
-using Modules.BattleModule.Stats;
 using Modules.BattleModule.Stats.Helpers;
 using UI.Components;
 using UnityEngine;
@@ -12,7 +11,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class BattlePlayerControlsView : MonoBehaviour
+    public class BattlePlayerControlView : MonoBehaviour
     {
         public event EventHandler MovementClicked;
         public event EventHandler AttackClicked;
@@ -22,7 +21,6 @@ namespace UI
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _attackButton;
         [SerializeField] private Button _hideButton;
-        [SerializeField] private BattleEnemyScene _enemyWindow;
         [SerializeField] private Transform _iconsParent;
         [SerializeField] private NamedIconComponent _actorSelectorButton;
         
@@ -79,16 +77,16 @@ namespace UI
         {
             foreach (var enemyActor in _enemyActors.Where(enemyActor => enemyActor.Actor == e))
             {
-                _enemyWindow.EnemyWindow.gameObject.SetActive(true);
-                _enemyWindow.EnemyWindow.SetHealth(enemyActor.Stats[SecondaryStat.Health],
-                    enemyActor.Stats.MaxHealth, 
-                    enemyActor);
+                // _enemyWindow.EnemyWindowView.gameObject.SetActive(true);
+                // _enemyWindow.EnemyWindowView.SetHealth(enemyActor.Stats[SecondaryStat.Health],
+                //     enemyActor.Stats.MaxHealth, 
+                //     enemyActor);
             }
         }
 
         private void OnEnemyUnSelect(object sender, EventArgs e)
         {
-            _enemyWindow.EnemyWindow.gameObject.SetActive(false);
+           // _enemyWindow.EnemyWindowView.gameObject.SetActive(false);
         }
         
         public void SetActiveAllButton(bool isActive)

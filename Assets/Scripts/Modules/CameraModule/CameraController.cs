@@ -1,13 +1,11 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Modules.CameraModule
 {
     public class CameraController : MonoBehaviour
     {
         public delegate void OnCameraPositionChangeDelegate(Vector3 newPosition);
-        public event OnCameraPositionChangeDelegate OnCameraPositonChange;
+        public event OnCameraPositionChangeDelegate OnCameraPositionChange;
 
         [SerializeField] private float Smooth;
         [SerializeField] private Vector3 offset;
@@ -28,10 +26,10 @@ namespace Modules.CameraModule
                 Smooth*Time.deltaTime);
             transform.position = smoothPosition+ offset;
 
-            if (transform.position != myPosition && OnCameraPositonChange != null)
+            if (transform.position != myPosition && OnCameraPositionChange != null)
             {
                 myPosition = transform.position;
-                OnCameraPositonChange(myPosition);
+                OnCameraPositionChange(myPosition);
             }
         }
 

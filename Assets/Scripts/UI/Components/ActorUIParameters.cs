@@ -1,12 +1,8 @@
 ﻿using Modules.BattleModule;
-using Modules.BattleModule.Stats.Helpers;
-using UI;
-using UI.Components;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Modules.ActorModule.Components
+namespace UI.Components
 {
     public class ActorUIParameters : MonoBehaviour
     { 
@@ -20,14 +16,17 @@ namespace Modules.ActorModule.Components
         {
             gameObject.SetActive(value);
         }
+        
         public RectTransform RectTransform => _rectTransform;
-        public void Initialize(BattleActor target, BattleActorParameters battleActorParameters)
+        
+        public void Initialize(BattleActor target, BattleActorParametersView battleActorParametersView)
         {
             _target = target.Actor.TargetForUI;
             _actorHealthBar.Initialize(target);
             _name.text = target.Actor.name;
-            battleActorParameters.OnEnableUI += OnChanged;
+            battleActorParametersView.OnEnableUI += OnChanged;
         }
+        
         public void UpdatePosition()
         {
             if (!_target)

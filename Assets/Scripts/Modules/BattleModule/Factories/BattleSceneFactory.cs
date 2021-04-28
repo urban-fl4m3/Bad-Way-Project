@@ -21,7 +21,7 @@ namespace Modules.BattleModule.Factories
         private readonly IReadOnlyList<PlayerActorData> _playerActorsCollection;
         private readonly AvailableActorsProvider _availableActorsProvider;
         private readonly GameConstructions _gameConstructions;
-        private readonly BattleActorParameters _battleActorParameters;
+        private readonly BattleActorParametersView _battleActorParametersView;
 
         public AvailableActorsProvider AvailableActorsProvider => _availableActorsProvider;
 
@@ -32,7 +32,7 @@ namespace Modules.BattleModule.Factories
         public BattleSceneFactory(ITickManager tickManager, LevelDataProvider levelDataProvider,
             AvailableBattleStatsProvider battleStatsProvider, PlayerActorsCollection playerActorsCollection,
             AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions,
-            BattleActorParameters battleActorParameters)
+            BattleActorParametersView battleActorParametersView)
         {
             _tickManager = tickManager;
             _levelDataProvider = levelDataProvider;
@@ -40,10 +40,10 @@ namespace Modules.BattleModule.Factories
             _playerActorsCollection = playerActorsCollection;
             _availableActorsProvider = availableActorsProvider;
             _gameConstructions = gameConstructions;
-            _battleActorParameters = battleActorParameters;
+            _battleActorParametersView = battleActorParametersView;
         }
 
-        public BattleScene CreateBattleScene(BattlePlayerControlsView battlePlayerControlsView,
+        public BattleScene CreateBattleScene(BattlePlayerControlView battlePlayerControlView,
             CameraController cameraController)
         {
             var gridBuilder = new GridBuilder("Battle_Grid");
@@ -52,18 +52,18 @@ namespace Modules.BattleModule.Factories
             gridController.FillBuildingCell(_gameConstructions.ActualBuilding);
 
             var playerActorsManager =
-                CreatePlayerManager(gridController, _tickManager, battlePlayerControlsView, cameraController);
-            var enemyActorsManager = CreateEnemyManager(gridController,battlePlayerControlsView);
+                CreatePlayerManager(gridController, _tickManager, battlePlayerControlView, cameraController);
+            var enemyActorsManager = CreateEnemyManager(gridController,battlePlayerControlView);
 
             var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager,
-                cameraController, battlePlayerControlsView);
+                cameraController, battlePlayerControlView);
             
             return battleScene;
         }
 
         //Add factory for battle actors. Why? Incapsulate instantiate object for simplest actor creation while 
         //battle runs. For example: enemy reinforcement.
-        private BattleActManager CreateEnemyManager(GridController grid, BattlePlayerControlsView battlePlayerControlsView)
+        private BattleActManager CreateEnemyManager(GridController grid, BattlePlayerControlView battlePlayerControlView)
         {
             var enemyActors = new List<BattleActor>();
             foreach (var levelActor in _levelDataProvider.EnemyActorsData)
@@ -82,15 +82,15 @@ namespace Modules.BattleModule.Factories
                 };
                
                 enemyActors.Add(battleActor);
-                _battleActorParameters.CreateActorParametersWindow(battleActor);
+                _battleActorParametersView.CreateActorParametersWindow(battleActor);
             }
-            battlePlayerControlsView.SubscribeEnemy(enemyActors);
+            battlePlayerControlView.SubscribeEnemy(enemyActors);
             var enemyManager = new EnemyActManager(grid, enemyActors, _tickManager);
             return enemyManager;
         }
 
         private BattleActManager CreatePlayerManager(GridController grid, ITickManager tickManager,
-            BattlePlayerControlsView battlePlayerControlsView, CameraController cameraController)
+            BattlePlayerControlView battlePlayerControlView, CameraController cameraController)
         {
             var playerBattleActors = new List<BattleActor>();
             for (var i = 0; i < _playerActorsCollection.Count; i++)
@@ -112,13 +112,13 @@ namespace Modules.BattleModule.Factories
                 };
 
                 playerBattleActors.Add(battleActor);
-                _battleActorParameters.CreateActorParametersWindow(battleActor);
+                _battleActorParametersView.CreateActorParametersWindow(battleActor);
             }
 
             
-            battlePlayerControlsView.Initialize(AvailableActorsProvider.AvailableActors);
+            battlePlayerControlView.Initialize(AvailableActorsProvider.AvailableActors);
             
-            var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, battlePlayerControlsView, 
+            var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, battlePlayerControlView, 
                 cameraController);
             cameraController.PointAtActor(playerManager.Actors[0].Actor.transform);
 

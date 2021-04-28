@@ -17,17 +17,17 @@ namespace Modules.BattleModule
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
         public readonly CameraController CameraController;
-        public readonly BattlePlayerControlsView BattlePlayerControlsView;
+        public readonly BattlePlayerControlView BattlePlayerControlView;
 
         public BattleScene(GridController grid,
             BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController,
-            BattlePlayerControlsView battlePlayerControlsView)
+            BattlePlayerControlView battlePlayerControlView)
         {
             Grid = grid;
             PlayerActManager = playerActManager;
             EnemyActManager = enemyActManager;
             CameraController = cameraController;
-            BattlePlayerControlsView = battlePlayerControlsView;
+            BattlePlayerControlView = battlePlayerControlView;
 
             
             playerActManager.OppositeActors += () => enemyActManager.Actors;
