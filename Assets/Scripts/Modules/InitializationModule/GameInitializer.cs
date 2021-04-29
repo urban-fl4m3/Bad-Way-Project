@@ -33,11 +33,10 @@ namespace Modules.InitializationModule
             var player = GetPlayer();
             var tick = GetTickManager();
 
-            
             _windowsFactory = new WindowFactory(_camera,_viewsConfig);
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
-                player.ActorsCollection, _actorsProvider, _gameConstructions, _windowsFactory);
+                player.ActorsCollection, _actorsProvider, _gameConstructions);
             
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController);
             

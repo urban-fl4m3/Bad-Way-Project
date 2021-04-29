@@ -6,31 +6,18 @@ using Modules.ActorModule.Components;
 using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.TickModule;
-using UI.Factories;
-using UI.Models;
 
 namespace Modules.BattleModule.Managers
 {
     public partial class PlayerActManager : BattleActManager
     {
-        
         private readonly CameraController _cameraController;
-
-        private BattlePlayerControlViewModel _model;
         
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
-            WindowFactory windowFactory, CameraController cameraController, List<ActorDataProvider> actorDataProvider) 
+            CameraController cameraController, List<ActorDataProvider> actorDataProvider) 
             : base(grid, actors, tickManager)
         {
             _cameraController = cameraController;
-            
-            _model = new BattlePlayerControlViewModel(
-                HandleMovementClicked,
-                HandleAttackClicked,
-                HandleSelectActor,
-                actorDataProvider);
-
-            windowFactory.AddWindow("PlayerView", _model);
         }
 
         protected override void OnActStart()
