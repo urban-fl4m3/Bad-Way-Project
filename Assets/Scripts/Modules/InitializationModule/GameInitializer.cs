@@ -1,3 +1,4 @@
+using System;
 using EditorMod;
 using Modules.ActorModule;
 using Modules.BattleModule.Factories;
@@ -7,6 +8,8 @@ using Modules.CameraModule;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
+using Schemes;
+using Schemes.Implementations;
 using UI.Configs;
 using UI.Factories;
 using UnityEngine;
@@ -23,6 +26,7 @@ namespace Modules.InitializationModule
         [SerializeField] private WindowViewsConfig _viewsConfig;
         [SerializeField] private Camera _camera;
 
+        private IBaseScheme _battleScheme;
         //ЭТО ТРОГАТЬ НЕЛЬЗЯ
         private WindowFactory _windowsFactory;
         
@@ -39,7 +43,9 @@ namespace Modules.InitializationModule
                 player.ActorsCollection, _actorsProvider, _gameConstructions);
             
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController);
-            
+
+            _battleScheme = new BattleScheme();
+            _battleScheme.Execute();
             battleScene.StartBattle(); 
         }
 
@@ -61,6 +67,11 @@ namespace Modules.InitializationModule
             var processor = new GameObject("_Tick_Processor").AddComponent<TickProcessor>();
 
             return new TickManager(processor);
+        }
+
+        private void OnDestroy()
+        {
+            _battleScheme.Complete();
         }
     }
 }

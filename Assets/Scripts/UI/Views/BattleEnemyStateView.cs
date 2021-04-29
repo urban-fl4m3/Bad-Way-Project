@@ -20,7 +20,7 @@ namespace UI.Views
         public void ResolveModel(IModel model)
         {
             _model = (BattleEnemyStateModel) model;
-            foreach (var enemy in _model._enemies)
+            foreach (var enemy in _model.Enemies)
             {
                 enemy.Selected += HandlerActorSelected;
                 enemy.Deselected += HandlerActorDeselected;
@@ -29,7 +29,7 @@ namespace UI.Views
 
         public void Clear()
         {
-            foreach (var enemy in _model._enemies)
+            foreach (var enemy in _model.Enemies)
             {
                 enemy.Selected -= HandlerActorSelected;
                 enemy.Deselected -=HandlerActorDeselected ;
