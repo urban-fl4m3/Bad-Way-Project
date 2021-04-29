@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Modules.BattleModule;
 using Modules.CameraModule;
-using UI.Models;
 
-namespace UI.Interface
+namespace UI.Models
 {
     public class BattleActorParameterModel: IModel
     {
-        public List<BattleActor> BattleActors;
-        public CameraController CameraController;
+        public readonly List<BattleActor> BattleActors;
+        public readonly CameraController CameraController;
 
         public BattleActorParameterModel(List<BattleActor> battleActors, CameraController cameraController)
         {

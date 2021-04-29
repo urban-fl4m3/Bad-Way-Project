@@ -9,17 +9,16 @@ namespace UI.Factories
     public class WindowFactory
     {
         private readonly Camera _camera;
-        private WindowViewsConfig _config;
+        private readonly WindowViewsConfig _config;
 
-        private Dictionary<string, IViewModel> _models = new Dictionary<string, IViewModel>();
-        private Dictionary<string, IButtonSubscriber> _buttonSubscribers = new Dictionary<string, IButtonSubscriber>();
-        private Dictionary<string, ICanvasView> _canvasViews = new Dictionary<string, ICanvasView>();
+        private readonly Dictionary<string, IViewModel> _models = new Dictionary<string, IViewModel>();
+        private readonly Dictionary<string, IButtonSubscriber> _buttonSubscribers = new Dictionary<string, IButtonSubscriber>();
+        private readonly Dictionary<string, ICanvasView> _canvasViews = new Dictionary<string, ICanvasView>();
 
         public WindowFactory(Camera camera, WindowViewsConfig config)
         {
             _camera = camera;
             _config = config;
-
         }
 
         public void AddWindow(string windowKey, IModel model)
@@ -27,10 +26,8 @@ namespace UI.Factories
             var configGameObject = Object.Instantiate(_config.LoadCanvas());
             var canvas = configGameObject.GetComponent<Canvas>();
 
-            var window = Object.Instantiate(_config.LoadView(windowKey));
-            
-            
-            window.transform.SetParent(configGameObject.transform, false);
+            var window = Object.Instantiate(
+                _config.LoadView(windowKey), configGameObject.transform, false);
             
             canvas.renderMode = RenderMode.ScreenSpaceCamera;
             canvas.worldCamera = _camera;
@@ -41,7 +38,6 @@ namespace UI.Factories
             var canvasView = window.GetComponent<ICanvasView>();
             
             canvasView.Canvas = canvas;
-
             
             _canvasViews.Add(windowKey, canvasView);
             modelView.ResolveModel(model);
@@ -60,6 +56,7 @@ namespace UI.Factories
             _canvasViews[windowKey].Canvas.enabled = a;
             _models[windowKey].GameObject.SetActive(a);
         }
+        
         public void RemoveWindow(string windowKey)
         {
             _buttonSubscribers[windowKey].UnsubscribeButtons();

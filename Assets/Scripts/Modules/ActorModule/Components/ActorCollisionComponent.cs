@@ -2,17 +2,16 @@
 using System.Collections;
 using Common;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Modules.ActorModule.Components
 {
     public class ActorCollisionComponent : MonoBehaviour, IActorComponent
     {
-        public EventHandler ActorSelected;
-        public EventHandler ActorUnSelected;
+        public event EventHandler Selected;
+        public event EventHandler Deselected;
         
         [SerializeField] private CapsuleCollider _collider;
-        private Vector3 coverOffset;
+        private Vector3 _coverOffset;
         
         public void Initialize(TypeContainer container)
         {
@@ -23,38 +22,41 @@ namespace Modules.ActorModule.Components
         {
             if (Input.GetMouseButtonDown(1))
             {
-                ActorSelected?.Invoke(this, null);
+                Selected?.Invoke(this, null);
             }
 
             if (Input.GetMouseButtonUp(1))
             {
-                ActorUnSelected?.Invoke(this,null);
+                Deselected?.Invoke(this, null);
             }
-}
+        }
 
         private void OnMouseExit()
         {
-            ActorUnSelected?.Invoke(this,null);
+            Deselected?.Invoke(this,null);
         }
 
         public void CheckDistanceToCover()
         {
-            var ray = new Ray(transform.position,transform.forward);
-            
+            var tr = transform;
+            var ray = new Ray(tr.position, tr.forward);
+
             if (Physics.Raycast(ray, out var hit, 2f))
             {
-                coverOffset = transform.position - hit.point;
-                coverOffset = coverOffset - coverOffset.normalized*_collider.radius/2;
+                _coverOffset = transform.position - hit.point;
+                _coverOffset -= _coverOffset.normalized * _collider.radius / 2;
+                
                 StartCoroutine(GetCover());
             }
         }
 
         private IEnumerator GetCover()
         {
-            var currentPosition = transform.position - coverOffset;
+            var currentPosition = transform.position - _coverOffset;
             while (transform.position!=currentPosition)
             {
-                transform.position = Vector3.MoveTowards(transform.position, currentPosition, Time.deltaTime * 2);
+                transform.position = Vector3.MoveTowards(transform.position, currentPosition,
+                    Time.deltaTime * 2);
                 yield return null;
             }
 

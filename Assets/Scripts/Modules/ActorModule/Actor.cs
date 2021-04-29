@@ -1,16 +1,14 @@
 ﻿using System;
 using Common;
 using Modules.ActorModule.Components;
-using Modules.BattleModule;
 using UnityEngine;
 
 namespace Modules.ActorModule
 {
     public class Actor : MonoBehaviour
     {
-        public EventHandler<BattleActor> ActorSelect;
-        public EventHandler ActorUnSelect;
-        public BattleActor BattleActor;
+        public event EventHandler ActorSelected;
+        public event EventHandler ActorDeselected;
         
         public Transform Transform => transform;
         public Transform TargetForUI;
@@ -26,22 +24,21 @@ namespace Modules.ActorModule
                 actorComponent.Initialize(_container);
             }
             
-            _container.Resolve<ActorCollisionComponent>().ActorSelected += OnActorClick;
-            _container.Resolve<ActorCollisionComponent>().ActorUnSelected += OnActorUnSelect;
+            _container.Resolve<ActorCollisionComponent>().Selected += OnClick;
+            _container.Resolve<ActorCollisionComponent>().Deselected += OnActorUnSelect;
         }
 
         private void OnActorUnSelect(object sender, EventArgs e)
         {
-            ActorUnSelect?.Invoke(this,null);
+            ActorDeselected?.Invoke(this,null);
         }
 
-        private void OnActorClick(object sender, EventArgs e)
+        private void OnClick(object sender, EventArgs e)
         {
-            ActorSelect?.Invoke(this,BattleActor);
+            ActorSelected?.Invoke(this, EventArgs.Empty);
         }
         
-        public T GetActorComponent<T>()
-            where T : class, IActorComponent
+        public T GetActorComponent<T>() where T : class, IActorComponent
         {
             return _container.Resolve<T>();
         }

@@ -14,8 +14,6 @@ namespace Modules.BattleModule.Managers
             _grid.RemoveCellHighlights();
             var nextPlayer = Actors[actorIndex];
             _cameraController.PointAtActor(nextPlayer.Actor.transform);
-            
-            UpdateControlView(Actors[actorIndex]);
         }
 
         private void HandleMovementClicked(object sender, EventArgs e)

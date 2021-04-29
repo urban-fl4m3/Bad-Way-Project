@@ -15,7 +15,7 @@ namespace Modules.BattleModule.Stats
         public event EventHandler<StatChangedEventArgs<SecondaryStat>> SecondaryStatChanged;
         
         public readonly int MaxHealth;
-        public DynamicValue<int> Health = new DynamicValue<int>(0);
+        public readonly DynamicValue<int> Health = new DynamicValue<int>(0);
 
         public int this[SecondaryStat stat] => _secondaryStats[stat];
         public int this[PrimaryStat stat] => _primaryStats[stat];

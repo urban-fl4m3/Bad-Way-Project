@@ -6,7 +6,7 @@ using UI.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Views
 {
     public class BattlePlayerControlView : MonoBehaviour, IViewModel, IButtonSubscriber, ICanvasView, IActorButton
     {
@@ -41,31 +41,12 @@ namespace UI
             
         }
 
-        private void AbcOnChanged(object sender, bool e)
-        {
-            if (e)
-            {
-                
-            }
-            else
-            {
-                
-            }
-        }
-
         public void SubscribeButtons()
         {
-            _attackButton.onClick.AddListener(() =>
-            {
-                _model.AttackClicked?.Invoke(this, EventArgs.Empty);
-            });
+            _attackButton.onClick.AddListener(() => { _model.AttackClicked?.Invoke(this, EventArgs.Empty); });
+            _moveButton.onClick.AddListener(() => { _model.MovementClicked?.Invoke(this, EventArgs.Empty); });
 
-            _moveButton.onClick.AddListener(() =>
-            {
-                _model.MovementClicked?.Invoke(this, EventArgs.Empty);
-            });
-            
-            for (int a = 0; a < _buttonPool.Count; a++)
+            for (var a = 0; a < _buttonPool.Count; a++)
             {
                 var index = a;
                 _buttonPool[a].AddButtonListener((sender, args) =>
@@ -73,9 +54,8 @@ namespace UI
                     _model.SelectedClick?.Invoke(this, index);
                 });
             }
+        }
 
-    }
-        
         public void UnsubscribeButtons()
         {
             _attackButton.onClick.RemoveAllListeners();
@@ -90,7 +70,7 @@ namespace UI
             _buttonPool = new UnityPool<NamedIconComponent>(_actorSelectorButton);
             _buttonPool.ToParent(_iconsParent);
 
-            for (int i = 0; i < actorCount; i++)
+            for (var i = 0; i < actorCount; i++)
             {
                 var buttonInstance = _buttonPool.Instantiate();
                 var index = i;

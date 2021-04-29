@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,25 +6,13 @@ namespace UI.Components
 {
     public class SortingInCollection : MonoBehaviour
     { 
-        private  RectTransform[] _items;
+        private RectTransform[] _items;
 
-        public void GetCollection()
+        public void FetchCollection()
         {
-            var items = transform.GetComponentsInChildren<RectTransform>();
-            _items = items;
-
+            _items = transform.GetComponentsInChildren<RectTransform>();
         }
-        public void AddCollection(List<RectTransform> rectTransforms)
-        {
-            _items = new RectTransform[rectTransforms.Count];
 
-            for (var i = 0; i < rectTransforms.Count; i++)
-            {
-                var count = i;
-                _items[count] = rectTransforms[count];
-            }
-        }
-        
         public void UpdateSorting()
         {
             if (_items.Length == 0)

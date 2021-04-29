@@ -15,6 +15,8 @@ namespace Modules.BattleModule
     {
         public event EventHandler<int> HealthChanged;
         public event EventHandler<BattleActor> ActorDeath;
+        public event EventHandler<BattleActor> Selected;
+        public event EventHandler Deselected;
         
         public readonly Actor Actor;
         public readonly StatsContainer Stats;
@@ -40,11 +42,13 @@ namespace Modules.BattleModule
             IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats)
         {
             Actor = actor;
-            actor.BattleActor = this;
             Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
             Animator = new CharacterAnimator(actor.GetActorComponent<ActorAnimationComponent>());
             
             Stats.SecondaryStatChanged += HandleHealthChanged;
+            
+            actor.ActorSelected += HandleActorDeselected;
+            actor.ActorDeselected += HandleActorSelected;
         }
 
         public void TakeDamage(int damageAmount)
@@ -65,5 +69,15 @@ namespace Modules.BattleModule
                 }
             }
         }
-    } 
+        
+        private void HandleActorSelected(object sender, EventArgs e)
+        {
+            Deselected?.Invoke(this, e);
+        }
+
+        private void HandleActorDeselected(object sender, EventArgs e)
+        {
+            Selected?.Invoke(this, this);
+        }
+    }
 }

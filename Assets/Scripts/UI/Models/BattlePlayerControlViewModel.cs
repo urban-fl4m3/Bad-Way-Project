@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Modules.ActorModule;
-using UnityEngine;
 
 namespace UI.Models
 {
     public class BattlePlayerControlViewModel : IModel
     {
-        public EventHandler MovementClicked;
-        public EventHandler AttackClicked;
-        public EventHandler<Actor> ActorClick;
-        public EventHandler<int> SelectedClick;
-        public List<ActorDataProvider> ActorDataProvider;
+        public readonly EventHandler MovementClicked;
+        public readonly EventHandler AttackClicked;
+        public readonly EventHandler<int> SelectedClick;
         
-        // public DynamicValue<bool> Abc { get; }
+        public readonly List<ActorDataProvider> ActorDataProvider;
 
         public BattlePlayerControlViewModel(EventHandler movementClicked, EventHandler attackClicked,
             EventHandler<int> selectedClick, List<ActorDataProvider> actorDataProvider)

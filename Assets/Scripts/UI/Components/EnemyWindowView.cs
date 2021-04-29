@@ -13,6 +13,7 @@ namespace UI.Components
 
         private int _maxHealth;
         private DynamicValue<int> _health;
+        
         public void SetContext(string actorName, Sprite icon, string stats)
         {
             _name.text = actorName;
