@@ -1,4 +1,5 @@
 ﻿using Common;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,14 +12,19 @@ namespace UI.Components
         [SerializeField] private Text _name;
         [SerializeField] private Text _level;
 
+        private Canvas _canvas;
         private Transform _target;
-        
-        public void Initialize(Transform target, string actorName, int level, DynamicValue<int> health, int maxHealth)
+        private Camera _camera;
+
+        public void Initialize(Transform target, string actorName, int level, DynamicValue<int> health, int maxHealth,
+            Canvas canvas)
         {
             _target = target;
             _name.text = actorName;
             _level.text = level.ToString();
             _actorHealthBar.Initialize(health, maxHealth);
+            _canvas = canvas;
+            _camera = _canvas.worldCamera;
         }
 
         public void UpdatePosition()
@@ -26,11 +32,7 @@ namespace UI.Components
             if (!_target)
                 return;
 
-            //Cringe peredat' cameru
-            var camera = Camera.main;
-            var screeOffset = new Vector3(Screen.width / 2.0f, Screen.height / 2.0f);
-
-            var position = camera.WorldToScreenPoint(_target.position) - screeOffset;
+            var position = _camera.WorldToScreenPoint(_target.position) / _canvas.scaleFactor;
             _rectTransform.localPosition = position;
         }
     }

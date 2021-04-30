@@ -43,7 +43,7 @@ namespace UI.Views
                 var maxHealth = stat.MaxHealth;
                 
                 var actorUIParameter = Instantiate(_actorUIParametersPrefab, _parent);
-                actorUIParameter.Initialize(target, actorName, 1, health, maxHealth);
+                actorUIParameter.Initialize(target, actorName, 1, health, maxHealth , Canvas);
 
                 _actorUIParameters.Add(actorUIParameter);
             }

@@ -23,19 +23,24 @@ namespace UI.Views
 
         private BattlePlayerControlViewModel _model;
 
-        public void SetActiveAllButton(bool isActive)
-        {
-            _moveButton.interactable = isActive;
-            _attackButton.interactable = isActive;
-            _hideButton.interactable = isActive;
-        }
-        
         public void ResolveModel(IModel model)
         {
             _model = (BattlePlayerControlViewModel) model;
+            _model.PlayerStanding.Changed += OnPlayerMoving;
             CreateActorIcon();
         }
-        
+
+        private void OnPlayerMoving(object sender, bool e)
+        {
+            _moveButton.interactable = e;
+            _attackButton.interactable = e;
+            _hideButton.interactable = e;
+            foreach (var iconComponent in _buttonPool)
+            {
+                iconComponent.Button.interactable = e;
+            }
+        }
+
         public void Clear()
         {
             

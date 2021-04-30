@@ -13,6 +13,7 @@ namespace UI.Components
         [SerializeField] private Button _button;
         [SerializeField] private GameObject statWindow;
 
+        public Button Button => _button;
         private bool _windowEnable;
 
         public void SetContext(string nameText,  string stateText, Sprite icon)

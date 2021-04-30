@@ -21,8 +21,6 @@ namespace Modules.BattleModule.Factories
         private readonly LevelDataProvider _levelDataProvider;
         private readonly IReadOnlyList<PlayerActorData> _playerActorsCollection;
         private readonly GameConstructions _gameConstructions;
-
-        private readonly List<BattleActor> _createdActor = new List<BattleActor>();
         
 
         public BattleSceneFactory(ITickManager tickManager, LevelDataProvider levelDataProvider,
@@ -73,7 +71,6 @@ namespace Modules.BattleModule.Factories
                 };
                 
                 enemyActors.Add(battleActor);
-                _createdActor.Add(battleActor);
             }
 
             var enemyManager = new EnemyActManager(grid, enemyActors, _tickManager);
@@ -103,11 +100,9 @@ namespace Modules.BattleModule.Factories
                 };
 
                 playerBattleActors.Add(battleActor);
-                _createdActor.Add(battleActor);
             }
 
-            var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, cameraController,
-                AvailableActorsProvider.AvailableActors);
+            var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, cameraController);
             
             cameraController.PointAtActor(playerManager.Actors[0].Actor.transform);
 

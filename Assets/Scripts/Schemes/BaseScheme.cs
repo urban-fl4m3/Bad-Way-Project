@@ -2,6 +2,7 @@
 {
     public abstract class BaseScheme : IBaseScheme
     {
+        
         public void Execute()
         {
             OnExecute();

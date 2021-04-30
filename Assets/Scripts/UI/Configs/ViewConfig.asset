@@ -15,7 +15,7 @@ MonoBehaviour:
   _views:
   - View: {fileID: 439711816024525460, guid: 1b2e01b0881ee8847a985c321b1e011e, type: 3}
     Id: ActorStatus
-  - View: {fileID: 7257690779826921718, guid: 64c39aa8efca8c340995a130f4728cfb, type: 3}
+  - View: {fileID: 887357187379981052, guid: 17f822ebce08dfe41b46beb3ba74e0b3, type: 3}
     Id: EnemyStatus
   - View: {fileID: 515425755607942034, guid: 4e4b607fa3e24cd44942fd648df6678a, type: 3}
     Id: PlayerView

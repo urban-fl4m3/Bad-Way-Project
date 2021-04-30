@@ -8,7 +8,7 @@ namespace Modules.BattleModule.Managers
 {
     public partial class PlayerActManager
     {
-        private void HandleSelectActor(object sender, int actorIndex)
+        public void HandleSelectActor(object sender, int actorIndex)
         {
             ActiveUnit = actorIndex;
             _grid.RemoveCellHighlights();
@@ -16,14 +16,14 @@ namespace Modules.BattleModule.Managers
             _cameraController.PointAtActor(nextPlayer.Actor.transform);
         }
 
-        private void HandleMovementClicked(object sender, EventArgs e)
+        public void HandleMovementClicked(object sender, EventArgs e)
         {
             var battleActor = Actors[ActiveUnit];
             _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForMove);
             _grid.HighlightRelativeCells(battleActor.Placement, 5, Color.white);
         }
 
-        private void HandleAttackClicked(object sender, EventArgs e)
+        public void HandleAttackClicked(object sender, EventArgs e)
         {
             var enemyActor = OnOppositeActors();
             
@@ -50,5 +50,6 @@ namespace Modules.BattleModule.Managers
                 }
             }
         }
+        
     }
 }

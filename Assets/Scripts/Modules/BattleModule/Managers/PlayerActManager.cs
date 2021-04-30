@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using Modules.ActorModule;
 using Modules.ActorModule.Components;
 using Modules.CameraModule;
 using Modules.GridModule;
@@ -12,9 +11,9 @@ namespace Modules.BattleModule.Managers
     public partial class PlayerActManager : BattleActManager
     {
         private readonly CameraController _cameraController;
-        
+        public readonly DynamicValue<bool> PlayerDoingAct = new DynamicValue<bool>(true);
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
-            CameraController cameraController, List<ActorDataProvider> actorDataProvider) 
+            CameraController cameraController) 
             : base(grid, actors, tickManager)
         {
             _cameraController = cameraController;
@@ -35,33 +34,38 @@ namespace Modules.BattleModule.Managers
             var cell = _grid[row, column];
             var selectedActor = Actors[ActiveUnit];
             var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigation>();
-            var covers = _grid.NearCover(cell);
+            PlayerDoingAct.Value = false;
             
             actorNavMesh.NavMeshAgent.enabled = true;
+            selectedActor.Placement = cell;
             actorNavMesh.DestinationReach += OnDestinationReach;
             
+            selectedActor.Animator.AnimateCovering(false);
             selectedActor.Animator.ChangeMovingState(true);
 
             actorNavMesh.SetNextDestination(cell.CellComponent.transform.position);
             
             RemoveActiveActor(selectedActor);
-            selectedActor.Placement = cell;
-
-            _grid.RemoveCellHighlights();
             
-            void OnDestinationReach(object sender, EventArgs e)
+            _grid.RemoveCellHighlights();
+        }
+        
+        void OnDestinationReach(object sender, EventArgs e)
+        {
+            var selectedActor = Actors[ActiveUnit];
+            var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigation>();
+            var covers = _grid.NearCover(selectedActor.Placement);
+            
+            selectedActor.Animator.ChangeMovingState(false);
+            if (covers.Count > 0)
             {
-                selectedActor.Animator.ChangeMovingState(false);
-                if (covers.Count > 0)
-                {
-                    selectedActor.Actor.transform.eulerAngles = GridMath.RotateToCover(covers[0], cell);
-                    selectedActor.Actor.GetActorComponent<ActorCollisionComponent>().CheckDistanceToCover();
-                    selectedActor.Animator.AnimateCovering(true);
-                    actorNavMesh.NavMeshAgent.enabled = false;
-                }
-
-                actorNavMesh.DestinationReach -= OnDestinationReach;
+                selectedActor.Actor.transform.eulerAngles = GridMath.RotateToCover(covers[0], selectedActor.Placement);
+                selectedActor.Actor.GetActorComponent<ActorCollisionComponent>().CheckDistanceToCover();
+                selectedActor.Animator.AnimateCovering(true);
+                actorNavMesh.NavMeshAgent.enabled = false;
             }
+            PlayerDoingAct.Value = true;
+            actorNavMesh.DestinationReach -= OnDestinationReach;
         }
         
         private void PlayerAttack(int row, int column)

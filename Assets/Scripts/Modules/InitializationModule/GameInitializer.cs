@@ -44,7 +44,7 @@ namespace Modules.InitializationModule
             
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController);
 
-            _battleScheme = new BattleScheme();
+            _battleScheme = new BattleScheme(_windowsFactory, battleScene, battleSceneFactory, _camera);
             _battleScheme.Execute();
             battleScene.StartBattle(); 
         }

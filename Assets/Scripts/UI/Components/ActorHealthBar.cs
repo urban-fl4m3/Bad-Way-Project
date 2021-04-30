@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Common;
-using Modules.BattleModule;
 using UnityEngine;
 using UnityEngine.UI;
 
