@@ -33,7 +33,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 25.389, y: 65.854034}
+  m_AnchoredPosition: {x: 25.388977, y: 65.854034}
   m_SizeDelta: {x: 50.778, y: 131.7081}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7007868131827421311
@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 515425754284152906}
   - component: {fileID: 515425754284152907}
   - component: {fileID: 515425754284152904}
+  - component: {fileID: 2490905144727277237}
   m_Layer: 5
   m_Name: Atack
   m_TagString: Untagged
@@ -194,6 +195,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!65 &2490905144727277237
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515425754284152910}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 100, y: 100, z: 1}
+  m_Center: {x: 0, y: 50, z: 0}
 --- !u!1 &515425754756855773
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +220,7 @@ GameObject:
   - component: {fileID: 515425754756855769}
   - component: {fileID: 515425754756855774}
   - component: {fileID: 515425754756855775}
+  - component: {fileID: 7379965586635083098}
   m_Layer: 5
   m_Name: Hide
   m_TagString: Untagged
@@ -314,6 +329,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!65 &7379965586635083098
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515425754756855773}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 100, y: 100, z: 1}
+  m_Center: {x: 0, y: 50, z: 0}
 --- !u!1 &515425755299442711
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +354,7 @@ GameObject:
   - component: {fileID: 515425755299442707}
   - component: {fileID: 515425755299442704}
   - component: {fileID: 515425755299442705}
+  - component: {fileID: 8721185842284710628}
   m_Layer: 5
   m_Name: Go
   m_TagString: Untagged
@@ -446,6 +475,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!65 &8721185842284710628
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515425755299442711}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 100, y: 100, z: 1}
+  m_Center: {x: 0, y: 50, z: 0}
 --- !u!1 &515425755607942034
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +498,6 @@ GameObject:
   m_Component:
   - component: {fileID: 515425755607942045}
   - component: {fileID: 515425755607942044}
-  - component: {fileID: 515425755607942047}
   m_Layer: 5
   m_Name: BattlePlayerView
   m_TagString: Untagged
@@ -484,8 +525,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -490}
-  m_SizeDelta: {x: 0, y: -980}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &515425755607942044
 MonoBehaviour:
@@ -504,17 +545,3 @@ MonoBehaviour:
   _hideButton: {fileID: 515425754756855775}
   _iconsParent: {fileID: 2261266045878736342}
   _actorSelectorButton: {fileID: 3561450230242465151, guid: 63292e5381ceb4a47a81e1096edf515a, type: 3}
-  _canvas: {fileID: 0}
---- !u!65 &515425755607942047
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 515425755607942034}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 300, y: 100, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

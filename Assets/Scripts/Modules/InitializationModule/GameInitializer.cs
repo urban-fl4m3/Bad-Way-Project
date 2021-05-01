@@ -5,6 +5,7 @@ using Modules.BattleModule.Factories;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
 using Modules.CameraModule;
+using Modules.GunModule;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
@@ -24,10 +25,10 @@ namespace Modules.InitializationModule
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private GameConstructions _gameConstructions;
         [SerializeField] private WindowViewsConfig _viewsConfig;
+        [SerializeField] private WeaponConfig _weaponConfig;
         [SerializeField] private Camera _camera;
 
         private IBaseScheme _battleScheme;
-        //ЭТО ТРОГАТЬ НЕЛЬЗЯ
         private WindowFactory _windowsFactory;
         
         private void Start()
@@ -41,8 +42,8 @@ namespace Modules.InitializationModule
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider, _gameConstructions);
-            
-            var battleScene = battleSceneFactory.CreateBattleScene(_cameraController);
+
+            var battleScene = battleSceneFactory.CreateBattleScene(_cameraController, _weaponConfig);
 
             _battleScheme = new BattleScheme(_windowsFactory, battleScene, battleSceneFactory, _camera);
             _battleScheme.Execute();

@@ -12,6 +12,7 @@ namespace Modules.BattleModule.Managers
     {
         private readonly CameraController _cameraController;
         public readonly DynamicValue<bool> PlayerDoingAct = new DynamicValue<bool>(true);
+        public EventHandler ActorEndTurn;
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
             CameraController cameraController) 
             : base(grid, actors, tickManager)
@@ -21,12 +22,14 @@ namespace Modules.BattleModule.Managers
 
         protected override void OnActStart()
         {
+            _cameraController.PointAtActor(Actors[ActiveUnit].Actor.Transform, Actors[ActiveUnit].Actor.ThirdPersonCamera);
             _grid.CellSelected += HandleCellSelected;
         }
 
         protected override void OnActEnd()
         {
             _grid.CellSelected -= HandleCellSelected;
+            ActorEndTurn?.Invoke(this, null);
         }
 
         private void PlayerMove(int row, int column)

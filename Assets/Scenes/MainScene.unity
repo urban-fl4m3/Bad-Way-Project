@@ -922,6 +922,7 @@ MonoBehaviour:
   _cameraController: {fileID: 1687258583}
   _gameConstructions: {fileID: 914690998}
   _viewsConfig: {fileID: 11400000, guid: 7ac3a3dac67071d45a192ae1046453ab, type: 2}
+  _weaponConfig: {fileID: 11400000, guid: 82005d1d12cb035499f3041cf012dd48, type: 2}
   _camera: {fileID: 1687258584}
 --- !u!114 &914690998
 MonoBehaviour:

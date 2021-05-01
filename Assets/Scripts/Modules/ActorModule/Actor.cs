@@ -12,12 +12,14 @@ namespace Modules.ActorModule
         
         public Transform Transform => transform;
         public Transform TargetForUI;
-        
+        public Transform ThirdPersonCamera;
+
         private readonly TypeContainer _container = new TypeContainer();
 
         
         private void Awake()
         {
+            Debug.Log("2");
             var components = GetComponents<IActorComponent>();
             foreach (var actorComponent in components)
             {

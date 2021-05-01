@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Modules.ActorModule.Components;
 using Modules.BattleModule.Helpers;
 using Modules.GridModule.Args;
 using UnityEngine;
@@ -13,7 +14,8 @@ namespace Modules.BattleModule.Managers
             ActiveUnit = actorIndex;
             _grid.RemoveCellHighlights();
             var nextPlayer = Actors[actorIndex];
-            _cameraController.PointAtActor(nextPlayer.Actor.transform);
+            _cameraController.PointAtActor(nextPlayer.Actor.transform, nextPlayer.Actor.ThirdPersonCamera);
+            _cameraController.SetAttackPos(false);
         }
 
         public void HandleMovementClicked(object sender, EventArgs e)
@@ -21,6 +23,7 @@ namespace Modules.BattleModule.Managers
             var battleActor = Actors[ActiveUnit];
             _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForMove);
             _grid.HighlightRelativeCells(battleActor.Placement, 5, Color.white);
+            _cameraController.SetAttackPos(false);
         }
 
         public void HandleAttackClicked(object sender, EventArgs e)
@@ -29,6 +32,7 @@ namespace Modules.BattleModule.Managers
             
             _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForAttack);
             _grid.HighlightCells(enemyActor.Select(x => x.Placement), Color.red);
+            _cameraController.SetAttackPos(true);
         }
         
         private void HandleCellSelected(object sender, CellSelectionEventArgs e)

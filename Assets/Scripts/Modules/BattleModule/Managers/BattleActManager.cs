@@ -16,7 +16,7 @@ namespace Modules.BattleModule.Managers
         protected readonly GridController _grid;
 
         private readonly List<BattleActor> _actors;
-        private List<BattleActor> _activeActors;
+        protected List<BattleActor> _activeActors;
 
         protected BattleActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager)
         {
@@ -46,7 +46,6 @@ namespace Modules.BattleModule.Managers
             
             if (_activeActors.Count == 0)
             {
-                //Next turn
                 ActEnd();
             }
         }

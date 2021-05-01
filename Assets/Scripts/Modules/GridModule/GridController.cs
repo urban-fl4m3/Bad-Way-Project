@@ -15,12 +15,12 @@ namespace Modules.GridModule
         public Cell this[Vector2Int cellIndices] => _cells[cellIndices.x, cellIndices.y];
         private List<Cell> _cellsWithCover;
         
-        private readonly Cell[,] _cells;
-        private readonly GridBFS _bfs;
+        protected readonly Cell[,] _cells;
+        protected readonly GridBFS _bfs;
 
         private int _stateToken;
-        
-        public GridController(int rows, int columns, Cell[,] cells)
+
+        protected GridController(int rows, int columns, Cell[,] cells)
         {
             _cells = cells;
 

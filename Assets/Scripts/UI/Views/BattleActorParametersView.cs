@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Modules.ActorModule.Components;
 using UI.Components;
 using UI.Interface;
 using UI.Models;
@@ -41,9 +42,12 @@ namespace UI.Views
                 var actorName = actor.Actor.name;
                 var health = stat.Health;
                 var maxHealth = stat.MaxHealth;
+                var isEnemy = false;
+                if (actor.Actor.GetActorComponent<EnemyAI>())
+                    isEnemy = true;
                 
                 var actorUIParameter = Instantiate(_actorUIParametersPrefab, _parent);
-                actorUIParameter.Initialize(target, actorName, 1, health, maxHealth , Canvas);
+                actorUIParameter.Initialize(target, actorName, 1, health, maxHealth , Canvas, isEnemy);
 
                 _actorUIParameters.Add(actorUIParameter);
             }

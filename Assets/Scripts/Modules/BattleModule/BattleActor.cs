@@ -8,6 +8,7 @@ using Modules.BattleModule.Stats.EventArgs;
 using Modules.BattleModule.Stats.Helpers;
 using Modules.BattleModule.Stats.Models;
 using Modules.GridModule.Cells;
+using Modules.GunModule;
 
 namespace Modules.BattleModule
 {
@@ -21,7 +22,9 @@ namespace Modules.BattleModule
         public readonly Actor Actor;
         public readonly StatsContainer Stats;
         public readonly CharacterAnimator Animator;
+        public Weapon Weapon;
 
+        
         public Cell Placement
         {
             get =>_placement;
@@ -51,6 +54,11 @@ namespace Modules.BattleModule
             actor.ActorDeselected += HandleActorSelected;
         }
 
+        public void SetWeapon(Weapon weapon)
+        {
+            Weapon = weapon;
+            Actor.GetActorComponent<ActorWeapon>().SetWeapon(weapon);
+        }
         public void TakeDamage(int damageAmount)
         {
             Stats.ChangeSecondaryStat(SecondaryStat.Health, damageAmount * -1);

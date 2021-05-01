@@ -35,8 +35,9 @@ namespace Modules.GridModule
                 }
             }
 
-            var grid = new GridController(data.Rows, data.Columns, cells);
-            return grid;
+            //var grid = new GridController(data.Rows, data.Columns, cells);
+            var aiGrid = new GridControllerForAI(data.Rows, data.Columns, cells);
+            return aiGrid;
         }
     }
 }
