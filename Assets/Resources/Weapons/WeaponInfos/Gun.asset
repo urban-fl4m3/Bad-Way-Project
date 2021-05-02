@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e889619c7c4bb5bdfd506da6620f29, type: 3}
   m_Name: Gun
   m_EditorClassIdentifier: 
-  Name: Gun
-  gunTag: 2
-  gunClass: 3
-  WeaponMesh: {fileID: 4821749197625216023, guid: b81f86f51bf57f241ba5bdc36af221b2, type: 3}
-  View: {fileID: 0}
-  GunLevel: 1
-  Damage: 2
-  Ammo: 8
-  Clip: 1
-  ActionPointToAttack: 1
-  ActionPointToReload: 1
-  EffectiveRadius: 3
-  MaxRadius: 5
+  _name: 
+  _tag: 0
+  _class: 0
+  _prefab: {fileID: 4821749197625216023, guid: b81f86f51bf57f241ba5bdc36af221b2, type: 3}
+  _icon: {fileID: 0}
+  _level: 1
+  _damage: 1
+  _ammo: 0
+  _clipSize: 0
+  _attackActionCost: 1
+  _reloadActionCost: 1
+  _effectiveRange: 1
+  _maxRange: 1
