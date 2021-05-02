@@ -5,7 +5,7 @@ namespace Common
 {
     public class TypeContainer
     {
-        private Dictionary<Type, object> _map;
+        private readonly Dictionary<Type, object> _map;
 
         public TypeContainer()
         {
@@ -19,20 +19,12 @@ namespace Common
         
         public object Resolve(Type type)
         {
-            if (_map.ContainsKey(type))
-                return _map[type];
-            
-            return null;
+            return _map.ContainsKey(type) ? _map[type] : null;
         }
 
         public T Resolve<T>() where T : class
         {
-            if (_map.ContainsKey(typeof(T)))
-                return _map[typeof(T)] as T;
-
-            return null;
+            return _map.ContainsKey(typeof(T)) ? _map[typeof(T)] as T : null;
         }
-
-        public IReadOnlyDictionary<Type, object> Map => _map;
     }
 }

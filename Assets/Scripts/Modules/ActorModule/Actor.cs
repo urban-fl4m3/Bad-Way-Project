@@ -19,7 +19,6 @@ namespace Modules.ActorModule
         
         private void Awake()
         {
-            Debug.Log("2");
             var components = GetComponents<IActorComponent>();
             foreach (var actorComponent in components)
             {

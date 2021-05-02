@@ -1,5 +1,5 @@
-using System;
 using Modules.BattleModule;
+using Modules.BattleModule.Stats.Helpers;
 using UI.Components;
 using UI.Interface;
 using UI.Models;
@@ -13,8 +13,6 @@ namespace UI.Views
         
         public Canvas Canvas { get; set; }
         public GameObject GameObject => gameObject;
-
-
         private BattleEnemyStateModel _model;
 
         public void ResolveModel(IModel model)
@@ -22,8 +20,8 @@ namespace UI.Views
             _model = (BattleEnemyStateModel) model;
             foreach (var enemy in _model.Enemies)
             {
-                enemy.Selected += HandlerActorSelected;
-                enemy.Deselected += HandlerActorDeselected;
+                enemy.Selected += HandleActorSelected;
+                enemy.Deselected += HandleActorDeselected;
             }
         }
 
@@ -31,24 +29,24 @@ namespace UI.Views
         {
             foreach (var enemy in _model.Enemies)
             {
-                enemy.Selected -= HandlerActorSelected;
-                enemy.Deselected -=HandlerActorDeselected ;
+                enemy.Selected -= HandleActorSelected;
+                enemy.Deselected -= HandleActorDeselected ;
             }
         }
         
-        private void HandlerActorSelected(object sender, BattleActor actor)
+        private void HandleActorSelected(object sender, BattleActor actor)
         {
             enemyWindowView.gameObject.SetActive(true);
             
             var actorName = actor.Actor.name;
-            var health = actor.Stats.Health;
-            var maxHealth = actor.Stats.MaxHealth;
+            var health = actor.Health;
+            var maxHealth = actor.MaxHealth;
             
             enemyWindowView.SetContext(actorName, null, "");
-            enemyWindowView.SetHealth(health,maxHealth);
-        }
+            enemyWindowView.SetHealth(health, maxHealth);
+}
         
-        private void HandlerActorDeselected(object sender, EventArgs e)
+        private void HandleActorDeselected(object sender, BattleActor actor)
         {
             enemyWindowView.gameObject.SetActive(false);
         }

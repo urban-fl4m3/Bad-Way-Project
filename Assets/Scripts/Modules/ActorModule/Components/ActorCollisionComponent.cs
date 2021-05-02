@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections;
-using Common;
 using UnityEngine;
 
 namespace Modules.ActorModule.Components
 {
-    public class ActorCollisionComponent : MonoBehaviour, IActorComponent
+    public class ActorCollisionComponent : BaseActorComponent<ActorCollisionComponent>
     {
         public event EventHandler Selected;
         public event EventHandler Deselected;
         
         [SerializeField] private CapsuleCollider _collider;
         private Vector3 _coverOffset;
-        
-        public void Initialize(TypeContainer container)
-        {
-            container.Add<ActorCollisionComponent>(this);    
-        }
 
         private void OnMouseOver()
         {
@@ -36,6 +30,7 @@ namespace Modules.ActorModule.Components
             Deselected?.Invoke(this,null);
         }
 
+        //Refactor this and remove from here 
         public void CheckDistanceToCover()
         {
             var tr = transform;
@@ -50,6 +45,7 @@ namespace Modules.ActorModule.Components
             }
         }
 
+        //Refactor this and remove from here 
         private IEnumerator GetCover()
         {
             var currentPosition = transform.position - _coverOffset;

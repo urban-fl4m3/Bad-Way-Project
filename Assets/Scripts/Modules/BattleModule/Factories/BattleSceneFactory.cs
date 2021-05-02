@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using EditorMod;
 using Modules.ActorModule;
-using Modules.ActorModule.Components;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Managers;
 using Modules.BattleModule.Stats;
@@ -68,7 +67,7 @@ namespace Modules.BattleModule.Factories
                 var statUpgrades = new[] {0, 0, 0, 0, 0};
 
                 var battleActor = new BattleActor(actorPrefab, primaryStats, statUpgrades,
-                    AvailableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats)
+                    AvailableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats, true)
                 {
                     Placement = grid[levelActor.Cell]
                 };
@@ -98,7 +97,7 @@ namespace Modules.BattleModule.Factories
                 var statUpgrades = actorData.Upgrades;
 
                 var battleActor = new BattleActor(prefab, primaryStats, statUpgrades,
-                    AvailableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats)
+                    AvailableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats, false)
                 {
                     Placement = grid[actorPlacement]
                 };

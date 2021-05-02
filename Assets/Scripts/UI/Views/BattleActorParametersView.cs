@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Modules.ActorModule.Components;
 using UI.Components;
 using UI.Interface;
 using UI.Models;
@@ -24,7 +23,7 @@ namespace UI.Views
         public void ResolveModel(IModel model)
         {
             _model = (BattleActorParameterModel) model;
-            _model.CameraController.OnCameraPositionChange += OnCameraMove;
+            _model.CameraController.PositionChanged += HandleCameraPositionChanging;
             CreateActorParametersWindow();
         }
 
@@ -37,15 +36,12 @@ namespace UI.Views
         {
             foreach (var actor in _model.BattleActors)
             {
-                var stat = actor.Stats;
                 var target = actor.Actor.TargetForUI;
                 var actorName = actor.Actor.name;
-                var health = stat.Health;
-                var maxHealth = stat.MaxHealth;
-                var isEnemy = false;
-                if (actor.Actor.GetActorComponent<EnemyAI>())
-                    isEnemy = true;
-                
+                var health = actor.Health;
+                var maxHealth = actor.MaxHealth;
+                var isEnemy = actor.IsEnemy;
+
                 var actorUIParameter = Instantiate(_actorUIParametersPrefab, _parent);
                 actorUIParameter.Initialize(target, actorName, 1, health, maxHealth , Canvas, isEnemy);
 
@@ -53,10 +49,9 @@ namespace UI.Views
             }
 
             _sortingInCollection.FetchCollection();
-            _model.CameraController.OnCameraPositionChange += OnCameraMove;
         }
 
-        private void OnCameraMove(Vector3 position)
+        private void HandleCameraPositionChanging(object sender, Vector3 position)
         {
             foreach (var uiParameter in _actorUIParameters)
             {

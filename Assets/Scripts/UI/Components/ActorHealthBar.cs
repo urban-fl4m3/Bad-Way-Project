@@ -1,11 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Common;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = System.Object;
 
 namespace UI.Components
 {
@@ -17,7 +14,6 @@ namespace UI.Components
         [SerializeField] private GameObject _damageText;
         [SerializeField] private Transform _damagePanel;
 
-        
         private int _maxHealth;
         private DynamicValue<int> _health;
         private List<Image> _healthPoints;

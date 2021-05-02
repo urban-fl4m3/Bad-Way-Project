@@ -51,7 +51,7 @@ namespace Modules.BattleModule.Managers
         
         private void EnemyMove(BattleActor enemy, Cell cell)
         {
-            var actorNavMesh = enemy.Actor.GetActorComponent<ActorNavigation>();
+            var actorNavMesh = enemy.Actor.GetActorComponent<ActorNavigationComponent>();
             actorNavMesh.NavMeshAgent.enabled = true;
             actorNavMesh.DestinationReach += OnDestinationReach;
             

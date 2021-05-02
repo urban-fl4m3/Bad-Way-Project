@@ -599,6 +599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponPosition: {fileID: 2602954345980407198}
+  _weaponPlaceholder: {fileID: 2602954345980407198}
 --- !u!195 &-8560377571163988568
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -31,7 +31,7 @@ namespace Schemes.Implementations
         {
             var playerActManager = _battleScene.PlayerActManager;
             var enemyActManager = _battleScene.EnemyActManager;
-            var playerManager = playerActManager as PlayerActManager;
+            var playerManager = (PlayerActManager) playerActManager;
 
             var allActor = new List<BattleActor>();
             allActor.AddRange(playerActManager.Actors);
@@ -49,12 +49,6 @@ namespace Schemes.Implementations
            _windowFactory.AddWindow("ActorStatus", battleActorParameterModel);
            _windowFactory.AddWindow("EnemyStatus", battleEnemyStateModel);
            _windowFactory.AddWindow("PlayerView", battlePlayerControlViewModel);
-            
-        }
-
-        protected override void OnComplete()
-        {
-            base.OnComplete();
             
         }
     }

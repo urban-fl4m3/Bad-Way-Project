@@ -10,7 +10,7 @@ namespace Modules.GunModule
     {
         [SerializeField] private List<WeaponWithId> _weaponWithIds;
 
-        private Dictionary<string, Weapon> _weaponsDict = new Dictionary<string, Weapon>();
+        private Dictionary<string, WeaponInfo> _weaponsDict = new Dictionary<string, WeaponInfo>();
         
         public void OnBeforeSerialize()
         {
@@ -19,10 +19,11 @@ namespace Modules.GunModule
 
         public void OnAfterDeserialize()
         {
-            _weaponsDict = _weaponWithIds.ToDictionary(x => x.Id, x => x._weapon);
+            _weaponsDict = _weaponWithIds.ToDictionary(x => x.Id,
+                x => x.weaponInfo);
         }
 
-        public Weapon LoadWeapon(string id)
+        public WeaponInfo LoadWeapon(string id)
         {
             return _weaponsDict[id];
         }
@@ -31,8 +32,7 @@ namespace Modules.GunModule
         private struct WeaponWithId
         {
             public string Id;
-            public Weapon _weapon;
+            public WeaponInfo weaponInfo;
         }
-
     }
 }

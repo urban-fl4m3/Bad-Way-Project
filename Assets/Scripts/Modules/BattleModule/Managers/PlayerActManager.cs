@@ -13,6 +13,7 @@ namespace Modules.BattleModule.Managers
         private readonly CameraController _cameraController;
         public readonly DynamicValue<bool> PlayerDoingAct = new DynamicValue<bool>(true);
         public EventHandler ActorEndTurn;
+        
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
             CameraController cameraController) 
             : base(grid, actors, tickManager)
@@ -36,7 +37,7 @@ namespace Modules.BattleModule.Managers
         {
             var cell = _grid[row, column];
             var selectedActor = Actors[ActiveUnit];
-            var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigation>();
+            var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigationComponent>();
             PlayerDoingAct.Value = false;
             
             actorNavMesh.NavMeshAgent.enabled = true;
@@ -56,7 +57,7 @@ namespace Modules.BattleModule.Managers
         void OnDestinationReach(object sender, EventArgs e)
         {
             var selectedActor = Actors[ActiveUnit];
-            var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigation>();
+            var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigationComponent>();
             var covers = _grid.NearCover(selectedActor.Placement);
             
             selectedActor.Animator.ChangeMovingState(false);

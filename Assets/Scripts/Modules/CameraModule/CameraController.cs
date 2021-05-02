@@ -1,12 +1,11 @@
-using Unity.Mathematics;
+using System;
 using UnityEngine;
 
 namespace Modules.CameraModule
 {
     public class CameraController : MonoBehaviour
     {
-        public delegate void OnCameraPositionChangeDelegate(Vector3 newPosition);
-        public event OnCameraPositionChangeDelegate OnCameraPositionChange;
+        public event EventHandler<Vector3> PositionChanged;
 
         [SerializeField] private float Smooth;
         [SerializeField] private Vector3 offset;
@@ -43,10 +42,10 @@ namespace Modules.CameraModule
                 transform.position = _smoothPosition + offset;
             //}
 
-            if (transform.position != _myPosition && OnCameraPositionChange != null)
+            if (transform.position != _myPosition)
             {
                 _myPosition = transform.position;
-                OnCameraPositionChange(_myPosition);
+                PositionChanged?.Invoke(this, _myPosition);
             }
         }
 

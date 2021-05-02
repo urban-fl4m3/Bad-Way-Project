@@ -27,10 +27,10 @@ namespace UI.Components
             _health = health;
             _healthBar.SetHealthInt(health.Value, maxHealth);
 
-            health.Changed += OnHealthChange;
+            health.Changed += HandleHealthChanged;
         }
 
-        private void OnHealthChange(object sender, int e)
+        private void HandleHealthChanged(object sender, int e)
         {
             _healthBar.SetHealthInt(_health.Value,_maxHealth);
         }

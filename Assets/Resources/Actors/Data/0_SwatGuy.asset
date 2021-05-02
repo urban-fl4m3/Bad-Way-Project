@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 0
   _actor: {fileID: 6615742937250592249, guid: bc7ffcbdea9ac38498d7021694c239c5, type: 3}
-  name: "\u0413\u0440\u0438\u0448\u0430"
+  _name: "\u0413\u0440\u0438\u0448\u0430"
   icon: {fileID: 21300000, guid: 7cec967337fbeb04a9c843eb3eb941b5, type: 3}

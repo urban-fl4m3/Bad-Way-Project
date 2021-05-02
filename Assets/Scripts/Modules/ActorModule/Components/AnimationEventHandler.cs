@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common;
-using UnityEngine;
 
 namespace Modules.ActorModule.Components
 {
-    public class AnimationEventHandler :MonoBehaviour, IActorComponent
+    public class AnimationEventHandler : BaseActorComponent<AnimationEventHandler>
     {
         private readonly Dictionary<string, EventHandler> _eventsDictionary
             = new Dictionary<string, EventHandler>();
-        
-        public void Initialize(TypeContainer container)
-        {
-            container.Add<AnimationEventHandler>(this);
-        }
-        
+
         //Raising by animator unity editor
         public void RaiseEvent(string key)
         {
