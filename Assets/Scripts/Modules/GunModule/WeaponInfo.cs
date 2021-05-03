@@ -32,6 +32,6 @@ namespace Modules.GunModule
         public int AttackActionCost => _attackActionCost;
         public int ReloadActionCost => _reloadActionCost;
         public int EffectiveRange => _effectiveRange;
-        public int MAXRange => _maxRange;
+        public int MaxRange => _maxRange;
     }
 }

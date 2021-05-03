@@ -42,7 +42,7 @@ namespace Modules.BattleModule
         }
         
         private Cell _placement;
-        private WeaponInfo _weaponInfo;
+        public WeaponInfo _weaponInfo { get; private set; }
         
         public BattleActor(Actor actor, IReadOnlyDictionary<PrimaryStat, int> primaryStats,
             IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
+using Common.Commands;
 using Modules.ActorModule.Components;
 using Modules.CameraModule;
 using Modules.GridModule;
@@ -15,14 +16,14 @@ namespace Modules.BattleModule.Managers
         private CameraController _cameraController;
         public EventHandler EnemyEndTurn;
 
-        private GridControllerForAI _gridController;
+        private GridController _gridController;
 
         public EnemyActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
             CameraController cameraController) 
             : base(grid, actors, tickManager)
         {
             _cameraController = cameraController;
-            _gridController = grid as GridControllerForAI;
+            _gridController = grid;
         }
 
 
@@ -35,9 +36,23 @@ namespace Modules.BattleModule.Managers
         {
             if (_activeActors.Count > 0)
             {
+                WeaponMath.ActorWeapon = _activeActors[0]._weaponInfo;
+                
                 var nearestActor = NearestActor(_activeActors[0]);
-                var cellToMove = _gridController.FindShortestDistance(_activeActors[0], nearestActor);
-                EnemyMove(_activeActors[0], cellToMove);
+                var actorPosition = new Vector2(nearestActor.Placement.Row, nearestActor.Placement.Column);
+                var enemyPosition = new Vector2(_activeActors[0].Placement.Row, _activeActors[0].Placement.Column);
+                var distance = Vector2.Distance(actorPosition, enemyPosition);
+                
+                if (distance <= WeaponMath.ActorWeapon.MaxRange)
+                {
+                    EnemyAttack(nearestActor,_activeActors[0]);
+                }
+                else
+                {
+                    var cellToMove = _gridController.FindShortestDistance(_activeActors[0].Placement,
+                        nearestActor.Placement);
+                    EnemyMove(_activeActors[0], cellToMove);
+                }
             }
         }
         
@@ -76,15 +91,19 @@ namespace Modules.BattleModule.Managers
                     enemy.Animator.AnimateCovering(true);
                     actorNavMesh.NavMeshAgent.enabled = false;
                 }
+                
+                RemoveActiveActor(enemy);
                 NextTurn();
                 actorNavMesh.DestinationReach -= OnDestinationReach;
-            }
-            
-            RemoveActiveActor(enemy);
+            }   
         }
-        private void EnemyAttack()
+
+        private void EnemyAttack(BattleActor actor, BattleActor enemy)
         {
-            
+            actor.TakeDamage(WeaponMath.ActorWeapon.Damage);
+            enemy.Animator.AnimateShooting();
+            RemoveActiveActor(enemy);
+
         }
         private BattleActor NearestActor(BattleActor enemy)
         {
@@ -104,7 +123,5 @@ namespace Modules.BattleModule.Managers
 
             return actor;
         }
-        
-
     }
 }

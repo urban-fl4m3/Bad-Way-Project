@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Common.Commands;
 using Modules.GridModule;
+using Modules.GunModule.Helpers;
 using Modules.TickModule;
 
 namespace Modules.BattleModule.Managers
@@ -16,6 +18,7 @@ namespace Modules.BattleModule.Managers
         protected readonly GridController _grid;
 
         private readonly List<BattleActor> _actors;
+        private List<BattleActor> _deadActor = new List<BattleActor>();
         protected List<BattleActor> _activeActors;
 
         protected BattleActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager)
@@ -23,6 +26,11 @@ namespace Modules.BattleModule.Managers
             _grid = grid;
             _actors = actors;
             _tickManager = tickManager;
+
+            foreach (var battleActor in _actors)
+            {
+                battleActor.ActorDeath += OnActorDead;
+            }
         }
 
         public void ActStart()
@@ -48,6 +56,12 @@ namespace Modules.BattleModule.Managers
             {
                 ActEnd();
             }
+        }
+
+        public void OnActorDead(object sender,BattleActor actor)
+        {
+            _actors.Remove(actor);
+            _deadActor.Add(actor);
         }
 
         protected bool IsActorActive(BattleActor actor)

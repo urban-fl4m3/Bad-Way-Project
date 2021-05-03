@@ -4,34 +4,53 @@ using Modules.GridModule.Args;
 using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Modules.GridModule
 {
     public class GridController
     {
-        public event EventHandler<CellSelectionEventArgs> CellSelected;
+        public event EventHandler<CellSelectionEventArgs> CellPressed;
+        public event EventHandler<Cell> CellSelected;
+        public event EventHandler CellDeselected;
         
         public Cell this[int row, int column] => _cells[row, column];
         public Cell this[Vector2Int cellIndices] => _cells[cellIndices.x, cellIndices.y];
         private List<Cell> _cellsWithCover;
+        private GameObject _cellSelecter;
         
         protected readonly Cell[,] _cells;
         protected readonly GridBFS _bfs;
 
         private int _stateToken;
 
-        protected GridController(int rows, int columns, Cell[,] cells)
+        public GridController(int rows, int columns, Cell[,] cells, GameObject cellSelecter)
         {
             _cells = cells;
-
-            foreach (var cell in _cells)
-            {
-               cell.CellSelected += HandleCellSelected;
-            }
-
             _bfs = new GridBFS(_cells, rows, columns);
+            _cellSelecter = cellSelecter;
         }
 
+        public Cell FindShortestDistance(Cell enemy, Cell actor)
+        {
+            var cells = _bfs.Search(enemy, 5);
+            var actorPos = new Vector2(actor.Column, actor.Row);
+            var nearestCell = enemy;
+            var nearestDistance = 1000f;
+
+            foreach (var variabCell in cells)
+            {
+                var pos = new Vector2(variabCell.Column, variabCell.Row);
+                var distance = Vector2.Distance(pos, actorPos);
+                if (distance < nearestDistance)
+                {
+                    nearestCell = variabCell;
+                    nearestDistance = distance;
+                }
+            }
+            return nearestCell;
+        }
+        
         public void SetStateToken(int stateToken)
         {
             _stateToken = stateToken;
@@ -61,26 +80,51 @@ namespace Modules.GridModule
             
             foreach (var cell in cells)
             {
-                cell.CellComponent.MeshCollider.enabled = true;
-                cell.CellSelected += HandleCellSelected;
+                cell.CellComponent.ActiveMeshCollider = true;
+                cell.CellPressed += HandleCellPressed;
                 cell.Highlight(color);
-            }
-        }
-       
-        public void RemoveCellHighlights()
-        {
-            foreach (var cell in _cells)
-            {
-                cell.CellComponent.MeshCollider.enabled = false;
-                cell.CellSelected -= HandleCellSelected;
-                cell.Highlight();
+                
+                
+                if(color == Color.red)
+                    continue;
+                
+                cell.CellSelected += HandleCellSelected;
+                cell.CellDeselected += HandleCellDeselected;
             }
         }
 
-        private void HandleCellSelected(object sender, CellEventArgs e)
+
+        public void RemoveCellHighlights()
         {
-            CellSelected?.Invoke(this, new CellSelectionEventArgs(e, _stateToken));
+            _cellSelecter.SetActive(false);
+            foreach (var cell in _cells)
+            {
+                cell.CellComponent.ActiveMeshCollider = false;
+                cell.CellPressed -= HandleCellPressed;
+                cell.CellSelected -= HandleCellSelected;
+                cell.CellDeselected -= HandleCellDeselected;
+                cell.Highlight();
+            }
         }
+        
+        private void HandleCellSelected(object sender, Cell e)
+        {
+            CellSelected?.Invoke(this, e);
+            _cellSelecter.SetActive(true);
+            _cellSelecter.transform.position = e.CellComponent.transform.position;
+        }
+
+        private void HandleCellPressed(object sender, CellEventArgs e)
+        {
+            CellPressed?.Invoke(this, new CellSelectionEventArgs(e, _stateToken));
+        }
+        
+        private void HandleCellDeselected(object sender, EventArgs e)
+        {
+            CellDeselected?.Invoke(this, EventArgs.Empty);
+            _cellSelecter.SetActive(false);
+        }
+        
 
         public List<Cell> NearCover(Cell actorCell)
         {

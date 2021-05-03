@@ -36,19 +36,17 @@ namespace UI.Views
         {
             foreach (var actor in _model.BattleActors)
             {
-                var target = actor.Actor.TargetForUI;
                 var actorName = actor.Actor.name;
                 var health = actor.Health;
                 var maxHealth = actor.MaxHealth;
                 var isEnemy = actor.IsEnemy;
 
                 var actorUIParameter = Instantiate(_actorUIParametersPrefab, _parent);
-                actorUIParameter.Initialize(target, actorName, 1, health, maxHealth , Canvas, isEnemy);
+                actorUIParameter.Initialize(actor, actorName, 1, health, maxHealth , Canvas, isEnemy, _model);
 
                 _actorUIParameters.Add(actorUIParameter);
+                _sortingInCollection.FetchCollection(actorUIParameter.RectTransform);
             }
-
-            _sortingInCollection.FetchCollection();
         }
 
         private void HandleCameraPositionChanging(object sender, Vector3 position)

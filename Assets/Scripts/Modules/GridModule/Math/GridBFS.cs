@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using Modules.GridModule.Cells;
-using UnityEditor.VersionControl;
-using UnityEditorInternal;
-using UnityEngine;
 
 namespace Modules.GridModule.Math
 {

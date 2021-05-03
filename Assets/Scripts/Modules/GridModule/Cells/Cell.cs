@@ -6,7 +6,9 @@ namespace Modules.GridModule.Cells
 {
     public class Cell
     {
-        public event EventHandler<CellEventArgs> CellSelected;
+        public event EventHandler<CellEventArgs> CellPressed;
+        public event EventHandler<Cell> CellSelected;
+        public event EventHandler CellDeselected;
 
         public readonly CellComponent Component;
         public CellComponent CellComponent => Component;
@@ -26,18 +28,30 @@ namespace Modules.GridModule.Cells
 
             Component.ResetMaterial();
             Component.MousePressed += HandleMousePressed;
-
+            Component.SelectCell += HandleCellSelected;
+            Component.DeselectCell += HandleCellDeselected;
+            
             _valueColor = GetColor();
+        }
+
+        private void HandleCellSelected(object sender, EventArgs e)
+        {
+            CellSelected?.Invoke(this, this);
+        }
+        private void HandleCellDeselected(object sender, EventArgs e)
+        {
+            CellDeselected?.Invoke(this, EventArgs.Empty);
         }
 
         private void HandleMousePressed(object sender, EventArgs e)
         {
-            CellSelected?.Invoke(this, new CellEventArgs(Row, Column));
+            CellPressed?.Invoke(this, new CellEventArgs(Row, Column));
         }
 
         public void Clear()
         {
             Component.MousePressed -= HandleMousePressed;
+            Component.SelectCell -= HandleCellSelected;
         }
 
         public void Highlight()

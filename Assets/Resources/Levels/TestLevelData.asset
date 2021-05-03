@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelGridData:
     CellPrefab: {fileID: 2612810059483845002, guid: 02a5acc6818a57849b0730bbf2c17f5a, type: 3}
+    CellSelecter: {fileID: 5711114973547646964, guid: ea4d0c546c3a79141a4e4c685c41b347, type: 3}
     Columns: 22
     Rows: 22
   _placementCells:

@@ -27,18 +27,8 @@ namespace UI.Views
         {
             _model = (BattlePlayerControlViewModel) model;
             _model.PlayerStanding.Changed += OnPlayerMoving;
+            _model.PlayerEndTurn.Changed += OnPlayerEndTurn;
             CreateActorIcon();
-        }
-
-        private void OnPlayerMoving(object sender, bool e)
-        {
-            _moveButton.interactable = e;
-            _attackButton.interactable = e;
-            _hideButton.interactable = e;
-            foreach (var iconComponent in _buttonPool)
-            {
-                iconComponent.Button.interactable = e;
-            }
         }
 
         public void Clear()
@@ -87,6 +77,17 @@ namespace UI.Views
             }
         }
 
+        private void OnPlayerEndTurn(object sender, bool e)
+        {
+            Canvas.enabled = !e;
+        }
+
+        private void OnPlayerMoving(object sender, bool e)
+        {
+            _moveButton.interactable = e;
+            _attackButton.interactable = e;
+            _hideButton.interactable = e;
+        }
         
     }
 }

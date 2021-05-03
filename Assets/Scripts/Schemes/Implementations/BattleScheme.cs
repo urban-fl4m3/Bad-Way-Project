@@ -37,14 +37,16 @@ namespace Schemes.Implementations
             allActor.AddRange(playerActManager.Actors);
             allActor.AddRange(enemyActManager.Actors);
             
-            var battleActorParameterModel = new BattleActorParameterModel(allActor, _camera);
+            var battleActorParameterModel = new BattleActorParameterModel(allActor, _camera,
+                _battleScene.Grid, playerManager);
             var battleEnemyStateModel = new BattleEnemyStateModel(enemyActManager.Actors as List<BattleActor>);
             var battlePlayerControlViewModel = new BattlePlayerControlViewModel(
                 playerManager.HandleMovementClicked,
                 playerManager.HandleAttackClicked,
                 playerManager.HandleSelectActor,
                 _battleSceneFactory.AvailableActorsProvider.AvailableActors,
-                playerManager.PlayerDoingAct);
+                playerManager.PlayerDoingAct,
+                playerManager.PlayerEndTurn);
             
            _windowFactory.AddWindow("ActorStatus", battleActorParameterModel);
            _windowFactory.AddWindow("EnemyStatus", battleEnemyStateModel);

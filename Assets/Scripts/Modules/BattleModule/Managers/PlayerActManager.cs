@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
+using Common.Commands;
 using Modules.ActorModule.Components;
 using Modules.CameraModule;
 using Modules.GridModule;
@@ -12,6 +13,8 @@ namespace Modules.BattleModule.Managers
     {
         private readonly CameraController _cameraController;
         public readonly DynamicValue<bool> PlayerDoingAct = new DynamicValue<bool>(true);
+        public readonly DynamicValue<BattleActor> ActorAttack = new DynamicValue<BattleActor>(null);
+        public readonly DynamicValue<bool> PlayerEndTurn = new DynamicValue<bool>(false);
         public EventHandler ActorEndTurn;
         
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
@@ -24,12 +27,16 @@ namespace Modules.BattleModule.Managers
         protected override void OnActStart()
         {
             _cameraController.PointAtActor(Actors[ActiveUnit].Actor.Transform, Actors[ActiveUnit].Actor.ThirdPersonCamera);
-            _grid.CellSelected += HandleCellSelected;
+            PlayerDoingAct.Value = IsActorActive(Actors[ActiveUnit]);
+            WeaponMath.ActorWeapon = Actors[ActiveUnit]._weaponInfo;
+            PlayerEndTurn.Value = false;
+            _grid.CellPressed += HandleCellSelected;
         }
 
         protected override void OnActEnd()
         {
-            _grid.CellSelected -= HandleCellSelected;
+            _grid.CellPressed -= HandleCellSelected;
+            PlayerEndTurn.Value = true;
             ActorEndTurn?.Invoke(this, null);
         }
 
@@ -49,7 +56,6 @@ namespace Modules.BattleModule.Managers
 
             actorNavMesh.SetNextDestination(cell.CellComponent.transform.position);
             
-            RemoveActiveActor(selectedActor);
             
             _grid.RemoveCellHighlights();
         }
@@ -68,18 +74,22 @@ namespace Modules.BattleModule.Managers
                 selectedActor.Animator.AnimateCovering(true);
                 actorNavMesh.NavMeshAgent.enabled = false;
             }
-            PlayerDoingAct.Value = true;
+            RemoveActiveActor(selectedActor);
+            PlayerDoingAct.Value = IsActorActive(selectedActor);
             actorNavMesh.DestinationReach -= OnDestinationReach;
         }
         
         private void PlayerAttack(int row, int column)
         {
+            if(WeaponMath.HitChance(Actors[ActiveUnit].Placement,_grid[row,column])==0)
+                return;
+            
             var selectedActor = Actors[ActiveUnit];
 
             foreach (var battleActor in OnOppositeActors())
             {
                 if (battleActor.Placement == _grid[row, column])
-                    battleActor.TakeDamage(25);
+                    battleActor.TakeDamage(WeaponMath.ActorWeapon.Damage);
             }
             selectedActor.Animator.AnimateShooting();
             

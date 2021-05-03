@@ -73,7 +73,7 @@ namespace Modules.BattleModule.Factories
                 };
                 
                 enemyActors.Add(battleActor);
-                battleActor.SetWeapon(weaponConfig.LoadWeapon("0"));
+                battleActor.SetWeapon(weaponConfig.LoadWeapon("1"));
             }
 
             var enemyManager = new EnemyActManager(grid, enemyActors, _tickManager, cameraController);
@@ -103,7 +103,7 @@ namespace Modules.BattleModule.Factories
                 };
 
                 playerBattleActors.Add(battleActor);
-                battleActor.SetWeapon(weaponConfig.LoadWeapon("1"));
+                battleActor.SetWeapon(weaponConfig.LoadWeapon("0"));
             }
 
             var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, cameraController);

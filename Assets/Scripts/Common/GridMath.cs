@@ -5,6 +5,7 @@ namespace Common
 {
     public static class GridMath
     {
+        
         public static Vector3 RotateToCover(Cell coverCell, Cell playreCell)
         {
             var coverCellPos = new Vector2Int(coverCell.Column, coverCell.Row);

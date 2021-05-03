@@ -17,6 +17,8 @@ namespace Modules.GridModule
         public GridController Build(GridDataModel data)
         {
             var cells = new Cell[data.Rows, data.Columns];
+            var cellSelecter = Object.Instantiate(data.CellSelecter);
+            cellSelecter.SetActive(false);
             
             for (var row = 0; row < data.Rows; row++)
             {
@@ -35,9 +37,8 @@ namespace Modules.GridModule
                 }
             }
 
-            //var grid = new GridController(data.Rows, data.Columns, cells);
-            var aiGrid = new GridControllerForAI(data.Rows, data.Columns, cells);
-            return aiGrid;
+            var grid = new GridController(data.Rows, data.Columns, cells, cellSelecter);
+            return grid;
         }
     }
 }

@@ -1,24 +1,25 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.Components
 {
     public class SortingInCollection : MonoBehaviour
-    { 
-        private RectTransform[] _items;
+    {
+        public List<RectTransform> _items =new List<RectTransform>();
 
-        public void FetchCollection()
+        public void FetchCollection(RectTransform item)
         {
-            _items = transform.GetComponentsInChildren<RectTransform>();
+            _items.Add(item);
         }
+
+
 
         public void UpdateSorting()
         {
-            if (_items.Length == 0)
+            if (_items.Count == 0)
                 return;
 
-            for (var i = 0; i < _items.Length - 1; i++)
+            for (var i = 0; i < _items.Count - 1; i++)
             {
                 if (_items[i + 1].transform.localPosition.z > _items[i].transform.localPosition.z)
                 {

@@ -10,7 +10,8 @@ namespace Modules.ActorModule.Components
 
         public void SetWeapon(GameObject weaponPrefab)
         {
-            _weaponObject = Instantiate(weaponPrefab, _weaponPlaceholder.position, Quaternion.identity, _weaponPlaceholder);
+            _weaponObject = Instantiate(weaponPrefab, _weaponPlaceholder.position, _weaponPlaceholder.rotation,
+                _weaponPlaceholder);
         }
     }
 }

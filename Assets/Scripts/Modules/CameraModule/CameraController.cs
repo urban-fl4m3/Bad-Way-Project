@@ -10,7 +10,7 @@ namespace Modules.CameraModule
         [SerializeField] private float Smooth;
         [SerializeField] private Vector3 offset;
 
-        private Transform _selectedActor;
+        public Transform _selectedActor;
         private Transform _thirdPlayerPosition;
         private Vector3 _smoothPosition;
         private Vector3 _myPosition;
