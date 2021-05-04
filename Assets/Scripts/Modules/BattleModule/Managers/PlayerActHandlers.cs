@@ -23,7 +23,7 @@ namespace Modules.BattleModule.Managers
             IsActive.Value = IsActorActive(Actors[ActiveUnit]);
             
             _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().FollowActor(
-                nextPlayer.Actor.transform, nextPlayer.Actor.ThirdPersonCamera);
+                nextPlayer.Actor.transform, nextPlayer.Actor.TargetForUI);
             // _cameraController.SetAttackPos(false);
         }
 
@@ -42,7 +42,6 @@ namespace Modules.BattleModule.Managers
         public void HandleAttackClicked(object sender, EventArgs e)
         {
             var enemyActor = OnOppositeActors();
-            
             _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForAttack);
             _grid.HighlightCells(enemyActor.Select(x => x.Placement), Color.red);
             

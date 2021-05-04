@@ -81,6 +81,7 @@ namespace Modules.BattleModule
                 if (e.Amount <= 0)
                 {
                     Animator.AnimateDeath();
+                    //Placement = null;
                     ActorDeath?.Invoke(this,this);
                 }
             }

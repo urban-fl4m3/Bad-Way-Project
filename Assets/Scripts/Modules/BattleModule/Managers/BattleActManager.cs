@@ -20,7 +20,6 @@ namespace Modules.BattleModule.Managers
         private readonly List<BattleActor> _actors;
         private List<BattleActor> _deadActor = new List<BattleActor>();
         protected List<BattleActor> _activeActors;
-
         protected BattleActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager)
         {
             _grid = grid;

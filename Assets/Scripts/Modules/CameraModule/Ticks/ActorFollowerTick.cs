@@ -17,13 +17,14 @@ namespace Modules.CameraModule.Ticks
         private Transform _thirdPlayerPosition;
         private Vector3 _smoothPosition;
         private Vector3 _cameraPosition;
+        private Quaternion _cameraRotation;
         
         public ActorFollowerTick(Transform source, float smooth, Vector3 offset)
         {
             _smooth = smooth;
             _offset = offset;
             _cameraTransform = source;
-            
+            _cameraRotation = _cameraTransform.rotation;
             _cameraPosition = _cameraTransform.position;
             _smoothPosition = _cameraPosition;
         }
@@ -36,7 +37,7 @@ namespace Modules.CameraModule.Ticks
                     _smooth * Time.deltaTime);
                 _cameraTransform.rotation = Quaternion.Lerp(
                     _cameraTransform.rotation,
-                    _thirdPlayerPosition.rotation, 
+                    _cameraRotation, 
                     Time.deltaTime * _smooth);
                 
                 _cameraTransform.position = _smoothPosition + _offset;

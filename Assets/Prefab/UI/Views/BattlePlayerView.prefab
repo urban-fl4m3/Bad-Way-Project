@@ -498,6 +498,7 @@ GameObject:
   m_Component:
   - component: {fileID: 515425755607942045}
   - component: {fileID: 515425755607942044}
+  - component: {fileID: 4450151903531667698}
   m_Layer: 5
   m_Name: BattlePlayerView
   m_TagString: Untagged
@@ -545,3 +546,15 @@ MonoBehaviour:
   _hideButton: {fileID: 515425754756855775}
   _iconsParent: {fileID: 2261266045878736342}
   _actorSelectorButton: {fileID: 3561450230242465151, guid: 63292e5381ceb4a47a81e1096edf515a, type: 3}
+--- !u!114 &4450151903531667698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515425755607942034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e7f0599dbee1642a68b2c8f62b27f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

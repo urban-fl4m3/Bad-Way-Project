@@ -4,6 +4,7 @@ using UI.Components;
 using UI.Interface;
 using UI.Models;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Views
@@ -15,7 +16,6 @@ namespace UI.Views
         [SerializeField] private Button _hideButton;
         [SerializeField] private Transform _iconsParent;
         [SerializeField] private NamedIconComponent _actorSelectorButton;
-
         public Canvas Canvas { get; set ; }
         public GameObject GameObject => gameObject;
         
@@ -23,6 +23,11 @@ namespace UI.Views
 
         private BattlePlayerControlViewModel _model;
 
+        void Update()
+        {
+            HoverCheck.IsCover = EventSystem.current.IsPointerOverGameObject ();
+        }
+        
         public void ResolveModel(IModel model)
         {
             _model = (BattlePlayerControlViewModel) model;

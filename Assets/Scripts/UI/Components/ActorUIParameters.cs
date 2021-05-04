@@ -2,6 +2,7 @@
 using Common;
 using Common.Commands;
 using Modules.BattleModule;
+using Modules.CameraModule;
 using Modules.GridModule.Cells;
 using UI.Models;
 using UnityEngine;
@@ -39,9 +40,10 @@ namespace UI.Components
             _level.text = level.ToString();
             _actorHealthBar.Initialize(health, maxHealth, isEnemy);
             _canvas = canvas;
-            _camera = _canvas.worldCamera;
+            _camera = _model.CameraController.GameCamera.Component;
             _actionBar.gameObject.SetActive(!isEnemy);
-
+            _actor.ActorDeath += OnActorDeath;
+            
             if (isEnemy)
             {
                 _model.CellSelected += OnCellSelected;
@@ -49,6 +51,14 @@ namespace UI.Components
                 _attackActor.Changed += OnAttackClick;
             }
             
+        }
+
+        private void OnActorDeath(object sender, BattleActor e)
+        {
+            _model.CellSelected -= OnCellSelected;
+            _model.CellDeselected -= OnCellDeselected;
+            _attackActor.Changed -= OnAttackClick;
+            gameObject.SetActive(false);
         }
 
         private void OnAttackClick(object sender, BattleActor e)
@@ -64,7 +74,7 @@ namespace UI.Components
                 _hitChance.gameObject.SetActive(false);
             }
         }
-
+        
         private void OnCellDeselected(object sender, EventArgs e)
         {
             _cantHit.gameObject.SetActive(false);

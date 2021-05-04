@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common;
 using Common.Commands;
 using Modules.ActorModule.Components;
@@ -7,6 +8,7 @@ using Modules.CameraModule;
 using Modules.CameraModule.Components;
 using Modules.GridModule;
 using Modules.TickModule;
+using UnityEngine;
 
 namespace Modules.BattleModule.Managers
 {
@@ -88,16 +90,21 @@ namespace Modules.BattleModule.Managers
                 return;
             
             var selectedActor = Actors[ActiveUnit];
-
+            BattleActor enemy = null;
+            
             foreach (var battleActor in OnOppositeActors())
             {
                 if (battleActor.Placement == _grid[row, column])
-                    battleActor.TakeDamage(WeaponMath.ActorWeapon.Damage);
+                    enemy = battleActor; 
             }
+            
             selectedActor.Animator.AnimateShooting();
+            
+            enemy.TakeDamage(WeaponMath.ActorWeapon.Damage);
             
             RemoveActiveActor(selectedActor);
             
+            IsActive.Value = IsActorActive(selectedActor);
             _grid.RemoveCellHighlights();
         }
     }

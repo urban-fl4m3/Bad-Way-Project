@@ -1,4 +1,5 @@
 ﻿using System;
+using UI.Components;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -34,16 +35,22 @@ namespace Modules.GridModule.Cells
 
         private void OnMouseDown()
         {
+            if(HoverCheck.IsCover)
+                return;
             MousePressed?.Invoke(this, EventArgs.Empty);    
         }
 
         private void OnMouseOver()
         {
+            if(HoverCheck.IsCover)
+                return;
             SelectCell?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnMouseExit()
         {
+            if(HoverCheck.IsCover)
+                return;
             DeselectCell?.Invoke(this,EventArgs.Empty);
         }
     }
