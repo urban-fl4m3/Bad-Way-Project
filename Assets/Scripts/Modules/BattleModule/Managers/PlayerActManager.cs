@@ -4,6 +4,7 @@ using Common;
 using Common.Commands;
 using Modules.ActorModule.Components;
 using Modules.CameraModule;
+using Modules.CameraModule.Components;
 using Modules.GridModule;
 using Modules.TickModule;
 
@@ -12,8 +13,8 @@ namespace Modules.BattleModule.Managers
     public partial class PlayerActManager : BattleActManager
     {
         private readonly CameraController _cameraController;
-        public readonly DynamicValue<bool> PlayerDoingAct = new DynamicValue<bool>(true);
         public readonly DynamicValue<BattleActor> ActorAttack = new DynamicValue<BattleActor>(null);
+        public readonly DynamicValue<bool> IsActive = new DynamicValue<bool>(true);
         public readonly DynamicValue<bool> PlayerEndTurn = new DynamicValue<bool>(false);
         public EventHandler ActorEndTurn;
         
@@ -26,8 +27,10 @@ namespace Modules.BattleModule.Managers
 
         protected override void OnActStart()
         {
-            _cameraController.PointAtActor(Actors[ActiveUnit].Actor.Transform, Actors[ActiveUnit].Actor.ThirdPersonCamera);
-            PlayerDoingAct.Value = IsActorActive(Actors[ActiveUnit]);
+            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().FollowActor(
+                Actors[ActiveUnit].Actor.Transform, Actors[ActiveUnit].Actor.ThirdPersonCamera);
+            
+            IsActive.Value = IsActorActive(Actors[ActiveUnit]);
             WeaponMath.ActorWeapon = Actors[ActiveUnit]._weaponInfo;
             PlayerEndTurn.Value = false;
             _grid.CellPressed += HandleCellSelected;
@@ -45,7 +48,7 @@ namespace Modules.BattleModule.Managers
             var cell = _grid[row, column];
             var selectedActor = Actors[ActiveUnit];
             var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigationComponent>();
-            PlayerDoingAct.Value = false;
+            IsActive.Value = false;
             
             actorNavMesh.NavMeshAgent.enabled = true;
             selectedActor.Placement = cell;
@@ -64,7 +67,7 @@ namespace Modules.BattleModule.Managers
         {
             var selectedActor = Actors[ActiveUnit];
             var actorNavMesh = selectedActor.Actor.GetActorComponent<ActorNavigationComponent>();
-            var covers = _grid.NearCover(selectedActor.Placement);
+            var covers = _grid.FindAdjacentCells(selectedActor.Placement);
             
             selectedActor.Animator.ChangeMovingState(false);
             if (covers.Count > 0)
@@ -75,7 +78,7 @@ namespace Modules.BattleModule.Managers
                 actorNavMesh.NavMeshAgent.enabled = false;
             }
             RemoveActiveActor(selectedActor);
-            PlayerDoingAct.Value = IsActorActive(selectedActor);
+            IsActive.Value = IsActorActive(selectedActor);
             actorNavMesh.DestinationReach -= OnDestinationReach;
         }
         

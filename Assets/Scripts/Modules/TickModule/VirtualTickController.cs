@@ -19,20 +19,20 @@ namespace Modules.TickModule
         {
             for (var i = 0; i < _length; i++)
             {
-                _ticks[i].Tick();
+                _ticks[i]?.Tick();
             }
         }
 
         public void Add(TTick tick)
         {
+            _ticks[_length] = tick;
+            
             _length++;
 
             if (_length >= _capacity)
             {
                 IncreaseTicksCapacity();
             }
-
-            _ticks[_length] = tick;
         }
 
         public void Remove(TTick tick)

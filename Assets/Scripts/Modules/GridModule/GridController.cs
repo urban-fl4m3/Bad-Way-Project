@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Modules.GridModule.Args;
 using Modules.GridModule.Cells;
 using Modules.GridModule.Math;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Modules.GridModule
 {
@@ -17,18 +17,18 @@ namespace Modules.GridModule
         public Cell this[int row, int column] => _cells[row, column];
         public Cell this[Vector2Int cellIndices] => _cells[cellIndices.x, cellIndices.y];
         private List<Cell> _cellsWithCover;
-        private GameObject _cellSelecter;
+        private readonly GameObject _cellSelector;
         
-        protected readonly Cell[,] _cells;
-        protected readonly GridBFS _bfs;
+        private readonly Cell[,] _cells;
+        private readonly GridBFS _bfs;
 
         private int _stateToken;
 
-        public GridController(int rows, int columns, Cell[,] cells, GameObject cellSelecter)
+        public GridController(int rows, int columns, Cell[,] cells, GameObject cellSelector)
         {
             _cells = cells;
             _bfs = new GridBFS(_cells, rows, columns);
-            _cellSelecter = cellSelecter;
+            _cellSelector = cellSelector;
         }
 
         public Cell FindShortestDistance(Cell enemy, Cell actor)
@@ -56,13 +56,13 @@ namespace Modules.GridModule
             _stateToken = stateToken;
         }
 
-        public void FillBuildingCell(List<Transform> building)
+        public void FillBuildingCell(IEnumerable<Transform> building)
         {
             _cellsWithCover = new List<Cell>();
-            foreach (var build in building)
+            foreach (var pos in building
+                .Select(build => build.transform.position)
+                .Select(position => new Vector2Int((int)position.x, (int)position.z)/2))
             {
-                var position = build.transform.position;
-                var pos = new Vector2Int((int)position.x, (int)position.z)/2;
                 _cells[pos.y, pos.x].IsEmpty = false;
                 _cellsWithCover.Add(_cells[pos.y, pos.x]);
             }
@@ -96,7 +96,7 @@ namespace Modules.GridModule
 
         public void RemoveCellHighlights()
         {
-            _cellSelecter.SetActive(false);
+            _cellSelector.SetActive(false);
             foreach (var cell in _cells)
             {
                 cell.CellComponent.ActiveMeshCollider = false;
@@ -110,8 +110,8 @@ namespace Modules.GridModule
         private void HandleCellSelected(object sender, Cell e)
         {
             CellSelected?.Invoke(this, e);
-            _cellSelecter.SetActive(true);
-            _cellSelecter.transform.position = e.CellComponent.transform.position;
+            _cellSelector.SetActive(true);
+            _cellSelector.transform.position = e.CellComponent.transform.position;
         }
 
         private void HandleCellPressed(object sender, CellEventArgs e)
@@ -122,26 +122,17 @@ namespace Modules.GridModule
         private void HandleCellDeselected(object sender, EventArgs e)
         {
             CellDeselected?.Invoke(this, EventArgs.Empty);
-            _cellSelecter.SetActive(false);
+            _cellSelector.SetActive(false);
         }
         
 
-        public List<Cell> NearCover(Cell actorCell)
+        public List<Cell> FindAdjacentCells(Cell actorCell)
         {
-            var covers=new List<Cell>();
-            for (var index = 0; index < _cellsWithCover.Count; index++)
-            {
-                var cell = _cellsWithCover[index];
-
-                var cellPos = new Vector2(cell.Row, cell.Column);
-                var actorCellPos = new Vector2(actorCell.Row, actorCell.Column);
-                
-                if (Vector2.Distance(cellPos,actorCellPos)<=1)
-                {
-                    covers.Add(cell);
-                }
-            }
-            return covers;
+            return (
+                from cell in _cellsWithCover 
+                let cellPos = new Vector2(cell.Row, cell.Column)
+                let actorCellPos = new Vector2(actorCell.Row, actorCell.Column)
+                where Vector2.Distance(cellPos, actorCellPos) <= 1 select cell).ToList();
         }
     }
 }

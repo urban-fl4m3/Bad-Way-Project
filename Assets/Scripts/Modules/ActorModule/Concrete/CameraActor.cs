@@ -1,7 +1,10 @@
-﻿namespace Modules.ActorModule.Concrete
+﻿using UnityEngine;
+
+namespace Modules.ActorModule.Concrete
 {
-    public class CameraActor
+    public class CameraActor : Actor
     {
-        
+        [SerializeField] private Camera _component;
+        public Camera Component => _component;
     }
 }

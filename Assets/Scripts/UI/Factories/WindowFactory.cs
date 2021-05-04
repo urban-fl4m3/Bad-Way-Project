@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Modules.CameraModule;
 using UI.Configs;
 using UI.Interface;
 using UI.Models;
@@ -8,16 +9,16 @@ namespace UI.Factories
 {
     public class WindowFactory
     {
-        private readonly Camera _camera;
+        private readonly CameraController _cameraController;
         private readonly WindowViewsConfig _config;
 
         private readonly Dictionary<string, IViewModel> _models = new Dictionary<string, IViewModel>();
         private readonly Dictionary<string, IButtonSubscriber> _buttonSubscribers = new Dictionary<string, IButtonSubscriber>();
         private readonly Dictionary<string, ICanvasView> _canvasViews = new Dictionary<string, ICanvasView>();
 
-        public WindowFactory(Camera camera, WindowViewsConfig config)
+        public WindowFactory(CameraController cameraController, WindowViewsConfig config)
         {
-            _camera = camera;
+            _cameraController = cameraController;
             _config = config;
         }
 
@@ -30,7 +31,7 @@ namespace UI.Factories
                 _config.LoadView(windowKey), configGameObject.transform, false);
             
             canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            canvas.worldCamera = _camera;
+            canvas.worldCamera = _cameraController.UiCamera.Component;
             canvas.planeDistance = 1;
 
             var buttonSubscriber = window.GetComponent<IButtonSubscriber>();

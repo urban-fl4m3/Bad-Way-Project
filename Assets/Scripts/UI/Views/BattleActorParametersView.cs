@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Modules.CameraModule.Components;
 using UI.Components;
 using UI.Interface;
 using UI.Models;
@@ -23,7 +24,9 @@ namespace UI.Views
         public void ResolveModel(IModel model)
         {
             _model = (BattleActorParameterModel) model;
-            _model.CameraController.PositionChanged += HandleCameraPositionChanging;
+            _model.CameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().PositionChanged 
+                += HandleCameraPositionChanging;
+            
             CreateActorParametersWindow();
         }
 

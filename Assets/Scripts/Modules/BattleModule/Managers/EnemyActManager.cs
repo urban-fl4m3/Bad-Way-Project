@@ -4,6 +4,7 @@ using Common;
 using Common.Commands;
 using Modules.ActorModule.Components;
 using Modules.CameraModule;
+using Modules.CameraModule.Components;
 using Modules.GridModule;
 using Modules.GridModule.Cells;
 using Modules.TickModule;
@@ -13,10 +14,10 @@ namespace Modules.BattleModule.Managers
 {
     public class EnemyActManager : BattleActManager
     {
-        private CameraController _cameraController;
+        private readonly CameraController _cameraController;
         public EventHandler EnemyEndTurn;
 
-        private GridController _gridController;
+        private readonly GridController _gridController;
 
         public EnemyActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
             CameraController cameraController) 
@@ -70,7 +71,8 @@ namespace Modules.BattleModule.Managers
             actorNavMesh.NavMeshAgent.enabled = true;
             actorNavMesh.DestinationReach += OnDestinationReach;
             
-            _cameraController.PointAtActor(enemy.Actor.transform,null);
+            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>()
+                .FollowActor(enemy.Actor.transform,null);
 
             enemy.Placement = cell;
             enemy.Animator.AnimateCovering(false);
@@ -81,7 +83,7 @@ namespace Modules.BattleModule.Managers
             void OnDestinationReach(object sender, EventArgs e)
             {
 
-                var covers = _grid.NearCover(enemy.Placement);
+                var covers = _grid.FindAdjacentCells(enemy.Placement);
             
                 enemy.Animator.ChangeMovingState(false);
                 if (covers.Count > 0)

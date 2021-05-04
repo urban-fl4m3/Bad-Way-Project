@@ -57,8 +57,8 @@ namespace Modules.BattleModule
             Health = new DynamicValue<int>(Stats[SecondaryStat.Health]);
             MaxHealth = Health.Value;
             
-            actor.ActorSelected += HandleActorSelected;
-            actor.ActorDeselected += HandleActorDeselected;
+            actor.GetActorComponent<ActorCollisionComponent>().Selected += HandleActorSelected;
+            actor.GetActorComponent<ActorCollisionComponent>().Deselected += HandleActorDeselected;
         }
 
         public void SetWeapon(WeaponInfo weaponInfo)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Modules.ActorModule;
 using Modules.BattleModule;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Managers;
@@ -14,17 +15,17 @@ namespace Schemes.Implementations
         private readonly BattleScene _battleScene;
         private readonly WindowFactory _windowFactory;
         private readonly BattleSceneFactory _battleSceneFactory;
-        private readonly CameraController _camera;
+        private readonly CameraController _cameraController;
         
         
         public BattleScheme(WindowFactory windowFactory, BattleScene battleScene, BattleSceneFactory battleSceneFactory,
-            Component camera)
+            CameraController cameraController)
         {
             _battleScene = battleScene;
             _battleSceneFactory = battleSceneFactory;
             _windowFactory = windowFactory;
             _battleSceneFactory = battleSceneFactory;
-            _camera = camera.GetComponent<CameraController>();
+            _cameraController = cameraController;
         }
         
         protected override void OnExecute()
@@ -37,7 +38,7 @@ namespace Schemes.Implementations
             allActor.AddRange(playerActManager.Actors);
             allActor.AddRange(enemyActManager.Actors);
             
-            var battleActorParameterModel = new BattleActorParameterModel(allActor, _camera,
+            var battleActorParameterModel = new BattleActorParameterModel(allActor, _cameraController,
                 _battleScene.Grid, playerManager);
             var battleEnemyStateModel = new BattleEnemyStateModel(enemyActManager.Actors as List<BattleActor>);
             var battlePlayerControlViewModel = new BattlePlayerControlViewModel(
@@ -45,7 +46,7 @@ namespace Schemes.Implementations
                 playerManager.HandleAttackClicked,
                 playerManager.HandleSelectActor,
                 _battleSceneFactory.AvailableActorsProvider.AvailableActors,
-                playerManager.PlayerDoingAct,
+                playerManager.IsActive,
                 playerManager.PlayerEndTurn);
             
            _windowFactory.AddWindow("ActorStatus", battleActorParameterModel);

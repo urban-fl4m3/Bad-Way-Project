@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Common;
 using Common.Commands;
-using Modules.ActorModule.Components;
 using Modules.BattleModule.Helpers;
+using Modules.CameraModule.Components;
 using Modules.GridModule.Args;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 namespace Modules.BattleModule.Managers
 {
@@ -22,10 +20,11 @@ namespace Modules.BattleModule.Managers
             _grid.RemoveCellHighlights();
             
             ActorAttack.Value = null;
-            PlayerDoingAct.Value = IsActorActive(Actors[ActiveUnit]);
+            IsActive.Value = IsActorActive(Actors[ActiveUnit]);
             
-            _cameraController.PointAtActor(nextPlayer.Actor.transform, nextPlayer.Actor.ThirdPersonCamera);
-            _cameraController.SetAttackPos(false);
+            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().FollowActor(
+                nextPlayer.Actor.transform, nextPlayer.Actor.ThirdPersonCamera);
+            // _cameraController.SetAttackPos(false);
         }
 
         public void HandleMovementClicked(object sender, EventArgs e)
@@ -37,7 +36,7 @@ namespace Modules.BattleModule.Managers
             _grid.SetStateToken((int)BattlePlayerGridStates.WaitingForMove);
             _grid.HighlightRelativeCells(battleActor.Placement, 5, Color.white);
             
-            _cameraController.SetAttackPos(false);
+            // _cameraController.SetAttackPos(false);
         }
 
         public void HandleAttackClicked(object sender, EventArgs e)
@@ -49,8 +48,9 @@ namespace Modules.BattleModule.Managers
             
             ActorAttack.Value = Actors[ActiveUnit];
             
-            _cameraController.SetAttackPos(true);
+            // _cameraController.SetAttackPos(true);
         }
+        
         private void HandleCellSelected(object sender, CellSelectionEventArgs e)
         {
             var state = e.StateToken;

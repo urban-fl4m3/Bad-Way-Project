@@ -1,6 +1,7 @@
 using System;
 using EditorMod;
 using Modules.ActorModule;
+using Modules.ActorModule.Concrete;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
@@ -14,6 +15,7 @@ using Schemes.Implementations;
 using UI.Configs;
 using UI.Factories;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Modules.InitializationModule
 {
@@ -22,12 +24,14 @@ namespace Modules.InitializationModule
         [SerializeField] private LevelDataProvider _levelData;
         [SerializeField] private AvailableBattleStatsProvider _statsProvider;
         [SerializeField] private AvailableActorsProvider _actorsProvider;
-        [SerializeField] private CameraController _cameraController;
         [SerializeField] private GameConstructions _gameConstructions;
         [SerializeField] private WindowViewsConfig _viewsConfig;
         [SerializeField] private WeaponConfig _weaponConfig;
-        [SerializeField] private Camera _camera;
-
+        
+        [SerializeField] private CameraActor _gameCamera;
+        [SerializeField] private CameraActor _uiCamera;
+        
+        private CameraController _cameraController;
         private IBaseScheme _battleScheme;
         private WindowFactory _windowsFactory;
         
@@ -38,14 +42,17 @@ namespace Modules.InitializationModule
             var player = GetPlayer();
             var tick = GetTickManager();
 
-            _windowsFactory = new WindowFactory(_camera,_viewsConfig);
+            _cameraController = new CameraController(tick, _gameCamera, _uiCamera);
+            _cameraController.StartBattle();
+            
+            _windowsFactory = new WindowFactory(_cameraController, _viewsConfig);
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
                 player.ActorsCollection, _actorsProvider, _gameConstructions);
 
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController, _weaponConfig);
 
-            _battleScheme = new BattleScheme(_windowsFactory, battleScene, battleSceneFactory, _camera);
+            _battleScheme = new BattleScheme(_windowsFactory, battleScene, battleSceneFactory, _cameraController);
             _battleScheme.Execute();
             battleScene.StartBattle(); 
         }
@@ -66,7 +73,6 @@ namespace Modules.InitializationModule
         private static ITickManager GetTickManager()
         {
             var processor = new GameObject("_Tick_Processor").AddComponent<TickProcessor>();
-
             return new TickManager(processor);
         }
 

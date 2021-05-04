@@ -5,6 +5,7 @@ using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Managers;
 using Modules.BattleModule.Stats;
 using Modules.CameraModule;
+using Modules.CameraModule.Components;
 using Modules.GridModule;
 using Modules.GunModule;
 using Modules.PlayerModule.Actors;
@@ -108,8 +109,9 @@ namespace Modules.BattleModule.Factories
 
             var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, cameraController);
             
-            cameraController.PointAtActor(playerManager.Actors[0].Actor.transform,
-                playerManager.Actors[0].Actor.ThirdPersonCamera);
+            var cameraFollower = cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>();
+            var actorToFollow = playerManager.Actors[0].Actor; 
+            cameraFollower.FollowActor(actorToFollow.transform, actorToFollow.ThirdPersonCamera);
 
             return playerManager;
         }
