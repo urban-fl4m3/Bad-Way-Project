@@ -47,7 +47,6 @@ namespace UI.Components
         private void OnHealthChange(object sender, int e)
         {
             _healthPointText.text = _health.Value.ToString();
-            
             for (var i = 0; i < _healthPoints.Count; i++)
             {
                 if (i >= _health.Value)
@@ -63,7 +62,7 @@ namespace UI.Components
             else
             {
                 var damageText = Instantiate(_damageText, _damagePanel).GetComponent<Text>();
-                _damageTexts.Add(damageText);
+                _damageTexts.Add(damageText);       
                 StartCoroutine(ShowDamagePoint(_lastHealth-e,_damageTexts[0]));
             }
 
@@ -74,7 +73,6 @@ namespace UI.Components
         private IEnumerator ShowDamagePoint(int e, Text damageText)
         {
             _damageTexts.Remove(damageText);
-            
             var color = damageText.color;
             color = new Color(color.r, color.g, color.b, 1);
             damageText.color = color;

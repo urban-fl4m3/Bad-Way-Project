@@ -12,6 +12,7 @@ namespace Modules.ActorModule.Components
         [SerializeField] private CapsuleCollider _collider;
         private Vector3 _coverOffset;
 
+        public Collider Collider => _collider;
         private void OnMouseOver()
         {
             if (Input.GetMouseButtonDown(1))

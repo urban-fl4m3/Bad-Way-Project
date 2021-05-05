@@ -18,7 +18,7 @@ MonoBehaviour:
   _prefab: {fileID: 3283869468859972667, guid: 1cd6528ba2739374e8e95e376edf7da8, type: 3}
   _icon: {fileID: 0}
   _level: 1
-  _damage: 5
+  _damage: 180
   _ammo: 0
   _clipSize: 0
   _attackActionCost: 1

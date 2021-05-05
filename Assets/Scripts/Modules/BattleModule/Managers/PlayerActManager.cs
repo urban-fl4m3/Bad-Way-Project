@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Common;
 using Common.Commands;
 using Modules.ActorModule.Components;
@@ -8,7 +7,6 @@ using Modules.CameraModule;
 using Modules.CameraModule.Components;
 using Modules.GridModule;
 using Modules.TickModule;
-using UnityEngine;
 
 namespace Modules.BattleModule.Managers
 {
@@ -29,6 +27,9 @@ namespace Modules.BattleModule.Managers
 
         protected override void OnActStart()
         {
+            if (ActiveUnit > Actors.Count-1)
+                ActiveUnit = Actors.Count-1;
+           
             _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().FollowActor(
                 Actors[ActiveUnit].Actor.Transform, Actors[ActiveUnit].Actor.ThirdPersonCamera);
             
@@ -60,8 +61,7 @@ namespace Modules.BattleModule.Managers
             selectedActor.Animator.ChangeMovingState(true);
 
             actorNavMesh.SetNextDestination(cell.CellComponent.transform.position);
-            
-            
+
             _grid.RemoveCellHighlights();
         }
         

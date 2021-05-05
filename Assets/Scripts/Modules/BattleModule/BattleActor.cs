@@ -81,7 +81,10 @@ namespace Modules.BattleModule
                 if (e.Amount <= 0)
                 {
                     Animator.AnimateDeath();
-                    //Placement = null;
+                    Actor.GetActorComponent<ActorNavigationComponent>().NavMeshAgent.enabled = false;
+                    Actor.GetActorComponent<ActorCollisionComponent>().Collider.enabled = false;
+                    _placement.IsEmpty = true;
+                    _placement = null;
                     ActorDeath?.Invoke(this,this);
                 }
             }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using Modules.ActorModule.Concrete;
 using Modules.BattleModule;
 using Modules.BattleModule.Managers;
 using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.GridModule.Cells;
-using UnityEngine;
 
 namespace UI.Models
 {

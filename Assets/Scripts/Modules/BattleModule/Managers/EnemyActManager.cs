@@ -102,6 +102,9 @@ namespace Modules.BattleModule.Managers
 
         private void EnemyAttack(BattleActor actor, BattleActor enemy)
         {
+            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>()
+                .FollowActor(enemy.Actor.transform,null);
+            
             actor.TakeDamage(WeaponMath.ActorWeapon.Damage);
             enemy.Animator.AnimateShooting();
             RemoveActiveActor(enemy);

@@ -2,7 +2,6 @@
 using Common;
 using Common.Commands;
 using Modules.BattleModule;
-using Modules.CameraModule;
 using Modules.GridModule.Cells;
 using UI.Models;
 using UnityEngine;

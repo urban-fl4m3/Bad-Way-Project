@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Common.Commands;
+﻿using System;
+using System.Collections.Generic;
 using Modules.GridModule;
-using Modules.GunModule.Helpers;
 using Modules.TickModule;
 
 namespace Modules.BattleModule.Managers
@@ -12,13 +11,15 @@ namespace Modules.BattleModule.Managers
     {
         public IReadOnlyList<BattleActor> Actors => _actors;
         public event GetOppositeActors OppositeActors;
+        public EventHandler ActorDead;
+
         public int ActiveUnit { get; protected set; }
 
         protected readonly ITickManager _tickManager;
         protected readonly GridController _grid;
 
         private readonly List<BattleActor> _actors;
-        private List<BattleActor> _deadActor = new List<BattleActor>();
+        private List<BattleActor> _deadActor =new List<BattleActor>();
         protected List<BattleActor> _activeActors;
         protected BattleActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager)
         {
@@ -39,6 +40,8 @@ namespace Modules.BattleModule.Managers
             {
                 _activeActors.Add(vActor);
             }
+            if(_activeActors.Count==0)
+                return;
             OnActStart();
         }
 
@@ -61,6 +64,7 @@ namespace Modules.BattleModule.Managers
         {
             _actors.Remove(actor);
             _deadActor.Add(actor);
+            ActorDead?.Invoke(this,EventArgs.Empty);
         }
 
         protected bool IsActorActive(BattleActor actor)

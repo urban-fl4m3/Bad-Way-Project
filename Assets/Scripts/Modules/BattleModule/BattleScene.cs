@@ -2,6 +2,7 @@
 using Modules.BattleModule.Managers;
 using Modules.CameraModule;
 using Modules.GridModule;
+using UnityEngine;
 
 namespace Modules.BattleModule
 {
@@ -11,6 +12,7 @@ namespace Modules.BattleModule
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
         public readonly CameraController CameraController;
+        public readonly DeathMatchRules DeathMatchRules;
 
         public BattleScene(GridController grid,
             BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController)
@@ -28,32 +30,35 @@ namespace Modules.BattleModule
             
             playerActManager.OppositeActors += () => enemyActManager.Actors;
             enemyActManager.OppositeActors += () => playerActManager.Actors;
+
+            playerActManager.ActorDead += ToCheckRules;
+            enemyActManager.ActorDead += ToCheckRules;
+            
+            DeathMatchRules = new DeathMatchRules(this);
+            DeathMatchRules.RulesComplite += OnRulesComplite;
+            
         }
-
-        
-
 
         public void StartBattle()
         {
-            //Начало хода, ходят все юниты игрока последовательно
             PlayerActManager.ActStart();
-
-            //Как только игрок подвигал всеми юнитами делаем это
-            // PlayerActManager.ActEnd();
-            //  EnemyActManager.ActStart();
-
-            //Как только враг походил всеми юнитами делаем это и репит с 24 строчки
-            //   EnemyActManager.ActEnd();
         }
 
         private void OnActorEndTurn(object sender, EventArgs e)
         {
             EnemyActManager.ActStart();
         }
-
         private void OnEnemyEndTurn(object sender, EventArgs e)
         {
             PlayerActManager.ActStart();
+        }
+        private void OnRulesComplite(object sender, Rules e)
+        {
+            Debug.Log(e);
+        }
+        private void ToCheckRules(object sender, EventArgs e)
+        {
+            DeathMatchRules.CheckForAllAliveActor();
         }
     }
 }

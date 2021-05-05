@@ -1,5 +1,4 @@
 using Modules.BattleModule;
-using Modules.BattleModule.Stats.Helpers;
 using UI.Components;
 using UI.Interface;
 using UI.Models;

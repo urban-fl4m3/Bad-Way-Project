@@ -100,6 +100,7 @@ namespace Modules.GridModule
             foreach (var cell in _cells)
             {
                 cell.CellComponent.ActiveMeshCollider = false;
+                HandleCellDeselected(this,EventArgs.Empty);
                 cell.CellPressed -= HandleCellPressed;
                 cell.CellSelected -= HandleCellSelected;
                 cell.CellDeselected -= HandleCellDeselected;

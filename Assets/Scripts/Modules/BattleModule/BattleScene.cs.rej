@@ -1,0 +1,16 @@
+diff a/Assets/Scripts/Modules/BattleModule/BattleScene.cs b/Assets/Scripts/Modules/BattleModule/BattleScene.cs	(rejected hunks)
+@@ -37,11 +37,11 @@
+             PlayerActManager.ActStart();
+             
+             //Как только игрок подвигал всеми юнитами делаем это
+-            PlayerActManager.ActEnd();
+-            EnemyActManager.ActStart();
++           // PlayerActManager.ActEnd();
++          //  EnemyActManager.ActStart();
+             
+             //Как только враг походил всеми юнитами делаем это и репит с 24 строчки
+-            EnemyActManager.ActEnd();
++         //   EnemyActManager.ActEnd();
+         }
+     }
+ 
