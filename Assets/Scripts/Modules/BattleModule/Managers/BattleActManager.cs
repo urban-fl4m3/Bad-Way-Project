@@ -11,7 +11,7 @@ namespace Modules.BattleModule.Managers
     {
         public IReadOnlyList<BattleActor> Actors => _actors;
         public event GetOppositeActors OppositeActors;
-        public EventHandler ActorDead;
+        public EventHandler ActorDeath;
 
         public int ActiveUnit { get; protected set; }
 
@@ -19,7 +19,7 @@ namespace Modules.BattleModule.Managers
         protected readonly GridController _grid;
 
         private readonly List<BattleActor> _actors;
-        private List<BattleActor> _deadActor =new List<BattleActor>();
+        private List<BattleActor> _deadActors =new List<BattleActor>();
         protected List<BattleActor> _activeActors;
         protected BattleActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager)
         {
@@ -63,8 +63,8 @@ namespace Modules.BattleModule.Managers
         public void OnActorDead(object sender,BattleActor actor)
         {
             _actors.Remove(actor);
-            _deadActor.Add(actor);
-            ActorDead?.Invoke(this,EventArgs.Empty);
+            _deadActors.Add(actor);
+            ActorDeath?.Invoke(this,EventArgs.Empty);
         }
 
         protected bool IsActorActive(BattleActor actor)

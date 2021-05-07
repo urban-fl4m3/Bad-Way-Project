@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using Modules.CameraModule.Components;
 using Modules.TickModule;
+using UnityEditor;
 using UnityEngine;
 
 namespace Modules.CameraModule.Ticks
@@ -13,11 +16,14 @@ namespace Modules.CameraModule.Ticks
         private readonly Vector3 _offset;
         private readonly Transform _cameraTransform;
         
-        private Transform _selectedActor;
-        private Transform _thirdPlayerPosition;
-        private Vector3 _smoothPosition;
         private Vector3 _cameraPosition;
         private Quaternion _cameraRotation;
+        private Quaternion _cameraCurrentRotation;
+        
+        private Transform _emptyPoint;
+        private int selectedEnemy;
+
+        private IFollower _follower;
         
         public ActorFollowerTick(Transform source, float smooth, Vector3 offset)
         {
@@ -25,35 +31,35 @@ namespace Modules.CameraModule.Ticks
             _offset = offset;
             _cameraTransform = source;
             _cameraRotation = _cameraTransform.rotation;
+            _cameraCurrentRotation = _cameraRotation;
             _cameraPosition = _cameraTransform.position;
-            _smoothPosition = _cameraPosition;
+            
+            var emptyGameObject = new GameObject("emptyPoint");
+            
+            _emptyPoint = emptyGameObject.transform;
         }
-        
         public void Tick()
         {
-            if (Enabled)
-            {
-                _smoothPosition = Vector3.Lerp(_smoothPosition, _selectedActor.position,
-                    _smooth * Time.deltaTime);
-                _cameraTransform.rotation = Quaternion.Lerp(
-                    _cameraTransform.rotation,
-                    _cameraRotation, 
-                    Time.deltaTime * _smooth);
-                
-                _cameraTransform.position = _smoothPosition + _offset;
+            if (!Enabled)
+                return;
+            
+            _follower.Follow();
 
-                if (_cameraTransform.position != _cameraPosition)
-                {
-                    _cameraPosition = _cameraTransform.position;
-                    PositionChanged?.Invoke(this, _cameraPosition);
-                }
+            if (_cameraTransform.position != _cameraPosition|| _cameraTransform.rotation !=_cameraCurrentRotation)
+            {
+                _cameraPosition = _cameraTransform.position;
+                _cameraCurrentRotation = _cameraTransform.rotation;
+                
+                PositionChanged?.Invoke(this, _cameraPosition);
             }
+
         }
-        
-        public void FollowActor(Transform actor, Transform cameraPos)
+        public void FollowActor(IFollower follower)
         {
-            _selectedActor = actor;
-            _thirdPlayerPosition = cameraPos;
+            _follower = follower;
+            _follower.SetParameter(_offset, _cameraTransform, _smooth, _cameraRotation, _emptyPoint);
         }
+
+        
     }
 }

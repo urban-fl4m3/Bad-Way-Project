@@ -4,6 +4,7 @@ namespace Modules.BattleModule
 {
     public interface IRules
     {
-        event EventHandler<Rules> RulesComplite;
+        event EventHandler<Rules> RulesComplete;
+        void CheckRules();
     }
 }

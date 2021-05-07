@@ -110,8 +110,9 @@ namespace Modules.BattleModule.Factories
             var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, cameraController);
             
             var cameraFollower = cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>();
-            var actorToFollow = playerManager.Actors[0].Actor; 
-            cameraFollower.FollowActor(actorToFollow.transform, actorToFollow.ThirdPersonCamera);
+            var actorToFollow = playerManager.Actors[0].Actor;
+            var follower = new FlyFollower(actorToFollow.transform);
+            cameraFollower.SetFollower(follower);
 
             return playerManager;
         }

@@ -12,7 +12,6 @@ namespace Modules.CameraModule.Components
         
         [SerializeField] private float _smooth;
         [SerializeField] private Vector3 _offset;
-
         private ActorFollowerTick _actorFollowerTick;
 
         public void Initialize(ITickManager tickManager)
@@ -20,13 +19,12 @@ namespace Modules.CameraModule.Components
             _actorFollowerTick = new ActorFollowerTick(transform, _smooth, _offset);
             _actorFollowerTick.PositionChanged += HandlePositionChanged;
             tickManager.AddTick(this, _actorFollowerTick);
-
             _actorFollowerTick.Enabled = true;
         }
 
-        public void FollowActor(Transform actor, Transform cameraPos)
+        public void SetFollower(IFollower follower)
         {
-            _actorFollowerTick.FollowActor(actor, cameraPos);
+            _actorFollowerTick.FollowActor(follower);
         }
 
         private void HandlePositionChanged(object sender, Vector3 e)

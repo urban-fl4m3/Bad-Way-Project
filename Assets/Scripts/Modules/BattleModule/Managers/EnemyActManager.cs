@@ -64,15 +64,16 @@ namespace Modules.BattleModule.Managers
             EnemyEndTurn?.Invoke(this, null);
         }
 
-        
-        private void EnemyMove(BattleActor enemy, Cell cell)
+
+        void EnemyMove(BattleActor enemy, Cell cell)
         {
             var actorNavMesh = enemy.Actor.GetActorComponent<ActorNavigationComponent>();
+            var actorAnimator = enemy.Actor.GetActorComponent<ActorAnimationComponent>();
             actorNavMesh.NavMeshAgent.enabled = true;
             actorNavMesh.DestinationReach += OnDestinationReach;
-            
-            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>()
-                .FollowActor(enemy.Actor.transform,null);
+
+            var follower = new FlyFollower(enemy.Actor.transform);
+            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().SetFollower(follower);
 
             enemy.Placement = cell;
             enemy.Animator.AnimateCovering(false);
@@ -89,11 +90,11 @@ namespace Modules.BattleModule.Managers
                 if (covers.Count > 0)
                 {
                     enemy.Actor.transform.eulerAngles = GridMath.RotateToCover(covers[0], enemy.Placement);
-                    enemy.Actor.GetActorComponent<ActorCollisionComponent>().CheckDistanceToCover();
+                    enemy.Actor.GetActorComponent<ActorCoverComponent>().CheckDistanceToCover();
                     enemy.Animator.AnimateCovering(true);
                     actorNavMesh.NavMeshAgent.enabled = false;
                 }
-                
+
                 RemoveActiveActor(enemy);
                 NextTurn();
                 actorNavMesh.DestinationReach -= OnDestinationReach;
@@ -102,8 +103,8 @@ namespace Modules.BattleModule.Managers
 
         private void EnemyAttack(BattleActor actor, BattleActor enemy)
         {
-            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>()
-                .FollowActor(enemy.Actor.transform,null);
+            var follower = (IFollower) new FlyFollower(actor.Actor.transform);
+            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().SetFollower(follower);
             
             actor.TakeDamage(WeaponMath.ActorWeapon.Damage);
             enemy.Animator.AnimateShooting();

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Modules.ActorModule.Components
 {
@@ -7,5 +8,12 @@ namespace Modules.ActorModule.Components
         [SerializeField] private Animator _animator;
 
         public Animator Animator => _animator;
+
+        public bool IsIdlePlaying()
+        {
+            var idle = _animator.GetCurrentAnimatorStateInfo(0).IsName("Ilde");
+            var covered = _animator.GetCurrentAnimatorStateInfo(0).IsName("Taking Cover Idle");
+            return (idle || covered);
+        }
     }
 }

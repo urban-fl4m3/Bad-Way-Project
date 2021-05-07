@@ -29,10 +29,9 @@ namespace Modules.BattleModule.Managers
         {
             if (ActiveUnit > Actors.Count-1)
                 ActiveUnit = Actors.Count-1;
-           
-            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().FollowActor(
-                Actors[ActiveUnit].Actor.Transform, Actors[ActiveUnit].Actor.ThirdPersonCamera);
-            
+
+            var follower = new FlyFollower(Actors[ActiveUnit].Actor.Transform);
+            _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().SetFollower(follower);
             IsActive.Value = IsActorActive(Actors[ActiveUnit]);
             WeaponMath.ActorWeapon = Actors[ActiveUnit]._weaponInfo;
             PlayerEndTurn.Value = false;
@@ -75,7 +74,7 @@ namespace Modules.BattleModule.Managers
             if (covers.Count > 0)
             {
                 selectedActor.Actor.transform.eulerAngles = GridMath.RotateToCover(covers[0], selectedActor.Placement);
-                selectedActor.Actor.GetActorComponent<ActorCollisionComponent>().CheckDistanceToCover();
+                selectedActor.Actor.GetActorComponent<ActorCoverComponent>().CheckDistanceToCover();
                 selectedActor.Animator.AnimateCovering(true);
                 actorNavMesh.NavMeshAgent.enabled = false;
             }

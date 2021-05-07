@@ -32,6 +32,7 @@ namespace Modules.InitializationModule
         private CameraController _cameraController;
         private IBaseScheme _battleScheme;
         private WindowFactory _windowsFactory;
+        private MouseEventsHandler _mouseEventsHandler;
         
         private void Start()
         {
@@ -40,6 +41,8 @@ namespace Modules.InitializationModule
             var player = GetPlayer();
             var tick = GetTickManager();
 
+            _mouseEventsHandler = new MouseEventsHandler(tick);
+            
             _cameraController = new CameraController(tick, _gameCamera, _uiCamera);
             _cameraController.StartBattle();
             

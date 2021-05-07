@@ -1,12 +1,10 @@
 ﻿using System;
-using TMPro;
-using UnityEngine;
 
 namespace Modules.BattleModule
 {
     public class DeathMatchRules: IRules
     {
-        public event EventHandler<Rules> RulesComplite;
+        public event EventHandler<Rules> RulesComplete;
         
         private readonly BattleScene _battleScene;
         
@@ -16,26 +14,22 @@ namespace Modules.BattleModule
             _battleScene = battleScene;
         }
 
-        public void CheckForAllAliveActor()
+        public void CheckRules()
         {
             var playerActor = _battleScene.PlayerActManager.Actors;
             var enemyActor = _battleScene.EnemyActManager.Actors;
 
             if (playerActor.Count < 1)
             {
-                RulesComplite?.Invoke(this, Rules.PlayerLose);
+                RulesComplete?.Invoke(this, Rules.PlayerLose);
                 return;
             }
 
             if (enemyActor.Count < 1)
             {
-                RulesComplite?.Invoke(this, Rules.PlayerWin);
+                RulesComplete?.Invoke(this, Rules.PlayerWin);
                 return;
             }
-            
-            Debug.Log("Continue battle");
         }
-
-        
     }
 }
