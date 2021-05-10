@@ -90,6 +90,7 @@ namespace Modules.BattleModule.Factories
                 var actorData = _playerActorsCollection[i];
                 var actorPlacement = _levelDataProvider.PlacementCells[i];
                 var actor = AvailableActorsProvider.GetActorById(actorData.Id);
+                actor.ID = actorData.Id;
                 var position = grid[actorPlacement].Component.transform.position;
 
                 var prefab = Object.Instantiate(actor, position, Quaternion.identity);

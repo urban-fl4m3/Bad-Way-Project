@@ -21,7 +21,7 @@ public class MouseEventsHandler: ITickUpdate
             return;
 
 
-        MouseOutOfScene();
+        //MouseOutOfScene();
         OnMouseScroll?.Invoke(this, (int) Input.mouseScrollDelta.y);
     }
 

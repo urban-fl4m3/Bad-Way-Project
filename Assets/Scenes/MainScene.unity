@@ -2120,6 +2120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5322680504ff4018bb61005bf4fe9f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   TargetForUI: {fileID: 0}
   ThirdPersonCamera: {fileID: 0}
   _component: {fileID: 1687258584}
@@ -2353,6 +2354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5322680504ff4018bb61005bf4fe9f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   TargetForUI: {fileID: 0}
   ThirdPersonCamera: {fileID: 0}
   _component: {fileID: 1919245133}

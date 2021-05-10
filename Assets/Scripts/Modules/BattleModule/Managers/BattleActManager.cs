@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Modules.GridModule;
 using Modules.TickModule;
+using UnityEngine;
 
 namespace Modules.BattleModule.Managers
 {
@@ -10,6 +11,7 @@ namespace Modules.BattleModule.Managers
     public abstract class BattleActManager
     {
         public IReadOnlyList<BattleActor> Actors => _actors;
+        public List<BattleActor> DeadActors => _deadActors;
         public event GetOppositeActors OppositeActors;
         public EventHandler ActorDeath;
 
@@ -63,6 +65,7 @@ namespace Modules.BattleModule.Managers
         public void OnActorDead(object sender,BattleActor actor)
         {
             _actors.Remove(actor);
+            Debug.Log(_actors.Count);
             _deadActors.Add(actor);
             ActorDeath?.Invoke(this,EventArgs.Empty);
         }

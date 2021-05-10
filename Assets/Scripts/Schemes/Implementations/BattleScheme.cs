@@ -4,6 +4,7 @@ using Modules.BattleModule;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Managers;
 using Modules.CameraModule;
+using Reset;
 using UI.Factories;
 using UI.Models;
 using UnityEngine;
@@ -16,16 +17,20 @@ namespace Schemes.Implementations
         private readonly WindowFactory _windowFactory;
         private readonly BattleSceneFactory _battleSceneFactory;
         private readonly CameraController _cameraController;
-        
-        
+        private readonly IReset _reset;
+        private readonly IRules _rules;
+
+
         public BattleScheme(WindowFactory windowFactory, BattleScene battleScene, BattleSceneFactory battleSceneFactory,
-            CameraController cameraController)
+            CameraController cameraController, IReset reset, DeathMatchRules rules)
         {
             _battleScene = battleScene;
             _battleSceneFactory = battleSceneFactory;
             _windowFactory = windowFactory;
             _battleSceneFactory = battleSceneFactory;
             _cameraController = cameraController;
+            _reset = reset;
+            _rules = rules;
         }
         
         protected override void OnExecute()
@@ -48,11 +53,14 @@ namespace Schemes.Implementations
                 _battleSceneFactory.AvailableActorsProvider.AvailableActors,
                 playerManager.IsActive,
                 playerManager.PlayerEndTurn);
+            var resetModel = new BattleResetModel(_reset, _rules);
             
            _windowFactory.AddWindow("ActorStatus", battleActorParameterModel);
            _windowFactory.AddWindow("EnemyStatus", battleEnemyStateModel);
            _windowFactory.AddWindow("PlayerView", battlePlayerControlViewModel);
-            
+           _windowFactory.AddWindow("ResetView", resetModel);
+           
         }
+        
     }
 }

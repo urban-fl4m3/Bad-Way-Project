@@ -1,6 +1,7 @@
 using EditorMod;
 using Modules.ActorModule;
 using Modules.ActorModule.Concrete;
+using Modules.BattleModule;
 using Modules.BattleModule.Factories;
 using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
@@ -9,6 +10,7 @@ using Modules.GunModule;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
+using Reset;
 using Schemes;
 using Schemes.Implementations;
 using UI.Configs;
@@ -33,6 +35,8 @@ namespace Modules.InitializationModule
         private IBaseScheme _battleScheme;
         private WindowFactory _windowsFactory;
         private MouseEventsHandler _mouseEventsHandler;
+        private BattleReset _battleReset;
+        private DeathMatchRules DeathMatchRules;
         
         private void Start()
         {
@@ -40,6 +44,8 @@ namespace Modules.InitializationModule
             
             var player = GetPlayer();
             var tick = GetTickManager();
+
+            Time.timeScale = 5;
 
             _mouseEventsHandler = new MouseEventsHandler(tick);
             
@@ -53,7 +59,14 @@ namespace Modules.InitializationModule
 
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController, _weaponConfig);
 
-            _battleScheme = new BattleScheme(_windowsFactory, battleScene, battleSceneFactory, _cameraController);
+            _battleReset = new BattleReset(_levelData, _statsProvider, _actorsProvider, battleScene,
+                battleScene.Grid, player.ActorsCollection);
+            
+            DeathMatchRules = new DeathMatchRules(battleScene);
+
+            _battleScheme = new BattleScheme(_windowsFactory, battleScene, battleSceneFactory, _cameraController,
+                _battleReset, DeathMatchRules);
+            
             _battleScheme.Execute();
             battleScene.StartBattle(); 
         }
@@ -61,7 +74,7 @@ namespace Modules.InitializationModule
         private static Player GetPlayer()
         {
             var playerSwatGuyData = new PlayerActorData(0, 1, new [] {1, 1, 1, 1, 2});
-            var playerSwatGuyData1 = new PlayerActorData(0, 3, new[] {7, 3, 4, 5, 5});
+            var playerSwatGuyData1 = new PlayerActorData(1, 3, new[] {7, 3, 4, 5, 5});
 
             var playerActorsCollection = new PlayerActorsCollection();
             playerActorsCollection.AddActorData(playerSwatGuyData);

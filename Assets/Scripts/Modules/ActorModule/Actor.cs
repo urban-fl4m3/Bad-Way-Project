@@ -6,10 +6,11 @@ namespace Modules.ActorModule
 {
     public class Actor : MonoBehaviour
     {
+        public int ID;
         public Transform Transform => transform;
         public Transform TargetForUI;
         public Transform ThirdPersonCamera;
-
+        
         private readonly TypeContainer _container = new TypeContainer();
 
         private void Awake()
@@ -23,7 +24,7 @@ namespace Modules.ActorModule
         
         public T GetActorComponent<T>() where T : class, IActorComponent
         {
-            return _container.Resolve<T>();
+            return _container.Resolve<T>(); 
         }
     }
 }

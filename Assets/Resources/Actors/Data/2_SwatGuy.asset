@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ccf614771b3403f9ee1e1dc3de03b60, type: 3}
   m_Name: 2_SwatGuy
   m_EditorClassIdentifier: 
-  _id: 2
+  _id: 1
   _actor: {fileID: 6615742937250592249, guid: bc7ffcbdea9ac38498d7021694c239c5, type: 3}
   _name: "\u0413\u043E\u0448\u0430"
   icon: {fileID: 21300000, guid: 4af2439df8d626b4a9fc294bdf0616b2, type: 3}

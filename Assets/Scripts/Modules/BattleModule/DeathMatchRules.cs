@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 
 namespace Modules.BattleModule
 {
@@ -12,6 +13,7 @@ namespace Modules.BattleModule
         public DeathMatchRules(BattleScene battleScene)
         {
             _battleScene = battleScene;
+            _battleScene.DeathMatchRules = this;
         }
 
         public void CheckRules()

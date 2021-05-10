@@ -18,15 +18,15 @@ namespace Modules.BattleModule
         public event EventHandler<BattleActor> ActorDeath;
         public event EventHandler<BattleActor> Selected;
         public event EventHandler<BattleActor> Deselected;
-        
-        public readonly Actor Actor;
-        public readonly bool IsEnemy;
-        public readonly StatsContainer Stats;
-        public readonly CharacterAnimator Animator;
 
-        public readonly DynamicValue<int> Health;
-        public readonly int MaxHealth;
-        
+        public Actor Actor { get; private set; }
+        public  bool IsEnemy { get; private set; }
+        public  StatsContainer Stats { get; private set; }
+        public  CharacterAnimator Animator { get; private set; }
+
+        public DynamicValue<int> Health { get; private set; }
+        public int MaxHealth { get; private set; }
+
         public Cell Placement
         {
             get =>_placement;
@@ -88,6 +88,22 @@ namespace Modules.BattleModule
                     ActorDeath?.Invoke(this,this);
                 }
             }
+        }
+
+        public void Reset( IReadOnlyDictionary<PrimaryStat, int> primaryStats,
+            IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats,
+            bool isEnemy)
+        {
+            IsEnemy = isEnemy;
+            Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
+            Animator = new CharacterAnimator(Actor.GetActorComponent<ActorAnimationComponent>());
+            //Stats.SecondaryStatChanged += HandleHealthChanged;
+            
+            Health = new DynamicValue<int>(Stats[SecondaryStat.Health]);
+            MaxHealth = Health.Value;
+            
+            //actor.GetActorComponent<ActorCollisionComponent>().Selected += HandleActorSelected;
+            //actor.GetActorComponent<ActorCollisionComponent>().Deselected += HandleActorDeselected;
         }
         
         private void HandleActorSelected(object sender, EventArgs e)

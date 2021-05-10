@@ -21,4 +21,6 @@ MonoBehaviour:
     Id: PlayerView
   - View: {fileID: 2296827457588906116, guid: 6c9c14eb0de773748b8c3f4fe46cc0f8, type: 3}
     Id: EnemyView
+  - View: {fileID: 4626963209522941565, guid: bf46d8ee2f8a97b489980ca80adaf81d, type: 3}
+    Id: ResetView
   _canvas: {fileID: 1142679834729192248, guid: e0f5a8acdb3d12844a23ef5559a0f2e7, type: 3}

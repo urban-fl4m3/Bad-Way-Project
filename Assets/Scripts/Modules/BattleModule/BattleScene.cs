@@ -12,7 +12,7 @@ namespace Modules.BattleModule
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
         public readonly CameraController CameraController;
-        public readonly IRules DeathMatchRules;
+        public IRules DeathMatchRules;
 
         public BattleScene(GridController grid,
             BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController)
@@ -30,13 +30,10 @@ namespace Modules.BattleModule
             
             playerActManager.OppositeActors += () => enemyActManager.Actors;
             enemyActManager.OppositeActors += () => playerActManager.Actors;
-
+            
             playerActManager.ActorDeath += ToCheckRules;
             enemyActManager.ActorDeath += ToCheckRules;
-            
-            DeathMatchRules = new DeathMatchRules(this);
-            DeathMatchRules.RulesComplete += OnRulesComplete;
-            
+
         }
 
         public void StartBattle()
@@ -51,10 +48,6 @@ namespace Modules.BattleModule
         private void OnEnemyEndTurn(object sender, EventArgs e)
         {
             PlayerActManager.ActStart();
-        }
-        private void OnRulesComplete(object sender, Rules e)
-        {
-            Debug.Log(e);
         }
         private void ToCheckRules(object sender, EventArgs e)
         {
