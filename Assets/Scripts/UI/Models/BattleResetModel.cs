@@ -5,8 +5,8 @@ namespace UI.Models
 {
     public class BattleResetModel: IModel
     {
-        public IReset BattleReset;
-        public IRules DeathMatchRules;
+        public readonly IReset BattleReset;
+        public readonly IRules DeathMatchRules;
         
         public BattleResetModel(IReset battleReset, IRules deathMatchRules)
         {

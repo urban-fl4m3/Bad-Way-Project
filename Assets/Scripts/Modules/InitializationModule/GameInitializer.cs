@@ -35,8 +35,6 @@ namespace Modules.InitializationModule
         private IBaseScheme _battleScheme;
         private WindowFactory _windowsFactory;
         private MouseEventsHandler _mouseEventsHandler;
-        private BattleReset _battleReset;
-        private DeathMatchRules DeathMatchRules;
         
         private void Start()
         {
@@ -59,13 +57,7 @@ namespace Modules.InitializationModule
 
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController, _weaponConfig);
 
-            _battleReset = new BattleReset(_levelData, _statsProvider, _actorsProvider, battleScene,
-                battleScene.Grid, player.ActorsCollection);
-            
-            DeathMatchRules = new DeathMatchRules(battleScene);
-
-            _battleScheme = new BattleScheme(_windowsFactory, battleScene, battleSceneFactory, _cameraController,
-                _battleReset, DeathMatchRules);
+            _battleScheme = new BattleScheme(_windowsFactory, battleScene, battleSceneFactory, _cameraController);
             
             _battleScheme.Execute();
             battleScene.StartBattle(); 

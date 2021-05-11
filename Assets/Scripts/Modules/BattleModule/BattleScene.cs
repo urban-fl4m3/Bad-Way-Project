@@ -1,8 +1,7 @@
 ﻿using System;
 using Modules.BattleModule.Managers;
-using Modules.CameraModule;
 using Modules.GridModule;
-using UnityEngine;
+using Reset;
 
 namespace Modules.BattleModule
 {
@@ -11,22 +10,19 @@ namespace Modules.BattleModule
         public readonly GridController Grid;
         public readonly BattleActManager PlayerActManager;
         public readonly BattleActManager EnemyActManager;
-        public readonly CameraController CameraController;
-        public IRules DeathMatchRules;
+        public IRules DeathMatchRules { get; private set; }
+        public IReset Reset { get; }
 
-        public BattleScene(GridController grid,
-            BattleActManager playerActManager, BattleActManager enemyActManager, CameraController cameraController)
+        public BattleScene(GridController grid, BattleActManager playerActManager, BattleActManager enemyActManager,
+            IReset reset)
         {
             Grid = grid;
             PlayerActManager = playerActManager;
             EnemyActManager = enemyActManager;
-            CameraController = cameraController;
+            Reset = reset;
 
-            var pActManager = PlayerActManager as PlayerActManager;
-            pActManager.ActorEndTurn += OnActorEndTurn;
-            
-            var eActManager = EnemyActManager as EnemyActManager;
-            eActManager.EnemyEndTurn += OnEnemyEndTurn;
+            PlayerActManager.EndTurn += OnActorEndTurn;
+            EnemyActManager.EndTurn += OnEnemyEndTurn;
             
             playerActManager.OppositeActors += () => enemyActManager.Actors;
             enemyActManager.OppositeActors += () => playerActManager.Actors;
@@ -34,6 +30,7 @@ namespace Modules.BattleModule
             playerActManager.ActorDeath += ToCheckRules;
             enemyActManager.ActorDeath += ToCheckRules;
 
+            DeathMatchRules = new DeathMatchRules(this);
         }
 
         public void StartBattle()
@@ -45,10 +42,12 @@ namespace Modules.BattleModule
         {
             EnemyActManager.ActStart();
         }
+        
         private void OnEnemyEndTurn(object sender, EventArgs e)
         {
             PlayerActManager.ActStart();
         }
+        
         private void ToCheckRules(object sender, EventArgs e)
         {
             DeathMatchRules.CheckRules();

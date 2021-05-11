@@ -6,7 +6,6 @@ namespace Modules.ActorModule
 {
     public class Actor : MonoBehaviour
     {
-        public int ID;
         public Transform Transform => transform;
         public Transform TargetForUI;
         public Transform ThirdPersonCamera;

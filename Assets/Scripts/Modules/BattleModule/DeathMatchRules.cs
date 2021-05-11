@@ -1,5 +1,4 @@
 ﻿using System;
-using TMPro;
 
 namespace Modules.BattleModule
 {
@@ -8,12 +7,10 @@ namespace Modules.BattleModule
         public event EventHandler<Rules> RulesComplete;
         
         private readonly BattleScene _battleScene;
-        
-        
+
         public DeathMatchRules(BattleScene battleScene)
         {
             _battleScene = battleScene;
-            _battleScene.DeathMatchRules = this;
         }
 
         public void CheckRules()
@@ -30,7 +27,6 @@ namespace Modules.BattleModule
             if (enemyActor.Count < 1)
             {
                 RulesComplete?.Invoke(this, Rules.PlayerWin);
-                return;
             }
         }
     }

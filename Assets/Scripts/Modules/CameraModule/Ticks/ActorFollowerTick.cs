@@ -38,6 +38,7 @@ namespace Modules.CameraModule.Ticks
             
             _emptyPoint = emptyGameObject.transform;
         }
+        
         public void Tick()
         {
             if (!Enabled)
@@ -52,14 +53,12 @@ namespace Modules.CameraModule.Ticks
                 
                 PositionChanged?.Invoke(this, _cameraPosition);
             }
-
         }
+        
         public void FollowActor(IFollower follower)
         {
             _follower = follower;
             _follower.SetParameter(_offset, _cameraTransform, _smooth, _cameraRotation, _emptyPoint);
         }
-
-        
     }
 }

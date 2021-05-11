@@ -15,6 +15,8 @@ namespace Modules.BattleModule
 {
     public class BattleActor
     {
+        public int Id { get; }
+        
         public event EventHandler<BattleActor> ActorDeath;
         public event EventHandler<BattleActor> Selected;
         public event EventHandler<BattleActor> Deselected;
@@ -44,18 +46,14 @@ namespace Modules.BattleModule
         private Cell _placement;
         public WeaponInfo _weaponInfo { get; private set; }
         
-        public BattleActor(Actor actor, IReadOnlyDictionary<PrimaryStat, int> primaryStats,
+        public BattleActor(int id, Actor actor, IReadOnlyDictionary<PrimaryStat, int> primaryStats,
             IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats,
             bool isEnemy)
         {
+            Id = id;
             Actor = actor;
-            IsEnemy = isEnemy;
-            Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
-            Animator = new CharacterAnimator(actor.GetActorComponent<ActorAnimationComponent>());
-            Stats.SecondaryStatChanged += HandleHealthChanged;
             
-            Health = new DynamicValue<int>(Stats[SecondaryStat.Health]);
-            MaxHealth = Health.Value;
+            Initialize(Actor, primaryStats, primaryUpgrades, secondaryStats, isEnemy);
             
             actor.GetActorComponent<ActorCollisionComponent>().Selected += HandleActorSelected;
             actor.GetActorComponent<ActorCollisionComponent>().Deselected += HandleActorDeselected;
@@ -71,7 +69,39 @@ namespace Modules.BattleModule
         {
             Stats.ChangeSecondaryStat(SecondaryStat.Health, damageAmount * -1);
         }
+        
+        public void Reset( IReadOnlyDictionary<PrimaryStat, int> primaryStats,
+            IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats,
+            bool isEnemy)
+        {
+            Stats.SecondaryStatChanged -= HandleHealthChanged;
+            
+            Initialize(Actor, primaryStats, primaryUpgrades, secondaryStats, isEnemy);
+        }
 
+        private void Initialize( Actor actor, IReadOnlyDictionary<PrimaryStat, int> primaryStats,
+            IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats,
+            bool isEnemy)
+        {
+            IsEnemy = isEnemy;
+            Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
+            Animator = new CharacterAnimator(actor.GetActorComponent<ActorAnimationComponent>());
+            Stats.SecondaryStatChanged += HandleHealthChanged;
+            
+            Health = new DynamicValue<int>(Stats[SecondaryStat.Health]);
+            MaxHealth = Health.Value;
+        }
+        
+        private void HandleActorSelected(object sender, EventArgs e)
+        {
+            Selected?.Invoke(this, this);
+        }
+
+        private void HandleActorDeselected(object sender, EventArgs e)
+        {
+            Deselected?.Invoke(this, this);
+        }
+        
         private void HandleHealthChanged(object sender, StatChangedEventArgs<SecondaryStat> e)
         {
             if (e.Stat == SecondaryStat.Health)
@@ -88,32 +118,6 @@ namespace Modules.BattleModule
                     ActorDeath?.Invoke(this,this);
                 }
             }
-        }
-
-        public void Reset( IReadOnlyDictionary<PrimaryStat, int> primaryStats,
-            IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats,
-            bool isEnemy)
-        {
-            IsEnemy = isEnemy;
-            Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
-            Animator = new CharacterAnimator(Actor.GetActorComponent<ActorAnimationComponent>());
-            //Stats.SecondaryStatChanged += HandleHealthChanged;
-            
-            Health = new DynamicValue<int>(Stats[SecondaryStat.Health]);
-            MaxHealth = Health.Value;
-            
-            //actor.GetActorComponent<ActorCollisionComponent>().Selected += HandleActorSelected;
-            //actor.GetActorComponent<ActorCollisionComponent>().Deselected += HandleActorDeselected;
-        }
-        
-        private void HandleActorSelected(object sender, EventArgs e)
-        {
-            Selected?.Invoke(this, this);
-        }
-
-        private void HandleActorDeselected(object sender, EventArgs e)
-        {
-            Deselected?.Invoke(this, this);
         }
     }
 }

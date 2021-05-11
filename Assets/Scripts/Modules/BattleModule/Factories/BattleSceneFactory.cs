@@ -10,6 +10,7 @@ using Modules.GridModule;
 using Modules.GunModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
+using Reset;
 using UnityEngine;
 
 namespace Modules.BattleModule.Factories
@@ -21,7 +22,7 @@ namespace Modules.BattleModule.Factories
         
         private readonly ITickManager _tickManager;
         private readonly LevelDataProvider _levelDataProvider;
-        private readonly IReadOnlyList<PlayerActorData> _playerActorsCollection;
+        private readonly PlayerActorsCollection _playerActorsCollection;
         private readonly GameConstructions _gameConstructions;
         
 
@@ -44,12 +45,14 @@ namespace Modules.BattleModule.Factories
 
             gridController.FillBuildingCell(_gameConstructions.ActualBuilding);
 
-            var playerActorsManager =
-                CreatePlayerManager(gridController, _tickManager, cameraController, weaponConfig);
+            var playerActorsManager = CreatePlayerManager(gridController, _tickManager, cameraController, weaponConfig);
             var enemyActorsManager = CreateEnemyManager(gridController,cameraController, weaponConfig);
 
-            var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager,
-                cameraController);
+            var reset = new BattleReset(_levelDataProvider, AvailableBattleStatsProvider, playerActorsManager,
+                enemyActorsManager, gridController, _playerActorsCollection);
+            
+            var battleScene = new BattleScene(gridController, playerActorsManager, enemyActorsManager, reset);
+            
             
             return battleScene;
         }
@@ -67,7 +70,7 @@ namespace Modules.BattleModule.Factories
                 var primaryStats = AvailableBattleStatsProvider.IdentifiedActorsStats[levelActor.ActorData.Id];
                 var statUpgrades = new[] {0, 0, 0, 0, 0};
 
-                var battleActor = new BattleActor(actorPrefab, primaryStats, statUpgrades,
+                var battleActor = new BattleActor(levelActor.ActorData.Id, actorPrefab, primaryStats, statUpgrades,
                     AvailableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats, true)
                 {
                     Placement = grid[levelActor.Cell]
@@ -90,7 +93,6 @@ namespace Modules.BattleModule.Factories
                 var actorData = _playerActorsCollection[i];
                 var actorPlacement = _levelDataProvider.PlacementCells[i];
                 var actor = AvailableActorsProvider.GetActorById(actorData.Id);
-                actor.ID = actorData.Id;
                 var position = grid[actorPlacement].Component.transform.position;
 
                 var prefab = Object.Instantiate(actor, position, Quaternion.identity);
@@ -98,7 +100,7 @@ namespace Modules.BattleModule.Factories
                 var primaryStats = AvailableBattleStatsProvider.IdentifiedActorsStats[actorData.Id];
                 var statUpgrades = actorData.Upgrades;
 
-                var battleActor = new BattleActor(prefab, primaryStats, statUpgrades,
+                var battleActor = new BattleActor(actorData.Id, prefab, primaryStats, statUpgrades,
                     AvailableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats, false)
                 {
                     Placement = grid[actorPlacement]

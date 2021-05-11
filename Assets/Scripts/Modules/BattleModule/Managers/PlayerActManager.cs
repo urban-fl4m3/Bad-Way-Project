@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common;
 using Common.Commands;
 using Modules.ActorModule.Components;
@@ -16,7 +17,6 @@ namespace Modules.BattleModule.Managers
         public readonly DynamicValue<BattleActor> ActorAttack = new DynamicValue<BattleActor>(null);
         public readonly DynamicValue<bool> IsActive = new DynamicValue<bool>(true);
         public readonly DynamicValue<bool> PlayerEndTurn = new DynamicValue<bool>(false);
-        public EventHandler ActorEndTurn;
         
         public PlayerActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
             CameraController cameraController) 
@@ -32,6 +32,7 @@ namespace Modules.BattleModule.Managers
 
             var follower = new FlyFollower(Actors[ActiveUnit].Actor.Transform);
             _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().SetFollower(follower);
+            
             IsActive.Value = IsActorActive(Actors[ActiveUnit]);
             WeaponMath.ActorWeapon = Actors[ActiveUnit]._weaponInfo;
             PlayerEndTurn.Value = false;
@@ -42,7 +43,7 @@ namespace Modules.BattleModule.Managers
         {
             _grid.CellPressed -= HandleCellSelected;
             PlayerEndTurn.Value = true;
-            ActorEndTurn?.Invoke(this, null);
+            EndTurn?.Invoke(this, null);
         }
 
         private void PlayerMove(int row, int column)
@@ -71,6 +72,7 @@ namespace Modules.BattleModule.Managers
             var covers = _grid.FindAdjacentCells(selectedActor.Placement);
             
             selectedActor.Animator.ChangeMovingState(false);
+            
             if (covers.Count > 0)
             {
                 selectedActor.Actor.transform.eulerAngles = GridMath.RotateToCover(covers[0], selectedActor.Placement);
@@ -78,6 +80,7 @@ namespace Modules.BattleModule.Managers
                 selectedActor.Animator.AnimateCovering(true);
                 actorNavMesh.NavMeshAgent.enabled = false;
             }
+            
             RemoveActiveActor(selectedActor);
             IsActive.Value = IsActorActive(selectedActor);
             actorNavMesh.DestinationReach -= OnDestinationReach;
@@ -89,12 +92,11 @@ namespace Modules.BattleModule.Managers
                 return;
             
             var selectedActor = Actors[ActiveUnit];
-            BattleActor enemy = null;
-            
-            foreach (var battleActor in OnOppositeActors())
+            var enemy = OnOppositeActors().FirstOrDefault(x => x.Placement == _grid[row, column]);
+
+            if (enemy == null)
             {
-                if (battleActor.Placement == _grid[row, column])
-                    enemy = battleActor; 
+                return;
             }
             
             selectedActor.Animator.AnimateShooting();

@@ -15,8 +15,6 @@ namespace Modules.BattleModule.Managers
     public class EnemyActManager : BattleActManager
     {
         private readonly CameraController _cameraController;
-        public EventHandler EnemyEndTurn;
-
         private readonly GridController _gridController;
 
         public EnemyActManager(GridController grid, List<BattleActor> actors, ITickManager tickManager,
@@ -33,7 +31,7 @@ namespace Modules.BattleModule.Managers
             NextTurn();
         }
 
-        public void NextTurn()
+        private void NextTurn()
         {
             if (_activeActors.Count > 0)
             {
@@ -56,19 +54,16 @@ namespace Modules.BattleModule.Managers
                 }
             }
         }
-        
-        
 
         protected override void OnActEnd()
         {
-            EnemyEndTurn?.Invoke(this, null);
+            EndTurn?.Invoke(this, null);
         }
 
 
-        void EnemyMove(BattleActor enemy, Cell cell)
+        private void EnemyMove(BattleActor enemy, Cell cell)
         {
             var actorNavMesh = enemy.Actor.GetActorComponent<ActorNavigationComponent>();
-            var actorAnimator = enemy.Actor.GetActorComponent<ActorAnimationComponent>();
             actorNavMesh.NavMeshAgent.enabled = true;
             actorNavMesh.DestinationReach += OnDestinationReach;
 

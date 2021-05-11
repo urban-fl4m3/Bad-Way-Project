@@ -1,6 +1,4 @@
-﻿using UnityEngine.Events;
-
-namespace Reset
+﻿namespace Reset
 {
     public interface IReset
     {
