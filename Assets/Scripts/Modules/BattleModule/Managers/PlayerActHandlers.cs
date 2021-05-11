@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Common.Commands;
+using Modules.ActorModule.Components;
 using Modules.BattleModule.Helpers;
 using Modules.CameraModule.Components;
 using Modules.GridModule.Args;
@@ -44,6 +45,7 @@ namespace Modules.BattleModule.Managers
         {
             var enemyActor = OnOppositeActors().ToList();
             var player = Actors[ActiveUnit].Actor.Transform;
+            var actorTarget = Actors[ActiveUnit].Actor.GetActorComponent<ActorTargetComponent>();
             
             var enemyTransforms =
                 (from battleActor in enemyActor
@@ -54,7 +56,7 @@ namespace Modules.BattleModule.Managers
             _grid.HighlightCells(enemyActor.Select(x => x.Placement), Color.red);
 
             var follower = new ThirdPersonFollower(enemyTransforms,
-                Actors[ActiveUnit].Actor.ThirdPersonCamera, Actors[ActiveUnit].Actor.transform);
+                actorTarget.ThirdPersonCamera, Actors[ActiveUnit].Actor.transform);
             _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().SetFollower(follower);
             
             ActorAttack.Value = Actors[ActiveUnit];

@@ -9,11 +9,11 @@ namespace Modules.ActorModule.Components
 
         public Animator Animator => _animator;
 
-        public bool IsIdlePlaying()
+        public override void OnReset()
         {
-            var idle = _animator.GetCurrentAnimatorStateInfo(0).IsName("Ilde");
-            var covered = _animator.GetCurrentAnimatorStateInfo(0).IsName("Taking Cover Idle");
-            return (idle || covered);
+            _animator.Play("Idle");
+            _animator.SetBool("IsRunning", false);
+            _animator.SetBool("IsCovering", false);
         }
     }
 }

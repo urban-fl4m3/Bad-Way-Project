@@ -52,7 +52,7 @@ namespace Modules.BattleModule
         {
             Id = id;
             Actor = actor;
-            
+            Health = new DynamicValue<int>(0);
             Initialize(Actor, primaryStats, primaryUpgrades, secondaryStats, isEnemy);
             
             actor.GetActorComponent<ActorCollisionComponent>().Selected += HandleActorSelected;
@@ -86,9 +86,10 @@ namespace Modules.BattleModule
             IsEnemy = isEnemy;
             Stats = new StatsContainer(primaryStats, primaryUpgrades, secondaryStats);
             Animator = new CharacterAnimator(actor.GetActorComponent<ActorAnimationComponent>());
+            
             Stats.SecondaryStatChanged += HandleHealthChanged;
             
-            Health = new DynamicValue<int>(Stats[SecondaryStat.Health]);
+            Health.Value = Stats[SecondaryStat.Health] ;
             MaxHealth = Health.Value;
         }
         

@@ -19,6 +19,7 @@ namespace UI.Components
         private int _lastHealth;
         private List<Image> _healthPoints;
         private List<Text> _damageTexts = new List<Text>();
+        private Color _color;
         
         public void Initialize(DynamicValue<int> nowHealth, int maxHealth, bool isEnemy)
         {
@@ -26,6 +27,7 @@ namespace UI.Components
             if (isEnemy)
                 color = Color.red;
 
+            _color = color;
             _health = nowHealth;
             _lastHealth = _health.Value;
             _maxHealth = maxHealth;
@@ -53,6 +55,10 @@ namespace UI.Components
                 {
                     _healthPoints[i].color = Color.gray;
                 }
+                else
+                {
+                    _healthPoints[i].color = _color;
+                }
             }
 
             if (_damageTexts.Count > 0)
@@ -68,7 +74,6 @@ namespace UI.Components
 
             _lastHealth = e;    
         }
-        
 
         private IEnumerator ShowDamagePoint(int e, Text damageText)
         {

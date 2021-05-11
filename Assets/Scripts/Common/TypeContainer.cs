@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Modules.ActorModule.Components;
 
 namespace Common
 {
@@ -25,6 +27,14 @@ namespace Common
         public T Resolve<T>() where T : class
         {
             return _map.ContainsKey(typeof(T)) ? _map[typeof(T)] as T : null;
+        }
+
+        public List<IActorComponent> GetList()
+        {
+            var list = _map.Values.ToList();
+            var components = (from o in list
+                select (IActorComponent) o).ToList();
+            return components;
         }
     }
 }

@@ -37,6 +37,11 @@ namespace Modules.BattleModule.Managers
             }
         }
 
+        public void Reset()
+        {
+            _actors.AddRange(_deadActors);
+            _deadActors.Clear();
+        }
         public void ActStart()
         {
             _activeActors = new List<BattleActor>();
@@ -67,7 +72,6 @@ namespace Modules.BattleModule.Managers
         public void OnActorDead(object sender,BattleActor actor)
         {
             _actors.Remove(actor);
-            Debug.Log(_actors.Count);
             _deadActors.Add(actor);
             ActorDeath?.Invoke(this,EventArgs.Empty);
         }

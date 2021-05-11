@@ -16,6 +16,8 @@ namespace UI.Views
         [SerializeField] private Transform _iconsParent;
         [SerializeField] private NamedIconComponent _actorSelectorButton;
         public Canvas Canvas { get; set ; }
+        
+
         public GameObject GameObject => gameObject;
         
         private UnityPool<NamedIconComponent> _buttonPool;
@@ -31,6 +33,11 @@ namespace UI.Views
         }
 
         public void Clear()
+        {
+            
+        }
+        
+        public void ResetCanvas()
         {
             
         }

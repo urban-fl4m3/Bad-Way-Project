@@ -12,6 +12,16 @@ namespace Modules.ActorModule.Components
             OnInitialize();
         }
 
+        public void Reset()
+        {
+            OnReset();
+        }
+
+        public virtual void OnReset()
+        {
+            
+        }
+
         protected virtual void OnInitialize()
         {
             

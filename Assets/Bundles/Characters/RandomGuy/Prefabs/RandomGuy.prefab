@@ -2818,6 +2818,7 @@ GameObject:
   - component: {fileID: 4138881776828074490}
   - component: {fileID: 4013179084331989164}
   - component: {fileID: -5965492327293429026}
+  - component: {fileID: 1447508647746519845}
   m_Layer: 6
   m_Name: RandomGuy
   m_TagString: Untagged
@@ -2881,8 +2882,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf514d7cb6284b90910176a45d06ebfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetForUI: {fileID: 3429209987579525034}
-  ThirdPersonCamera: {fileID: 0}
 --- !u!114 &8978299070423264743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2995,6 +2994,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da444e9aacc446ea33b584f8653f1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1447508647746519845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8844882274985462969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86bc3035471a4af19d1d18e751ee251b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetForUI: {fileID: 3429209987579525034}
+  ThirdPersonCamera: {fileID: 2971632266044937052}
 --- !u!1 &9128751890328065408
 GameObject:
   m_ObjectHideFlags: 0

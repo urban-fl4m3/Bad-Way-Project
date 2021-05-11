@@ -64,5 +64,13 @@ namespace UI.Factories
             _canvasViews[windowKey].Canvas.enabled = false;
             _models[windowKey].GameObject.SetActive(false);
         }
+
+        public void Reset()
+        {
+            foreach (var viewsValue in _canvasViews.Values)
+            {
+                viewsValue.ResetCanvas();
+            }
+        }
     }
 }

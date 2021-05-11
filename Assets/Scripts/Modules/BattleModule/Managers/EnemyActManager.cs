@@ -104,6 +104,7 @@ namespace Modules.BattleModule.Managers
             actor.TakeDamage(WeaponMath.ActorWeapon.Damage);
             enemy.Animator.AnimateShooting();
             RemoveActiveActor(enemy);
+            NextTurn();
 
         }
         private BattleActor NearestActor(BattleActor enemy)

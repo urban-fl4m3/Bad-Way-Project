@@ -5,5 +5,6 @@ namespace UI.Interface
     public interface ICanvasView
     {
         Canvas Canvas { get; set; }
+        void ResetCanvas();
     }
 }

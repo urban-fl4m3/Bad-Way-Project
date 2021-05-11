@@ -10,6 +10,8 @@ namespace UI.Views
     {
         public GameObject GameObject { get; }
         public Canvas Canvas { get; set; }
+        
+
         public Image BackGround;
         public Button ResetButton;
         private BattleResetModel _model;
@@ -18,10 +20,16 @@ namespace UI.Views
         {
             _model = (BattleResetModel) model;
             ResetButton.onClick.AddListener(_model.BattleReset.Load);
+            ResetButton.onClick.AddListener(DisableResetView);
             _model.DeathMatchRules.RulesComplete += OnRulesComplete;
         }
 
-
+        private void DisableResetView()
+        {
+            ResetButton.gameObject.SetActive(false);
+            BackGround.enabled = false;
+        }
+        
         public void OnRulesComplete(object sender, Rules rules)
         {
             if (rules == Rules.PlayerWin)
@@ -37,6 +45,12 @@ namespace UI.Views
             }
             Debug.Log(rules);
         }
+        
+        public void ResetCanvas()
+        {
+            
+        }
+        
         public void Clear()
         {
             

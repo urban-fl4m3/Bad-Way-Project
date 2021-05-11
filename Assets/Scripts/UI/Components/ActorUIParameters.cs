@@ -1,6 +1,7 @@
 ﻿using System;
 using Common;
 using Common.Commands;
+using Modules.ActorModule.Components;
 using Modules.BattleModule;
 using Modules.GridModule.Cells;
 using UI.Models;
@@ -34,7 +35,7 @@ namespace UI.Components
             _model = model;
             _attackActor = model.ActorAttack;
             _actor = actor;
-            _target = actor.Actor.TargetForUI;
+            _target = actor.Actor.GetActorComponent<ActorTargetComponent>().TargetForUI;
             _name.text = actorName;
             _level.text = level.ToString();
             _actorHealthBar.Initialize(health, maxHealth, isEnemy);
@@ -57,6 +58,7 @@ namespace UI.Components
             _model.CellSelected -= OnCellSelected;
             _model.CellDeselected -= OnCellDeselected;
             _attackActor.Changed -= OnAttackClick;
+            var waitForSeconds = new WaitForSeconds(2);
             gameObject.SetActive(false);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Modules.CameraModule.Components;
 using UI.Components;
 using UI.Interface;
@@ -33,6 +34,13 @@ namespace UI.Views
         public void Clear()
         {
 
+        }
+        public void ResetCanvas()
+        {
+            foreach (var actorUIParameter in _actorUIParameters)
+            {
+                actorUIParameter.gameObject.SetActive(true);
+            }
         }
 
         public void CreateActorParametersWindow()

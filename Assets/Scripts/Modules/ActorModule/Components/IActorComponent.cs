@@ -5,5 +5,6 @@ namespace Modules.ActorModule.Components
     public interface IActorComponent
     {
         void Initialize(TypeContainer container);
+        void Reset();
     }
 }

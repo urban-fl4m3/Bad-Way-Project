@@ -478,6 +478,7 @@ GameObject:
   - component: {fileID: -8560377571163988568}
   - component: {fileID: -5454579703343687069}
   - component: {fileID: 7824978297944394997}
+  - component: {fileID: 2477020340161388712}
   m_Layer: 6
   m_Name: SwatGuy
   m_TagString: Untagged
@@ -534,8 +535,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf514d7cb6284b90910176a45d06ebfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetForUI: {fileID: 6581044295191105892}
-  ThirdPersonCamera: {fileID: 7891404028892275928}
 --- !u!114 &6957184481332178488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,6 +647,20 @@ CapsuleCollider:
   m_Height: 1.8200945
   m_Direction: 1
   m_Center: {x: 0.000000029802322, y: 0.8722823, z: 0}
+--- !u!114 &2477020340161388712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827874416060679507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86bc3035471a4af19d1d18e751ee251b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetForUI: {fileID: 6581044295191105892}
+  ThirdPersonCamera: {fileID: 7891404028892275928}
 --- !u!1 &1916707519987951112
 GameObject:
   m_ObjectHideFlags: 0

@@ -53,7 +53,7 @@ namespace Modules.InitializationModule
             _windowsFactory = new WindowFactory(_cameraController, _viewsConfig);
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
-                player.ActorsCollection, _actorsProvider, _gameConstructions);
+                player.ActorsCollection, _actorsProvider, _gameConstructions, _windowsFactory);
 
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController, _weaponConfig);
 
@@ -80,11 +80,6 @@ namespace Modules.InitializationModule
         {
             var processor = new GameObject("_Tick_Processor").AddComponent<TickProcessor>();
             return new TickManager(processor);
-        }
-
-        private void OnDestroy()
-        {
-            _battleScheme.Complete();
         }
     }
 }

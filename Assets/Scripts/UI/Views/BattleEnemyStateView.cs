@@ -1,3 +1,4 @@
+using System;
 using Modules.BattleModule;
 using UI.Components;
 using UI.Interface;
@@ -11,6 +12,8 @@ namespace UI.Views
         [SerializeField] private EnemyWindowView enemyWindowView;
         
         public Canvas Canvas { get; set; }
+
+
         public GameObject GameObject => gameObject;
         private BattleEnemyStateModel _model;
 
@@ -32,7 +35,13 @@ namespace UI.Views
                 enemy.Deselected -= HandleActorDeselected ;
             }
         }
-        
+
+
+        public void ResetCanvas()
+        {
+            
+        }
+
         private void HandleActorSelected(object sender, BattleActor actor)
         {
             enemyWindowView.gameObject.SetActive(true);
