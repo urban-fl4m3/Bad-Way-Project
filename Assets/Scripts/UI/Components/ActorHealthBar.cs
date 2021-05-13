@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Common;
+using UnityEditor.Hardware;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +21,7 @@ namespace UI.Components
         private int _lastHealth;
         private List<Image> _healthPoints;
         private List<Text> _damageTexts = new List<Text>();
+        private List<Text> _usedTexts = new List<Text>();
         private Color _color;
         
         public void Initialize(DynamicValue<int> nowHealth, int maxHealth, bool isEnemy)
@@ -46,19 +49,27 @@ namespace UI.Components
             _health.Changed += OnHealthChange;
         }
 
+        public void OnEnable()
+        {
+            if(_usedTexts.Count==0)
+                return;
+            
+            foreach (var usedText in _usedTexts)
+            {
+                var col = usedText.color;
+                usedText.color = new Color(col.r, col.g, col.b, 0);
+                usedText.transform.localPosition= Vector3.zero;
+            }
+            _damageTexts.AddRange(_usedTexts);
+            _usedTexts.Clear();
+        }
+
         private void OnHealthChange(object sender, int e)
         {
             _healthPointText.text = _health.Value.ToString();
             for (var i = 0; i < _healthPoints.Count; i++)
             {
-                if (i >= _health.Value)
-                {
-                    _healthPoints[i].color = Color.gray;
-                }
-                else
-                {
-                    _healthPoints[i].color = _color;
-                }
+                _healthPoints[i].color = i >= _health.Value ? Color.gray : _color;
             }
 
             if (_damageTexts.Count > 0)
@@ -77,7 +88,9 @@ namespace UI.Components
 
         private IEnumerator ShowDamagePoint(int e, Text damageText)
         {
+            _usedTexts.Add(damageText);
             _damageTexts.Remove(damageText);
+            
             var color = damageText.color;
             color = new Color(color.r, color.g, color.b, 1);
             damageText.color = color;
@@ -96,6 +109,8 @@ namespace UI.Components
                 damageText.transform.localPosition = position;
                 yield return null;
             }
+
+            _usedTexts.Remove(damageText);
             _damageTexts.Add(damageText);
         }
         

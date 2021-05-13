@@ -45,7 +45,7 @@ namespace Modules.CameraModule.Components
             _smooth = smooth;
             _cameraRotation = cameraRotation;
             _smoothPosition = _cameraTransform.position;
-            MouseEventsHandler.OnMouseScroll += OnMouseScroll;
+            InputEventsHandler.OnMouseScroll += OnMouseScroll;
             _emptyObject = emptyObj;
         }
 

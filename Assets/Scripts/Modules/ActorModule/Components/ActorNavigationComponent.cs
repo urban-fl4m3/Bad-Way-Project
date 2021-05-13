@@ -8,7 +8,6 @@ namespace Modules.ActorModule.Components
     public class ActorNavigationComponent : BaseActorComponent<ActorNavigationComponent>
     {
         public EventHandler DestinationReach;
-        public EventHandler WentToDestination;
 
         [SerializeField] private NavMeshAgent _navMeshAgent;
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
