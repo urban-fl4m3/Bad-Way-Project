@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Modules.ActorModule
 {
     [CreateAssetMenu(fileName = "New Available Actor Data Provider", menuName = "Actor/Available Actors Data Provider")]
     public class AvailableActorsProvider : ScriptableObject
     {
-        [SerializeField] private List<ActorDataProvider> _availableActors= new List<ActorDataProvider>();
+        [SerializeField] private List<ActorDataProvider> _availableActors = new List<ActorDataProvider>();
 
         private Dictionary<int, Actor> _availableActorsDict;
         public List<ActorDataProvider> AvailableActors => _availableActors;
