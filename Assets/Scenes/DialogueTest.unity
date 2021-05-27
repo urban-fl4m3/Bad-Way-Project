@@ -1674,10 +1674,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: {fileID: 984764318}
   messageText: {fileID: 903820772}
-  answerButton:
+  answerButtons:
   - {fileID: 1967322895}
   - {fileID: 262909920}
   - {fileID: 1033408548}
+  continueButton: {fileID: 1159447039}
 --- !u!1 &831495244
 GameObject:
   m_ObjectHideFlags: 0

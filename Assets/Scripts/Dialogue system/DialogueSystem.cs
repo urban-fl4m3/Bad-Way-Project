@@ -14,7 +14,20 @@ public class DialogueSystem : MonoBehaviour
     private void Start()
     {
         _dialogues = _dialogueConfig.GetDictionary();
+        dialogueBubble.NextMessage += ShowNextMessage;
         ReadDialogue("000001");
+    }
+
+    private void ShowNextMessage(object sender, int e)
+    {
+        Debug.Log(e);
+        _nowState = e;
+        if (_nowState==_nowRead.Replica.Count)
+        {
+            Debug.Log("exitDialogue");
+            return;
+        }
+        dialogueBubble.ShowMessage(_nowRead.Replica[_nowState]);
     }
 
     public void AddDialogue(string key, Dialogue dialogue)
@@ -26,17 +39,6 @@ public class DialogueSystem : MonoBehaviour
     {
         _nowRead = _dialogues[key];
         _nowState = 0;
-        ShowNextMessage();
-    }
-
-    public void ShowNextMessage()
-    {
-        if (_nowState==_nowRead.Replica.Count)
-        {
-            Debug.Log("return");
-            return;
-        }
-        dialogueBubble.ShowMessage(_nowRead.Replica[_nowState]);
-        _nowState++;
+        ShowNextMessage(this,_nowState);
     }
 }

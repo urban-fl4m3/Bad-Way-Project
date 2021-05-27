@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,19 +9,27 @@ namespace Dialogue_system
     {
         [SerializeField] private Text speakerName;
         [SerializeField] private Text messageText;
-        [SerializeField] private List<Button> answerButton;
-
+        [SerializeField] private List<Button> answerButtons;
+        [SerializeField] private Button continueButton;
+        public EventHandler<int> NextMessage;
         public void ShowMessage(Replica replica)
         {
             var Name = replica.Name;
             var message = replica.Text;
-            var answer = replica.AnswerButtons;
+            var answer = new List<Answer.AnswerButton>();
             var i = 0;
-
+            
+            continueButton.onClick.AddListener(()=>{NextMessage?.Invoke(this,replica.nextReplica);});
+            if (replica.Answer != null)
+            {
+                answer = replica.Answer.AnswerButtons;
+                continueButton.onClick.RemoveAllListeners();
+            }
+            
             speakerName.text = Name;
             messageText.text = message;
-
-            foreach (var button in answerButton)
+            
+            foreach (var button in answerButtons)
             {
                 if (i >= answer.Count)
                 {
@@ -29,13 +38,22 @@ namespace Dialogue_system
                 }
                 else
                 {
-                    var text = answer[i];
-                    button.gameObject.SetActive(true);
-                    button.GetComponentInChildren<Text>().text = text.AnswerText;
+                    var answerButton = answer[i];
+                    
+                    button.onClick.RemoveAllListeners();
+                    button.gameObject.SetActive(!answerButton.IsHide);
+                    button.GetComponentInChildren<Text>().text = answerButton.AnswerText;
+                    button.onClick.AddListener(() =>
+                    {
+                        NextMessage?.Invoke(this,answerButton.KeyToDialogue);
+                        answerButton.IsHide = answerButton.HideAfterReading;
+                        Debug.Log(answerButton.IsHide);
+                    });
+                    
+                    
                     i++;
                 }
             }
         }
-        
     }
 }
