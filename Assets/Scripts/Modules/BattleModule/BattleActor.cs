@@ -10,6 +10,7 @@ using Modules.BattleModule.Stats.Helpers;
 using Modules.BattleModule.Stats.Models;
 using Modules.GridModule.Cells;
 using Modules.GunModule;
+using Modules.GunModule.Helpers;
 
 namespace Modules.BattleModule
 {
@@ -44,27 +45,24 @@ namespace Modules.BattleModule
         }
         
         private Cell _placement;
-        public WeaponInfo _weaponInfo { get; private set; }
+        public Weapon _weapon;
         
         public BattleActor(int id, Actor actor, IReadOnlyDictionary<PrimaryStat, int> primaryStats,
-            IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats,
-            bool isEnemy)
+            IEnumerable<int> primaryUpgrades, IReadOnlyDictionary<SecondaryStat, StatAndUpgrades> secondaryStats,WeaponInfo weaponInfo,
+            WeaponAddiction weaponAddiction, bool isEnemy)
         {
             Id = id;
             Actor = actor;
             Health = new DynamicValue<int>(0);
             Initialize(Actor, primaryStats, primaryUpgrades, secondaryStats, isEnemy);
+
+            _weapon = new Weapon(weaponInfo, primaryUpgrades, weaponAddiction);
+            Actor.GetActorComponent<WeaponPlaceholderComponent>().SetWeapon(weaponInfo.Prefab);
             
             actor.GetActorComponent<ActorCollisionComponent>().Selected += HandleActorSelected;
             actor.GetActorComponent<ActorCollisionComponent>().Deselected += HandleActorDeselected;
         }
 
-        public void SetWeapon(WeaponInfo weaponInfo)
-        {
-            _weaponInfo = weaponInfo;
-            Actor.GetActorComponent<WeaponPlaceholderComponent>().SetWeapon(weaponInfo.Prefab);
-        }
-        
         public void TakeDamage(int damageAmount)
         {
             Stats.ChangeSecondaryStat(SecondaryStat.Health, damageAmount * -1);

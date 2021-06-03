@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEditor.Experimental.GraphView;
 
-namespace Subtegral.DialogueSystem.Editor
+namespace Editor.Nodes
 {
     public class DialogueNode : Node
     {

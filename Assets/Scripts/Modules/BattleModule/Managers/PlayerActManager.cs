@@ -34,7 +34,7 @@ namespace Modules.BattleModule.Managers
             _cameraController.GameCamera.GetActorComponent<SmoothFollowerComponent>().SetFollower(follower);
             
             IsActive.Value = IsActorActive(Actors[ActiveUnit]);
-            WeaponMath.ActorWeapon = Actors[ActiveUnit]._weaponInfo;
+            WeaponMath.ActorWeapon = Actors[ActiveUnit]._weapon;
             PlayerEndTurn.Value = false;
             _grid.CellPressed += HandleCellSelected;
         }

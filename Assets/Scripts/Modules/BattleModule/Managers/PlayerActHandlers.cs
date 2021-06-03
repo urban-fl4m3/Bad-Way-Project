@@ -16,7 +16,7 @@ namespace Modules.BattleModule.Managers
             ActiveUnit = actorIndex;
             
             var nextPlayer = Actors[actorIndex];
-            WeaponMath.ActorWeapon = nextPlayer._weaponInfo;
+            WeaponMath.ActorWeapon = nextPlayer._weapon;
             
             _grid.RemoveCellHighlights();
             

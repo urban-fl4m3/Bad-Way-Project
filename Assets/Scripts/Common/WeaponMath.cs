@@ -6,14 +6,14 @@ namespace Common.Commands
 {
     public static class WeaponMath
     {
-        public static WeaponInfo ActorWeapon { get; set; }
+        public static Weapon ActorWeapon { get; set; }
         
         public static int HitChance( Cell eCell, Cell pCell)
         {
             var enemyPosition = new Vector2(eCell.Column, eCell.Row);
             var playerPosition = new Vector2(pCell.Column, pCell.Row);
-            var effectiveRange = ActorWeapon.EffectiveRange;
-            var maxRange = ActorWeapon.MaxRange;
+            var effectiveRange = ActorWeapon._weaponInfo.EffectiveRange;
+            var maxRange = ActorWeapon._weaponInfo.MaxRange;
             
 
             var distance = Vector2.Distance(enemyPosition, playerPosition);

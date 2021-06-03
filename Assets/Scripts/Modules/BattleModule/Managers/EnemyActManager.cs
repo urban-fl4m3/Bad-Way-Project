@@ -35,14 +35,14 @@ namespace Modules.BattleModule.Managers
         {
             if (_activeActors.Count > 0)
             {
-                WeaponMath.ActorWeapon = _activeActors[0]._weaponInfo;
+                WeaponMath.ActorWeapon = _activeActors[0]._weapon;
                 
                 var nearestActor = NearestActor(_activeActors[0]);
                 var actorPosition = new Vector2(nearestActor.Placement.Row, nearestActor.Placement.Column);
                 var enemyPosition = new Vector2(_activeActors[0].Placement.Row, _activeActors[0].Placement.Column);
                 var distance = Vector2.Distance(actorPosition, enemyPosition);
                 
-                if (distance <= WeaponMath.ActorWeapon.MaxRange)
+                if (distance <= WeaponMath.ActorWeapon._weaponInfo.MaxRange)
                 {
                     EnemyAttack(nearestActor,_activeActors[0]);
                 }

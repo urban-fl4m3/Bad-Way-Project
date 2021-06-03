@@ -13,34 +13,27 @@ MonoBehaviour:
   m_Name: New Narrative
   m_EditorClassIdentifier: 
   NodeLinks:
-  - BaseNodeGUID: 3352bbba-e870-4373-bb8c-1ea924c513ab
+  - BaseNodeGUID: 953a66b9-c28a-48bf-9474-f374a9030969
     PortName: Next
-    TargetNodeGUID: 824c661e-5e75-4e27-83b5-9b2a87ff3a70
-  - BaseNodeGUID: 824c661e-5e75-4e27-83b5-9b2a87ff3a70
-    PortName: "\u0414\u0430 \u043D\u0443 \u0442\u0435\u0431\u044F"
-    TargetNodeGUID: 82f1b229-734c-40d7-a428-83ef66c72ab5
-  - BaseNodeGUID: 824c661e-5e75-4e27-83b5-9b2a87ff3a70
-    PortName: "\u0421\u0430\u043C \u0442\u044B \u0447\u0451\u0440\u0442"
-    TargetNodeGUID: 2d131f08-d1da-4eba-a222-54e707adc692
-  - BaseNodeGUID: 2d131f08-d1da-4eba-a222-54e707adc692
-    PortName: Optionb
-    TargetNodeGUID: 6c757c9c-88df-4693-8032-094debcbe3f7
-  - BaseNodeGUID: 82f1b229-734c-40d7-a428-83ef66c72ab5
-    PortName: Oa
-    TargetNodeGUID: 6c757c9c-88df-4693-8032-094debcbe3f7
+    TargetNodeGUID: 65e544a5-ccce-4cf3-9d7a-d3e95b5a4d05
+  - BaseNodeGUID: 65e544a5-ccce-4cf3-9d7a-d3e95b5a4d05
+    PortName: Optiofasf
+    TargetNodeGUID: fdc9a125-e317-45cc-a45f-de9f03990c42
+  - BaseNodeGUID: 65e544a5-ccce-4cf3-9d7a-d3e95b5a4d05
+    PortName: 21312fsd
+    TargetNodeGUID: c9b53cf7-de0f-49ca-bda7-26a66d7e3e38
   DialogueNodeData:
-  - NodeGUID: 2d131f08-d1da-4eba-a222-54e707adc692
-    DialogueText: Dialogue Node
-    Position: {x: 693, y: 271}
-  - NodeGUID: 6c757c9c-88df-4693-8032-094debcbe3f7
-    DialogueText: Dialogue Node
-    Position: {x: 993, y: 210}
-  - NodeGUID: 82f1b229-734c-40d7-a428-83ef66c72ab5
-    DialogueText: Dialogue Node
-    Position: {x: 693, y: 112}
-  - NodeGUID: 824c661e-5e75-4e27-83b5-9b2a87ff3a70
-    DialogueText: "\u041A\u043E\u0433\u0434\u0430-\u043D\u0438\u0431\u0443\u0434\u044C
-      \u0442\u044B \u0431\u0443\u0434\u0435\u0448\u044C \u0447\u0435\u0440\u0442\u043E\u043C"
-    Position: {x: 272, y: 186}
+  - NodeGUID: fdc9a125-e317-45cc-a45f-de9f03990c42
+    DialogueText: r2
+    Position: {x: 616, y: 190}
+  - NodeGUID: 65e544a5-ccce-4cf3-9d7a-d3e95b5a4d05
+    DialogueText: zvsvd
+    Position: {x: 258, y: 200}
+  - NodeGUID: c9b53cf7-de0f-49ca-bda7-26a66d7e3e38
+    DialogueText: zcxbdd
+    Position: {x: 594, y: 322}
   ExposedProperties: []
-  CommentBlockData: []
+  CommentBlockData:
+  - ChildNodes: []
+    Position: {x: 284, y: 12}
+    Title: Comment Block

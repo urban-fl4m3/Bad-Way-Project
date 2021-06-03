@@ -11,7 +11,6 @@ namespace Modules.BattleModule.Managers
     public abstract class BattleActManager
     {
         public EventHandler EndTurn;
-        
         public IReadOnlyList<BattleActor> Actors => _actors;
         public List<BattleActor> DeadActors => _deadActors;
         public event GetOppositeActors OppositeActors;

@@ -1002,6 +1002,7 @@ MonoBehaviour:
   _gameConstructions: {fileID: 914690998}
   _viewsConfig: {fileID: 11400000, guid: 7ac3a3dac67071d45a192ae1046453ab, type: 2}
   _weaponConfig: {fileID: 11400000, guid: 82005d1d12cb035499f3041cf012dd48, type: 2}
+  _weaponAddiction: {fileID: 11400000, guid: 819731dac7da60149a17d173a97a8cb8, type: 2}
   _gameCamera: {fileID: 1687258587}
   _uiCamera: {fileID: 1919245130}
 --- !u!114 &914690998

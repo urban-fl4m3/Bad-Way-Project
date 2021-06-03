@@ -7,6 +7,7 @@ using Modules.BattleModule.Levels.Providers;
 using Modules.BattleModule.Stats;
 using Modules.CameraModule;
 using Modules.GunModule;
+using Modules.GunModule.Helpers;
 using Modules.PlayerModule;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
@@ -27,7 +28,7 @@ namespace Modules.InitializationModule
         [SerializeField] private GameConstructions _gameConstructions;
         [SerializeField] private WindowViewsConfig _viewsConfig;
         [SerializeField] private WeaponConfig _weaponConfig;
-        
+        [SerializeField] private WeaponAddiction _weaponAddiction;
         [SerializeField] private CameraActor _gameCamera;
         [SerializeField] private CameraActor _uiCamera;
         
@@ -53,7 +54,7 @@ namespace Modules.InitializationModule
             _windowsFactory = new WindowFactory(_cameraController, _viewsConfig);
             
             var battleSceneFactory = new BattleSceneFactory(tick, _levelData, _statsProvider,
-                player.ActorsCollection, _actorsProvider, _gameConstructions, _windowsFactory);
+                player.ActorsCollection, _actorsProvider, _gameConstructions, _windowsFactory, _weaponAddiction);
 
             var battleScene = battleSceneFactory.CreateBattleScene(_cameraController, _weaponConfig);
 

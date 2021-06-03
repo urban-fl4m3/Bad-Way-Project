@@ -8,6 +8,7 @@ using Modules.BattleModule.Stats;
 using Modules.CameraModule;
 using Modules.GridModule;
 using Modules.GunModule;
+using Modules.GunModule.Helpers;
 using Modules.PlayerModule.Actors;
 using Modules.TickModule;
 using Reset;
@@ -27,11 +28,13 @@ namespace Modules.BattleModule.Factories
         private readonly PlayerActorsCollection _playerActorsCollection;
         private readonly GameConstructions _gameConstructions;
         private readonly WindowFactory _windowFactory;
+        private readonly WeaponAddiction _weaponAddiction;
 
 
         public BattleSceneFactory(ITickManager tickManager, LevelDataProvider levelDataProvider,
             AvailableBattleStatsProvider battleStatsProvider, PlayerActorsCollection playerActorsCollection,
-            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions,WindowFactory windowFactory)
+            AvailableActorsProvider availableActorsProvider, GameConstructions gameConstructions,WindowFactory windowFactory,
+            WeaponAddiction weaponAddiction)
         {
             _tickManager = tickManager;
             _levelDataProvider = levelDataProvider;
@@ -40,6 +43,7 @@ namespace Modules.BattleModule.Factories
             AvailableActorsProvider = availableActorsProvider;
             _gameConstructions = gameConstructions;
             _windowFactory = windowFactory;
+            _weaponAddiction = weaponAddiction;
         }
 
         public BattleScene CreateBattleScene(CameraController cameraController, WeaponConfig weaponConfig)
@@ -64,9 +68,11 @@ namespace Modules.BattleModule.Factories
         private BattleActManager CreateEnemyManager(GridController grid, CameraController cameraController,
             WeaponConfig weaponConfig)
         {
+            var statUpgrades = new[] {0, 0, 0, 0, 0};
+            
             var enemyActors = _levelDataProvider.EnemyActorsData.Select(levelActor =>
                 CreateActor(levelActor.ActorData.Actor, levelActor.ActorData.Id, levelActor.Cell,
-                    weaponConfig.LoadWeapon("1"), grid, true)).ToList();
+                    weaponConfig.LoadWeapon("1"), grid,statUpgrades, true)).ToList();
 
             var enemyManager = new EnemyActManager(grid, enemyActors, _tickManager, cameraController);
             return enemyManager;
@@ -76,31 +82,30 @@ namespace Modules.BattleModule.Factories
             CameraController cameraController, WeaponConfig weaponConfig)
         {
             var placementCells = new Stack<Vector2Int>(_levelDataProvider.PlacementCells);
-
+            
             var playerBattleActors = _playerActorsCollection.Select((t, i) =>
                 CreateActor(AvailableActorsProvider.AvailableActors[i].Actor, t.Id, placementCells.Pop(),
-                    weaponConfig.LoadWeapon("0"), grid, false)).ToList();
+                    weaponConfig.LoadWeapon("0"), grid, t.Upgrades ,false)).ToList();
 
             var playerManager = new PlayerActManager(grid, playerBattleActors, tickManager, cameraController);
             return playerManager;
         }
 
         private BattleActor CreateActor(Actor actor, int actorId, Vector2Int position, WeaponInfo weaponInfo,
-            GridController grid, bool isEnemy)
+            GridController grid,IEnumerable<int> primaryUpgrades, bool isEnemy)
         {
             var cellPosition = grid[position].Component.transform.position;
             
             var prefab = Object.Instantiate(actor, cellPosition, quaternion.identity);
 
             var primaryStats = AvailableBattleStatsProvider.IdentifiedActorsStats[actorId];
-            var statUpgrades = new[] {0, 0, 0, 0, 0};
             
-            var battleActor = new BattleActor(actorId, prefab, primaryStats, statUpgrades,
-                AvailableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats, isEnemy)
+            var battleActor = new BattleActor(actorId, prefab, primaryStats, primaryUpgrades,
+                AvailableBattleStatsProvider.SecondaryStatsDataProvider.SecondaryStats,weaponInfo,_weaponAddiction,
+                isEnemy)
             {
                 Placement = grid[position]
             };
-            battleActor.SetWeapon(weaponInfo);
             return battleActor;
         }
     }

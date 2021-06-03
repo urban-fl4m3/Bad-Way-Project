@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Editor.Nodes;
 using Subtegral.DialogueSystem.DataContainers;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -123,6 +125,43 @@ namespace Subtegral.DialogueSystem.Editor
             AddElement(CreateNode(nodeName, position));
         }
 
+        public void CreateNewAnimatorNode(string nodeName, Vector2 position)
+        {
+            AddElement(CreateAnimatorNode(nodeName,position));
+        }
+
+        private GraphElement CreateAnimatorNode(string nodeName, Vector2 vector2)
+        {
+            var tempAnimatorNode = new AnimatorNode();
+            tempAnimatorNode.styleSheets.Add(Resources.Load<StyleSheet>("Node"));
+            var inputPort = GetPortInstance(tempAnimatorNode, Direction.Input, Port.Capacity.Multi);
+            var outputPort = GetPortInstance(tempAnimatorNode, Direction.Output, Port.Capacity.Single);
+            inputPort.portName = "Input";
+            outputPort.portName = "Output";
+            tempAnimatorNode.inputContainer.Add(inputPort);
+            tempAnimatorNode.outputContainer.Add(outputPort);
+            tempAnimatorNode.RefreshExpandedState();
+            tempAnimatorNode.RefreshPorts();
+            tempAnimatorNode.SetPosition(new Rect(vector2,DefaultNodeSize));
+
+            var animationTextField = new TextField("");
+            var propField = new ObjectField("Animator");
+            propField.objectType = typeof(Animator);
+            propField.RegisterValueChangedCallback(evt =>
+            {
+                tempAnimatorNode.Animator = evt.newValue as Animator;
+            });
+            animationTextField.UnregisterValueChangedCallback(evt =>
+            {
+                tempAnimatorNode.AnimationPlay = evt.newValue;
+            });
+            tempAnimatorNode.title = nodeName;
+            tempAnimatorNode.mainContainer.Add(propField);
+            tempAnimatorNode.mainContainer.Add(animationTextField);
+
+            return tempAnimatorNode;
+        }
+
         public DialogueNode CreateNode(string nodeName, Vector2 position)
         {
             var tempDialogueNode = new DialogueNode()
@@ -205,7 +244,7 @@ namespace Subtegral.DialogueSystem.Editor
             node.RefreshExpandedState();
         }
 
-        private Port GetPortInstance(DialogueNode node, Direction nodeDirection,
+        private Port GetPortInstance(Node node, Direction nodeDirection,
             Port.Capacity capacity = Port.Capacity.Single)
         {
             return node.InstantiatePort(Orientation.Horizontal, nodeDirection, capacity, typeof(float));

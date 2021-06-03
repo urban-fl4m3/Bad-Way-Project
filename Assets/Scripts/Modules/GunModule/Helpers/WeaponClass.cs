@@ -2,11 +2,11 @@
 {
     public enum WeaponClass
     {
-        Blade,
-        Crushing,
-        Automation,
-        Pistols,
-        Shotguns,
-        Sniper
+        Blade = 2,
+        Crushing = 4,
+        Automation = 8,
+        Pistols = 16,
+        Shotguns = 32,
+        Sniper = 64
     }
 }
