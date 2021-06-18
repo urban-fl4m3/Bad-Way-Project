@@ -25,8 +25,8 @@ namespace Modules.GunModule
         private int MathDamage()
         {
             float startDamage = _weaponInfo.Damage;
-            float currentDamage = startDamage;
-            int state = 0;
+            var currentDamage = startDamage;
+            var state = 0;
             
             var weaponTag = _weaponInfo.Tag;
             var weaponClass = _weaponInfo.CLass;
@@ -36,21 +36,15 @@ namespace Modules.GunModule
                 float damageDecrease = 0;
                 float damageBonus = 0;
 
-                foreach (var classAddiciton in addiction.WeaponClassAddicitons)
+                foreach (var classAddiction in addiction.WeaponClassAddicitons.Where(classAddiction => classAddiction.weaponClass == weaponClass))
                 {
-                    if (classAddiciton.weaponClass == weaponClass)
-                    {
-                        damageDecrease += classAddiciton.baseDecrease;
-                        damageBonus += classAddiciton.bonus;
-                    }
+                    damageDecrease += classAddiction.baseDecrease;
+                    damageBonus += classAddiction.bonus;
                 }
-                foreach (var tagAddiciton in addiction.WeaponTagAddicitons)
+                foreach (var tagAddiction in addiction.WeaponTagAddicitons.Where(tagAddiction => tagAddiction.WeaponTag == weaponTag))
                 {
-                    if (tagAddiciton.WeaponTag == weaponTag)
-                    {
-                        damageDecrease += tagAddiciton.baseDecrease;
-                        damageBonus += tagAddiciton.bonus;
-                    }
+                    damageDecrease += tagAddiction.baseDecrease;
+                    damageBonus += tagAddiction.bonus;
                 }
 
                 currentDamage += startDamage * ((damageBonus * _primaryUpgredes[state] - damageDecrease) / 100);

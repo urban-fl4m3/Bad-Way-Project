@@ -57,15 +57,17 @@ public class LevelEditor : MonoBehaviour
     private void CreatePreview(string path)
     {
         var assetsPath = AssetDatabase.FindAssets("t:prefab", new[] {path});
-        var assets = assetsPath.Select(s => AssetDatabase.GUIDToAssetPath(s))
-            .Select(a => AssetDatabase.LoadAssetAtPath<Object>(a)).ToList();
+        var assets = assetsPath.Select(AssetDatabase.GUIDToAssetPath)
+            .Select(AssetDatabase.LoadAssetAtPath<Object>).ToList();
         var i = 0;
         foreach (var asset in assets)
         {
             if (previewButtons.Count <= i)
                 previewButtons.Instantiate().transform.SetParent(PrefabBar.transform);
+            
             var assetPreviewScene = AssetPreview.GetAssetPreview(asset);
             var rect = new Rect(0, 0, assetPreviewScene.width, assetPreviewScene.height);
+            
             previewButtons[i].GetComponent<Image>().sprite = Sprite.Create(assetPreviewScene,rect,Vector2.one/2);
             previewButtons[i].gameObject.SetActive(true);
             i++;
@@ -81,7 +83,6 @@ public class LevelEditor : MonoBehaviour
             button.gameObject.SetActive(false);
         }
     }
-
     private void SetBackButton(string lastPath)
     {
         if (string.IsNullOrEmpty(lastPath))

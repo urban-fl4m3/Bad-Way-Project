@@ -2,9 +2,9 @@
 {
     public enum WeaponTag
     {
-        Short = 1,
-        Long = 3,
-        ShortBarreled = 5,
-        LongBarreled = 7
+        Short,
+        Long,
+        ShortBarreled,
+        LongBarreled
     }
 }

@@ -20,7 +20,7 @@ namespace Modules.GridModule
         private readonly GameObject _cellSelector;
         
         private readonly Cell[,] _cells;
-        private readonly GridBFS _bfs;
+        public readonly GridBFS _bfs;
 
         private int _stateToken;
 
@@ -59,13 +59,28 @@ namespace Modules.GridModule
         public void FillBuildingCell(IEnumerable<Transform> building)
         {
             _cellsWithCover = new List<Cell>();
+
+            var environments = building.Select(transform => transform.GetComponent<Environment.Environment>()).ToList();
+            var walls = (from environment in environments where environment.EnvironmentType == EnvironmentType.Wall select environment.transform).ToList();
+            
+            _bfs.AddWalls(walls);
+            
+            foreach (var pos in from e in environments where !e.CanMove() select new Vector2Int((int)e.transform.position.x,(int)e.transform.position.z)/2)
+            {
+                _cells[pos.y, pos.x].IsEmpty = false;
+                _cellsWithCover.Add(_cells[pos.y,pos.x]);
+            }
+            
+            
+            
+            /*
             foreach (var pos in building
                 .Select(build => build.transform.position)
                 .Select(position => new Vector2Int((int)position.x, (int)position.z)/2))
             {
                 _cells[pos.y, pos.x].IsEmpty = false;
                 _cellsWithCover.Add(_cells[pos.y, pos.x]);
-            }
+            }*/
         }
 
         public void HighlightRelativeCells(Cell cell, int steps, Color color)

@@ -1,5 +1,4 @@
-﻿using System;
-using Common;
+﻿using Common;
 using Modules.ActorModule.Components;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ namespace Modules.ActorModule
 
         public void Reset()
         {
-            var components = _container.GetList();
+            var components = _container.GetList<IActorComponent>();
             foreach (var actorComponent in components)
             {
                 actorComponent.Reset();

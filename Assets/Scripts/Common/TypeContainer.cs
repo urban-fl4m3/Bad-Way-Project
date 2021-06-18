@@ -29,11 +29,11 @@ namespace Common
             return _map.ContainsKey(typeof(T)) ? _map[typeof(T)] as T : null;
         }
 
-        public List<IActorComponent> GetList()
+        public List<T> GetList<T>()
         {
             var list = _map.Values.ToList();
             var components = (from o in list
-                select (IActorComponent) o).ToList();
+                select (T) o).ToList();
             return components;
         }
     }

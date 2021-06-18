@@ -44,8 +44,6 @@ namespace Modules.InitializationModule
             var player = GetPlayer();
             var tick = GetTickManager();
 
-            //Time.timeScale = 5;
-
             _mouseEventsHandler = new InputEventsHandler(tick);
             
             _cameraController = new CameraController(tick, _gameCamera, _uiCamera);
